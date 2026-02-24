@@ -1,7 +1,20 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-background: #151518;
+  --color-foreground: #d7ebe9;
+  --color-card: #2b2b2b;
+  --color-muted: #55595b;
+  --color-muted-foreground: #848d8d;
+  --color-border: #848d8d;
+  --color-accent: #b2c2c1;
+  --color-accent-muted: #848d8d;
+}
+
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
