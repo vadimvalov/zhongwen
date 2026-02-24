@@ -1,0 +1,91 @@
+{
+  "title": "I Didn't Laugh",
+  "description": "A short story about Xiao Wang who didn't laugh at a joke.",
+  "level": "HSK1",
+  "text": {
+    "words": [
+      { "hanzi": "小王", "pinyin": "xiǎo Wáng", "translation": "Xiao Wang (name)", "hsk": 0 },
+      { "hanzi": "从", "pinyin": "cóng", "translation": "from", "hsk": 2 },
+      { "hanzi": "学校", "pinyin": "xuéxiào", "translation": "school", "hsk": 1 },
+      { "hanzi": "回", "pinyin": "huí", "translation": "return", "hsk": 1 },
+      { "hanzi": "家", "pinyin": "jiā", "translation": "home", "hsk": 1 },
+      { "hanzi": "，", "pinyin": "", "translation": "comma", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "妈妈", "pinyin": "māma", "translation": "mom", "hsk": 1 },
+      { "hanzi": "问", "pinyin": "wèn", "translation": "ask", "hsk": 1 },
+      { "hanzi": "他", "pinyin": "tā", "translation": "he; him", "hsk": 1 },
+      { "hanzi": "今天", "pinyin": "jīntiān", "translation": "today", "hsk": 1 },
+      { "hanzi": "怎么样", "pinyin": "zěnmeyàng", "translation": "how", "hsk": 1 },
+      { "hanzi": "，", "pinyin": "", "translation": "comma", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "他", "pinyin": "tā", "translation": "he; him", "hsk": 1 },
+      { "hanzi": "告诉", "pinyin": "gàosu", "translation": "tell", "hsk": 1 },
+      { "hanzi": "妈妈", "pinyin": "māma", "translation": "mom", "hsk": 1 },
+      { "hanzi": "：", "pinyin": "", "translation": "colon", "hsk": 0, "type": "punct" },
+      { "hanzi": "“", "pinyin": "", "translation": "opening quote", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "今天", "pinyin": "jīntiān", "translation": "today", "hsk": 1 },
+      { "hanzi": "有", "pinyin": "yǒu", "translation": "have; there is", "hsk": 1 },
+      { "hanzi": "一", "pinyin": "yī", "translation": "one", "hsk": 1 },
+      { "hanzi": "个", "pinyin": "gè", "translation": "classifier", "hsk": 1 },
+      { "hanzi": "孩子", "pinyin": "háizi", "translation": "child", "hsk": 1 },
+      { "hanzi": "掉", "pinyin": "diào", "translation": "fall", "hsk": 3 },
+      { "hanzi": "进", "pinyin": "jìn", "translation": "enter", "hsk": 1 },
+      { "hanzi": "水", "pinyin": "shuǐ", "translation": "water", "hsk": 1 },
+      { "hanzi": "里", "pinyin": "lǐ", "translation": "inside", "hsk": 1 },
+      { "hanzi": "了", "pinyin": "le", "translation": "particle", "hsk": 1 },
+      { "hanzi": "，", "pinyin": "", "translation": "comma", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "同学", "pinyin": "tóngxué", "translation": "classmate", "hsk": 1 },
+      { "hanzi": "们", "pinyin": "men", "translation": "plural marker", "hsk": 1 },
+      { "hanzi": "都", "pinyin": "dōu", "translation": "all", "hsk": 1 },
+      { "hanzi": "大", "pinyin": "dà", "translation": "big", "hsk": 1 },
+      { "hanzi": "笑", "pinyin": "xiào", "translation": "laugh", "hsk": 1 },
+      { "hanzi": "，", "pinyin": "", "translation": "comma", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "只有", "pinyin": "zhǐyǒu", "translation": "only", "hsk": 2 },
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I; me", "hsk": 1 },
+      { "hanzi": "没", "pinyin": "méi", "translation": "not", "hsk": 1 },
+      { "hanzi": "笑", "pinyin": "xiào", "translation": "laugh", "hsk": 1 },
+      { "hanzi": "。", "pinyin": "", "translation": "period", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "”", "pinyin": "", "translation": "closing quote", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "妈妈", "pinyin": "māma", "translation": "mom", "hsk": 1 },
+      { "hanzi": "很", "pinyin": "hěn", "translation": "very", "hsk": 1 },
+      { "hanzi": "高兴", "pinyin": "gāoxìng", "translation": "happy", "hsk": 1 },
+      { "hanzi": "：", "pinyin": "", "translation": "colon", "hsk": 0, "type": "punct" },
+      { "hanzi": "“", "pinyin": "", "translation": "opening quote", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "好", "pinyin": "hǎo", "translation": "good", "hsk": 1 },
+      { "hanzi": "孩子", "pinyin": "háizi", "translation": "child", "hsk": 1 },
+      { "hanzi": "，", "pinyin": "", "translation": "comma", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "我们", "pinyin": "wǒmen", "translation": "we", "hsk": 1 },
+      { "hanzi": "当然", "pinyin": "dāngrán", "translation": "of course", "hsk": 2 },
+      { "hanzi": "不", "pinyin": "bù", "translation": "not", "hsk": 1 },
+      { "hanzi": "能", "pinyin": "néng", "translation": "can", "hsk": 1 },
+      { "hanzi": "笑", "pinyin": "xiào", "translation": "laugh", "hsk": 1 },
+      { "hanzi": "别人", "pinyin": "biérén", "translation": "others", "hsk": 1 },
+      { "hanzi": "。", "pinyin": "", "translation": "period", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "谁", "pinyin": "shéi", "translation": "who", "hsk": 1 },
+      { "hanzi": "掉", "pinyin": "diào", "translation": "fall", "hsk": 3 },
+      { "hanzi": "进", "pinyin": "jìn", "translation": "enter", "hsk": 1 },
+      { "hanzi": "水", "pinyin": "shuǐ", "translation": "water", "hsk": 1 },
+      { "hanzi": "里", "pinyin": "lǐ", "translation": "inside", "hsk": 1 },
+      { "hanzi": "了", "pinyin": "le", "translation": "particle", "hsk": 1 },
+      { "hanzi": "？", "pinyin": "", "translation": "question mark", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "”", "pinyin": "", "translation": "closing quote", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "小王", "pinyin": "xiǎo Wáng", "translation": "Xiao Wang", "hsk": 0 },
+      { "hanzi": "说", "pinyin": "shuō", "translation": "say", "hsk": 1 },
+      { "hanzi": "：", "pinyin": "", "translation": "colon", "hsk": 0, "type": "punct" },
+      { "hanzi": "“", "pinyin": "", "translation": "opening quote", "hsk": 0, "type": "punct" },
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I", "hsk": 1 },
+      { "hanzi": "。", "pinyin": "", "translation": "period", "hsk": 0, "type": "punct" },
+      { "hanzi": "”", "pinyin": "", "translation": "closing quote", "hsk": 0, "type": "punct" }
+    ]
+  }
+}
