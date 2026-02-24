@@ -1,0 +1,76 @@
+{
+  "title": "Who I am",
+  "description": "A self-introduction by Li Dawei.",
+  "level": "HSK1",
+  "text": {
+    "words": [
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I; me", "hsk": 1 },
+      { "hanzi": "的", "pinyin": "de", "translation": "particle", "hsk": 1 },
+      { "hanzi": "名字", "pinyin": "míngzi", "translation": "name", "hsk": 1 },
+      { "hanzi": "叫", "pinyin": "jiào", "translation": "be called", "hsk": 1 },
+      { "hanzi": "李大卫", "pinyin": "Lǐ Dàwèi", "translation": "Li Dawei (name)", "hsk": 0 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I; me", "hsk": 1 },
+      { "hanzi": "是", "pinyin": "shì", "translation": "be", "hsk": 1 },
+      { "hanzi": "美国", "pinyin": "Měiguó", "translation": "USA", "hsk": 1 },
+      { "hanzi": "人", "pinyin": "rén", "translation": "person", "hsk": 1 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "但是", "pinyin": "dànshì", "translation": "but", "hsk": 1 },
+      { "hanzi": "在", "pinyin": "zài", "translation": "at; in", "hsk": 1 },
+      { "hanzi": "日本", "pinyin": "Rìběn", "translation": "Japan", "hsk": 1 },
+      { "hanzi": "长大", "pinyin": "zhǎngdà", "translation": "grow up", "hsk": 2 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "在", "pinyin": "zài", "translation": "at; in", "hsk": 1 },
+      { "hanzi": "英国", "pinyin": "Yīngguó", "translation": "UK", "hsk": 1 },
+      { "hanzi": "上", "pinyin": "shàng", "translation": "attend", "hsk": 1 },
+      { "hanzi": "大学", "pinyin": "dàxué", "translation": "university", "hsk": 1 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "现在", "pinyin": "xiànzài", "translation": "now", "hsk": 1 },
+      { "hanzi": "在", "pinyin": "zài", "translation": "at; in", "hsk": 1 },
+      { "hanzi": "中国", "pinyin": "Zhōngguó", "translation": "China", "hsk": 1 },
+      { "hanzi": "工作", "pinyin": "gōngzuò", "translation": "work", "hsk": 1 },
+      { "hanzi": "。", "type": "punct" },
+
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I; me", "hsk": 1 },
+      { "hanzi": "在", "pinyin": "zài", "translation": "at; in", "hsk": 1 },
+      { "hanzi": "大学", "pinyin": "dàxué", "translation": "university", "hsk": 1 },
+      { "hanzi": "学习", "pinyin": "xuéxí", "translation": "study", "hsk": 1 },
+      { "hanzi": "历史", "pinyin": "lìshǐ", "translation": "history", "hsk": 2 },
+      { "hanzi": "和", "pinyin": "hé", "translation": "and", "hsk": 1 },
+      { "hanzi": "英语", "pinyin": "Yīngyǔ", "translation": "English", "hsk": 1 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "现在", "pinyin": "xiànzài", "translation": "now", "hsk": 1 },
+      { "hanzi": "是", "pinyin": "shì", "translation": "be", "hsk": 1 },
+      { "hanzi": "一", "pinyin": "yī", "translation": "one", "hsk": 1 },
+      { "hanzi": "个", "pinyin": "gè", "translation": "classifier", "hsk": 1 },
+      { "hanzi": "英语", "pinyin": "Yīngyǔ", "translation": "English", "hsk": 1 },
+      { "hanzi": "老师", "pinyin": "lǎoshī", "translation": "teacher", "hsk": 1 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I; me", "hsk": 1 },
+      { "hanzi": "非常", "pinyin": "fēicháng", "translation": "very", "hsk": 1 },
+      { "hanzi": "喜欢", "pinyin": "xǐhuan", "translation": "like", "hsk": 1 },
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "my", "hsk": 1 },
+      { "hanzi": "的", "pinyin": "de", "translation": "particle", "hsk": 1 },
+      { "hanzi": "工作", "pinyin": "gōngzuò", "translation": "work", "hsk": 1 },
+      { "hanzi": "。", "type": "punct" },
+
+      { "hanzi": "学生", "pinyin": "xuésheng", "translation": "student", "hsk": 1 },
+      { "hanzi": "们", "pinyin": "men", "translation": "plural marker", "hsk": 1 },
+      { "hanzi": "很", "pinyin": "hěn", "translation": "very", "hsk": 1 },
+      { "hanzi": "好", "pinyin": "hǎo", "translation": "good", "hsk": 1 },
+      { "hanzi": "，", "type": "punct" },
+
+      { "hanzi": "学校", "pinyin": "xuéxiào", "translation": "school", "hsk": 1 },
+      { "hanzi": "也", "pinyin": "yě", "translation": "also", "hsk": 1 },
+      { "hanzi": "很", "pinyin": "hěn", "translation": "very", "hsk": 1 },
+      { "hanzi": "好", "pinyin": "hǎo", "translation": "good", "hsk": 1 },
+      { "hanzi": "。", "type": "punct" }
+    ]
+  }
+}

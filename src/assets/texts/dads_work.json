@@ -1,0 +1,43 @@
+{
+  "title": "Dad's Work",
+  "description": "A short dialogue about what a girl's father does.",
+  "level": "HSK1",
+  "text": {
+    "words": [
+      { "hanzi": "老师", "pinyin": "lǎoshī", "translation": "teacher", "hsk": 1 },
+      { "hanzi": "问", "pinyin": "wèn", "translation": "ask", "hsk": 1 },
+      { "hanzi": "五", "pinyin": "wǔ", "translation": "five", "hsk": 1 },
+      { "hanzi": "岁", "pinyin": "suì", "translation": "years old", "hsk": 1 },
+      { "hanzi": "的", "pinyin": "de", "translation": "particle", "hsk": 1 },
+      { "hanzi": "小", "pinyin": "xiǎo", "translation": "small", "hsk": 1 },
+      { "hanzi": "女孩", "pinyin": "nǚhái", "translation": "girl", "hsk": 1 },
+      { "hanzi": "：", "pinyin": "", "translation": "colon", "hsk": 0, "type": "punct" },
+      { "hanzi": "你", "pinyin": "nǐ", "translation": "you", "hsk": 1 },
+      { "hanzi": "的", "pinyin": "de", "translation": "particle", "hsk": 1 },
+      { "hanzi": "爸爸", "pinyin": "bàba", "translation": "dad", "hsk": 1 },
+      { "hanzi": "是", "pinyin": "shì", "translation": "be", "hsk": 1 },
+      { "hanzi": "做", "pinyin": "zuò", "translation": "do", "hsk": 1 },
+      { "hanzi": "什么", "pinyin": "shénme", "translation": "what", "hsk": 1 },
+      { "hanzi": "的", "pinyin": "de", "translation": "particle", "hsk": 1 },
+      { "hanzi": "？", "pinyin": "", "translation": "question mark", "hsk": 0, "type": "punct" },
+
+      { "hanzi": "小", "pinyin": "xiǎo", "translation": "small", "hsk": 1 },
+      { "hanzi": "女孩", "pinyin": "nǚhái", "translation": "girl", "hsk": 1 },
+      { "hanzi": "说", "pinyin": "shuō", "translation": "say", "hsk": 1 },
+      { "hanzi": "：", "pinyin": "", "translation": "colon", "hsk": 0, "type": "punct" },
+      { "hanzi": "我", "pinyin": "wǒ", "translation": "I; my", "hsk": 1 },
+      { "hanzi": "的", "pinyin": "de", "translation": "particle", "hsk": 1 },
+      { "hanzi": "妈妈", "pinyin": "māma", "translation": "mom", "hsk": 1 },
+      { "hanzi": "让", "pinyin": "ràng", "translation": "let; make", "hsk": 2 },
+      { "hanzi": "他", "pinyin": "tā", "translation": "he; him", "hsk": 1 },
+      { "hanzi": "做", "pinyin": "zuò", "translation": "do", "hsk": 1 },
+      { "hanzi": "什么", "pinyin": "shénme", "translation": "what", "hsk": 1 },
+      { "hanzi": "，", "pinyin": "", "translation": "comma", "hsk": 0, "type": "punct" },
+      { "hanzi": "他", "pinyin": "tā", "translation": "he; him", "hsk": 1 },
+      { "hanzi": "就", "pinyin": "jiù", "translation": "then; just", "hsk": 1 },
+      { "hanzi": "做", "pinyin": "zuò", "translation": "do", "hsk": 1 },
+      { "hanzi": "什么", "pinyin": "shénme", "translation": "what", "hsk": 1 },
+      { "hanzi": "。", "pinyin": "", "translation": "period", "hsk": 0, "type": "punct" }
+    ]
+  }
+}
