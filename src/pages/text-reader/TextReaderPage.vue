@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { HanziStrokesOrder } from '@/shared/ui/HanziStrokesOrder'
+import { Checkbox } from '@/shared/ui/Checkbox'
 
 type Word = {
   hanzi: string
@@ -36,6 +37,7 @@ const textData = computed<TextData | null>(() => {
 })
 
 const tooltipRefs = ref<(HTMLElement | null)[]>([])
+const showPinyin = ref(true)
 
 function setTooltipRef(el: HTMLElement | null, index: number) {
   tooltipRefs.value[index] = el
@@ -45,7 +47,6 @@ function handleMouseEnter(index: number) {
   const el = tooltipRefs.value[index]
   if (!el) return
 
-  // базово — ровно сверху по центру
   el.style.transform = 'translateX(-50%)'
 
   const rect = el.getBoundingClientRect()
@@ -75,33 +76,30 @@ function handleMouseLeave(index: number) {
     <div class="w-full max-w-xl">
       <p v-if="!textData" class="text-sm text-muted-foreground">Text not found.</p>
       <div v-else class="space-y-4">
-        <div class="flex items-center gap-3">
-          <Link to="/reading" :hover="true" class="shrink-0">
-            <Button class="px-2 py-1 text-sm">&larr;</Button>
-          </Link>
-          <h1 class="text-2xl font-semibold text-foreground">
-            {{ textData.title }}
-          </h1>
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <Link to="/reading" :hover="true" class="shrink-0">
+              <Button class="px-2 py-1 text-sm">&larr;</Button>
+            </Link>
+            <h1 class="text-2xl font-semibold text-foreground">
+              {{ textData.title }}
+            </h1>
+          </div>
         </div>
         <p class="text-sm text-muted-foreground">
           {{ textData.description }}
         </p>
+        <Checkbox v-model="showPinyin" label="Pinyin" />
+
         <div class="mt-16 inline-flex flex-wrap gap-x-5 gap-y-4 leading-relaxed">
           <template v-for="(word, index) in textData.text.words" :key="index">
-            <template v-if="word.type === 'punct'">
-              <span
-                v-if="['，', '。', '？', '！'].includes(word.hanzi)"
-                class="text-2xl text-foreground leading-none px-0.5"
-              >
-                {{ word.hanzi }}
-              </span>
-              <span v-else class="flex flex-col items-center">
-                <span class="text-sm text-accent-muted mb-1 leading-none">
-                  {{ word.hanzi }}
-                </span>
-                <span class="text-2xl text-foreground leading-none">&nbsp;</span>
-              </span>
-            </template>
+            <span
+              v-if="word.type === 'punct'"
+              class="flex flex-col justify-end items-end text-2xl text-foreground leading-none px-0.5"
+            >
+              {{ word.hanzi }}
+            </span>
+
             <span
               v-else
               class="relative flex flex-col items-center group"
@@ -110,23 +108,27 @@ function handleMouseLeave(index: number) {
             >
               <div
                 :ref="(el) => setTooltipRef(el as HTMLElement | null, index)"
-                class="pointer-events-none absolute -top-24 left-1/2 z-10 rounded-md bg-card px-3 py-2 text-sm text-foreground shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 max-w-[min(260px,calc(100vw-3rem))] whitespace-normal text-left"
+                class="pointer-events-none absolute -top-24 left-1/2 z-10 rounded-md bg-card px-3 py-2 text-sm text-foreground shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 max-w-[min(320px,calc(100vw-3rem))] text-left overflow-hidden"
               >
                 <div class="flex items-center gap-3">
-                  <div class="flex gap-1">
+                  <div class="flex gap-1 shrink-0">
                     <HanziStrokesOrder
                       v-for="char in word.hanzi.split('')"
                       :key="char"
                       :hanzi="char"
                     />
                   </div>
-                  <div class="flex flex-col">
-                    <span>{{ word.translation }}</span>
-                    <span class="text-xs text-muted-foreground">HSK {{ word.hsk }}</span>
+                  <div class="flex flex-col min-w-0">
+                    <span class="whitespace-nowrap text-ellipsis overflow-hidden">
+                      {{ word.translation }}
+                    </span>
+                    <span class="text-xs text-muted-foreground whitespace-nowrap">
+                      HSK {{ word.hsk }}
+                    </span>
                   </div>
                 </div>
               </div>
-              <span class="text-sm text-accent-muted mb-1 leading-none">
+              <span v-if="showPinyin" class="text-sm text-accent-muted mb-1 leading-none">
                 {{ word.pinyin }}
               </span>
               <span class="text-2xl text-foreground leading-none">
