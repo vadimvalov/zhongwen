@@ -19,7 +19,8 @@ const props = withDefaults(
     :type="props.type"
     :class="
       cn(
-        'inline-flex items-center justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-black/80 shadow hover:opacity-90 transition-colors',
+        'inline-flex items-center justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-medium shadow hover:opacity-90 transition-colors',
+        '[color:var(--color-accent-foreground)]',
         props.class,
       )
     "
