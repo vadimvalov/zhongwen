@@ -12,17 +12,28 @@ function formatDictName(filename: string): string {
     .join(' ')
 }
 
+const colors = ['#b5ead7', '#c7b8ea', '#e8d5b7', '#f4c2c2', '#d7ebe9'] as const
+const icons = [
+  'lucide:layers',
+  'lucide:book-marked',
+  'lucide:library',
+  'lucide:scroll-text',
+  'lucide:file-text',
+] as const
+
 const modules = import.meta.glob('@/assets/dictionaries/*.json', {
   eager: true,
 }) as Record<string, { default: unknown[] }>
 
 const dictionaries = computed(() => {
-  return Object.entries(modules).map(([path]) => {
+  return Object.entries(modules).map(([path], index) => {
     const filename = path.split('/').pop() || ''
     const id = filename.replace('.json', '')
     return {
       id,
       title: formatDictName(filename),
+      icon: icons[index % icons.length] ?? icons[0],
+      color: colors[index % colors.length] ?? colors[0],
     }
   })
 })
@@ -51,8 +62,8 @@ const dictionaries = computed(() => {
           <Card
             :title="dict.title"
             :description="`View ${dict.title} word list`"
-            icon="lucide:layers"
-            color="#c7b8ea"
+            :icon="dict.icon"
+            :color="dict.color"
             class="h-full"
           />
         </Link>
