@@ -14,11 +14,11 @@ const mainCards = [
     description: 'Learn words by HSK level',
     to: '/vocabulary' as const,
   },
-  // {
-  //   title: 'Listening',
-  //   description: 'Audio with transcription',
-  //   to: null as string | null,
-  // },
+  {
+    title: 'Speaking',
+    description: 'Audio with transcription',
+    to: '/speaking' as const,
+  },
   // {
   //   title: 'Writing',
   //   description: 'Practice characters',
@@ -44,14 +44,14 @@ const mainCards = [
             class="h-full"
           />
         </Link>
-        <!-- <Card
+        <Card
           v-else
           :title="card.title"
           :description="card.description"
           :icon="card.icon"
           :color="card.color"
           class="h-full"
-        /> -->
+        />
       </template>
     </div>
   </div>

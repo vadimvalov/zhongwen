@@ -14,6 +14,7 @@
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "clsx": "^2.1.1",
+    "openai": "^6.25.0",
     "pinia": "^3.0.4",
     "tailwind-merge": "^3.5.0",
     "vue": "^3.5.28",
