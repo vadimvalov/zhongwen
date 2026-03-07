@@ -34,11 +34,16 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/speaking/words',
     name: 'speaking-words',
-    component: () => import('./speaking/SpeakingWordsPage.vue'),
+    component: () => import('./speaking/SpeakingPage.vue'),
   },
   {
     path: '/speaking/words/:id',
     name: 'speaking-words-practice',
-    component: () => import('./speaking/SpeakingWordsPracticePage.vue'),
+    component: () => import('./speaking/SpeakingPage.vue'),
+  },
+  {
+    path: '/speaking/sentences',
+    name: 'speaking-sentences',
+    component: () => import('./speaking/SpeakingPage.vue'),
   },
 ]
