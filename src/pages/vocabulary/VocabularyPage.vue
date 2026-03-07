@@ -44,7 +44,7 @@ const dictionaries = computed(() => {
       <p class="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
         Select a dictionary to view words.
       </p>
-      <div class="grid gap-2 sm:gap-3 md:grid-cols-2">
+      <div class="grid grid-cols-2 gap-2 sm:gap-3">
         <Link
           v-for="dict in dictionaries"
           :key="dict.id"

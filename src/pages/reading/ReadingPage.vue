@@ -71,7 +71,7 @@ const filteredItems = computed(() => {
           placeholder="HSK level"
         />
       </div>
-      <div class="grid gap-3 md:grid-cols-2">
+      <div class="grid grid-cols-2 gap-3">
         <Link
           v-for="item in filteredItems"
           :key="item.id"
