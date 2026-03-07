@@ -3,27 +3,30 @@ import { Card } from '@/shared/ui/Card'
 import { Link } from '@/shared/ui/Link'
 import { getCardStyle } from '@/shared/lib/cardStyles'
 
-const mainCards = [
+type MainCard = {
+  title: string
+  description: string
+  to: string | null
+  icon: string
+  color: string
+}
+
+const mainCards: MainCard[] = [
   {
     title: 'Reading',
     description: 'Short stories with translation',
-    to: '/reading' as const,
+    to: '/reading',
   },
   {
     title: 'Vocabulary',
     description: 'Learn words by HSK level',
-    to: '/vocabulary' as const,
+    to: '/vocabulary',
   },
   {
     title: 'Speaking',
     description: 'Audio with transcription',
-    to: '/speaking' as const,
+    to: '/speaking',
   },
-  // {
-  //   title: 'Writing',
-  //   description: 'Practice characters',
-  //   to: null as string | null,
-  // },
 ].map((card, index) => ({
   ...card,
   ...getCardStyle(index, 'main'),
