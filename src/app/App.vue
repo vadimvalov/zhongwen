@@ -7,10 +7,10 @@ const themeStore = useThemeStore()
 </script>
 
 <template>
-  <div class="relative min-h-screen">
+  <div class="relative min-h-screen overflow-x-hidden">
     <button
       type="button"
-      class="fixed top-4 right-4 z-50 flex h-9 w-9 items-center justify-center rounded-md border border-border bg-card text-foreground shadow hover:bg-muted transition-colors"
+      class="absolute top-3 right-3 z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card text-foreground shadow hover:bg-muted transition-colors"
       aria-label="Toggle theme"
       @click="themeStore.toggleTheme()"
     >
