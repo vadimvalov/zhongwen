@@ -26,4 +26,24 @@ export const routes: RouteRecordRaw[] = [
     name: 'vocabulary-dict',
     component: () => import('./vocabulary/VocabularyDictPage.vue'),
   },
+  {
+    path: '/speaking',
+    name: 'speaking',
+    component: () => import('./speaking/SpeakingPage.vue'),
+  },
+  {
+    path: '/speaking/words',
+    name: 'speaking-words',
+    component: () => import('./speaking/SpeakingPage.vue'),
+  },
+  {
+    path: '/speaking/words/:id',
+    name: 'speaking-words-practice',
+    component: () => import('./speaking/SpeakingPage.vue'),
+  },
+  {
+    path: '/speaking/sentences',
+    name: 'speaking-sentences',
+    component: () => import('./speaking/SpeakingPage.vue'),
+  },
 ]
