@@ -7,14 +7,11 @@ import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { getCardStyle } from '@/shared/lib/cardStyles'
 import { hasElevenLabsKey, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
+import { formatDictName } from '@/shared/lib/formatters'
 import type { Result, Word } from '@/shared/lib/types'
 import { transcribeChineseSpeech } from '@/pages/speaking/lib/transcribeChineseSpeech'
 
 const QUEUE_SIZE = 10
-
-function formatDictName(id: string): string {
-  return id.split('_').map((p) => p.toUpperCase()).join(' ')
-}
 
 function pickRandom<T>(arr: T[], count: number): T[] {
   return [...arr].sort(() => Math.random() - 0.5).slice(0, Math.min(count, arr.length))

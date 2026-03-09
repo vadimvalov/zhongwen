@@ -4,14 +4,7 @@ import { Card } from '@/shared/ui/Card'
 import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { getCardStyle } from '@/shared/lib/cardStyles'
-
-function formatDictName(filename: string): string {
-  const name = filename.replace('.json', '')
-  return name
-    .split('_')
-    .map((part) => part.toUpperCase())
-    .join(' ')
-}
+import { formatDictName } from '@/shared/lib/formatters'
 
 const modules = import.meta.glob('@/assets/dictionaries/*.json', {
   eager: true,

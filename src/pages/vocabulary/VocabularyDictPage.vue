@@ -6,14 +6,8 @@ import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { HanziStrokesOrder } from '@/shared/ui/HanziStrokesOrder'
 import { hasElevenLabsKey, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
+import { formatDictName } from '@/shared/lib/formatters'
 import type { Word } from '@/shared/lib/types'
-
-function formatDictName(id: string): string {
-  return id
-    .split('_')
-    .map((part) => part.toUpperCase())
-    .join(' ')
-}
 
 const route = useRoute()
 
