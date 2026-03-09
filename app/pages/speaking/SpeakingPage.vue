@@ -9,7 +9,7 @@ import { getCardStyle } from '@/shared/lib/cardStyles'
 import { useHasElevenLabs, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
 import { formatDictName } from '@/shared/lib/formatters'
 import type { Result, Word } from '@/shared/lib/types'
-import { transcribeChineseSpeech } from '@/pages/speaking/lib/transcribeChineseSpeech'
+import { transcribeChineseSpeech } from './lib/transcribeChineseSpeech'
 
 const QUEUE_SIZE = 10
 

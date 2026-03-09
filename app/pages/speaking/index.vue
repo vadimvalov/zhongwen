@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SpeakingPage from '@/pages/speaking/SpeakingPage.vue'
+import SpeakingPage from './SpeakingPage.vue'
 </script>
 
 <template>
