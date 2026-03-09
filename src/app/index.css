@@ -24,6 +24,13 @@
   --color-accent-foreground: #f5f9f8;
 }
 
+html,
+body {
+  min-height: 100%;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
 #app {
   min-height: 100vh;
   display: flex;
