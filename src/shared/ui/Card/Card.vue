@@ -27,7 +27,10 @@ const props = withDefaults(
   >
     <article
       :class="
-        cn('rounded-2xl p-4 gap-3 sm:p-5 sm:gap-4 flex flex-col h-full', read && 'opacity-40')
+        cn(
+          'rounded-md md:rounded-2xl p-4 gap-3 sm:p-5 sm:gap-4 flex flex-col h-full',
+          read && 'opacity-40',
+        )
       "
       :style="{ backgroundColor: props.color ?? '#b5ead7' }"
     >
@@ -36,7 +39,9 @@ const props = withDefaults(
       </div>
       <div>
         <h3 class="text-sm md:text-lg font-bold text-black m-0">{{ title }}</h3>
-        <p class="text-xs md:text-sm text-black/50 mt-0.5 sm:mt-1 m-0">{{ description }}</p>
+        <p class="text-xs md:text-sm line-clamp-3 text-black/50 mt-0.5 sm:mt-1 m-0">
+          {{ description }}
+        </p>
       </div>
     </article>
     <Icon
