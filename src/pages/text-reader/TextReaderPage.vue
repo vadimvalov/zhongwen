@@ -9,25 +9,7 @@ import { HanziStrokesOrder } from '@/shared/ui/HanziStrokesOrder'
 import { Checkbox } from '@/shared/ui/Checkbox'
 import { TTSPlayer } from '@/shared/ui/TTSPlayer'
 import { hasElevenLabsKey, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
-
-type WordMode = 'speak' | 'stroke'
-
-type Word = {
-  hanzi: string
-  pinyin: string
-  translation: string
-  hsk: number
-  type?: 'punct'
-}
-
-type TextData = {
-  title: string
-  description: string
-  level: string
-  text: {
-    words: Word[]
-  }
-}
+import type { TextData, TextWord as Word, WordMode } from '@/shared/lib/types'
 
 const route = useRoute()
 const userStore = useUserStore()

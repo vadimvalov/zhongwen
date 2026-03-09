@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, type HTMLAttributes } from 'vue'
+import type { SelectOption as Option } from '@/shared/lib/types'
 import { cn } from '@/shared/ui/utils'
-
-type Option = {
-  label: string
-  value: string
-}
 
 const props = withDefaults(
   defineProps<{

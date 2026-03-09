@@ -1,3 +1,5 @@
+import type { CardIconSet } from '@/shared/lib/types'
+
 export const CARD_COLORS = [
   '#b5ead7',
   '#c7b8ea',
@@ -28,8 +30,6 @@ export const CARD_ICON_SETS = {
     'lucide:pen-line',
   ],
 } as const
-
-export type CardIconSet = keyof typeof CARD_ICON_SETS
 
 export function getCardStyle(
   index: number,

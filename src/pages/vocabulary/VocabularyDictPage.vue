@@ -6,12 +6,7 @@ import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { HanziStrokesOrder } from '@/shared/ui/HanziStrokesOrder'
 import { hasElevenLabsKey, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
-
-type Word = {
-  hanzi: string
-  pinyin: string
-  translation: string
-}
+import type { Word } from '@/shared/lib/types'
 
 function formatDictName(id: string): string {
   return id

@@ -2,24 +2,13 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import OpenAI from 'openai'
 import { Card } from '@/shared/ui/Card'
 import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { getCardStyle } from '@/shared/lib/cardStyles'
 import { hasElevenLabsKey, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
-
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY as string,
-  baseURL: `${window.location.origin}/openai-proxy/v1`,
-  dangerouslyAllowBrowser: true,
-})
-
-type Word = {
-  hanzi: string
-  pinyin: string
-  translation: string
-}
+import type { Result, Word } from '@/shared/lib/types'
+import { transcribeChineseSpeech } from '@/pages/speaking/lib/transcribeChineseSpeech'
 
 const QUEUE_SIZE = 10
 
@@ -82,9 +71,6 @@ const allWords = computed<Word[]>(() => {
 
 const dictTitle = computed(() => formatDictName(dictId.value))
 
-// ── practice state ─────────────────────────────────────────────────────────
-type Result = 'correct' | 'incorrect'
-
 const queue = ref<Word[]>([])
 const currentIndex = ref(0)
 const score = ref(0)
@@ -144,19 +130,6 @@ function getBestMime(): { mimeType: string; ext: string } {
   return { mimeType: '', ext: 'webm' }
 }
 
-// ── transcription ─────────────────────────────────────────────────────────
-async function transcribeAudio(blob: Blob, ext: string): Promise<string> {
-  const file = new File([blob], `recording.${ext}`, { type: blob.type })
-  const result = await openai.audio.transcriptions.create({
-    file,
-    model: 'gpt-4o-mini-transcribe',
-    language: 'zh',
-    prompt:
-      'This is Mandarin Chinese only. Transcribe exactly what is spoken in Chinese. Output must be Chinese characters (汉字) and/or pinyin only. Never use Korean (hangul), Japanese (kana/kanji), or any other language. If unclear, guess only in Chinese.',
-  })
-  return (result.text ?? '').trim()
-}
-
 // ── recording ───────────────────────────────────────────────────────────────
 let mediaRecorder: MediaRecorder | null = null
 let audioChunks: Blob[] = []
@@ -186,7 +159,7 @@ async function startRecording() {
     const word = currentWord.value
     try {
       const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' })
-      const text = await transcribeAudio(blob, recordingExt)
+      const text = await transcribeChineseSpeech(blob, recordingExt)
       transcribedText.value = text
       if (word) {
         const correct = isMatch(text, word)

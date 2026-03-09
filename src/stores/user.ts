@@ -1,10 +1,9 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
+import type { Theme } from '@/shared/lib/types'
 
 const THEME_KEY = 'zhongwen-theme'
 const READ_TEXTS_KEY = 'zhongwen-read-texts'
-
-export type Theme = 'light' | 'dark'
 
 function getStoredTheme(): Theme {
   try {

@@ -6,26 +6,12 @@ import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { Select } from '@/shared/ui/Select'
 import { getCardStyle } from '@/shared/lib/cardStyles'
+import type { ReadingItem as Item, TextMeta } from '@/shared/lib/types'
 import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
-
-type TextMeta = {
-  title: string
-  description: string
-  level: string
-}
-
-type Item = {
-  id: string
-  title: string
-  description: string
-  level: string
-  icon: string
-  color: string
-}
 
 const rawModules = import.meta.glob('@/assets/texts/*.json', {
   eager: true,

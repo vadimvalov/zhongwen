@@ -2,14 +2,7 @@
 import { Card } from '@/shared/ui/Card'
 import { Link } from '@/shared/ui/Link'
 import { getCardStyle } from '@/shared/lib/cardStyles'
-
-type MainCard = {
-  title: string
-  description: string
-  to: string | null
-  icon: string
-  color: string
-}
+import type { MainCard } from '@/shared/lib/types'
 
 const mainCards: MainCard[] = [
   {
