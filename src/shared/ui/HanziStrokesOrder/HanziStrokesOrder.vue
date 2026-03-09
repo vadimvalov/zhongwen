@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
+import { cn } from '@/shared/ui/utils'
 
 const props = defineProps<{
   hanzi: string
+  class?: HTMLAttributes['class']
 }>()
 
 const src = computed(() => {
@@ -13,7 +15,12 @@ const src = computed(() => {
 </script>
 
 <template>
-  <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded bg-background">
+  <div
+    :class="cn(
+      'flex h-10 w-10 items-center justify-center overflow-hidden rounded bg-background',
+      props.class,
+    )"
+  >
     <img
       v-if="src"
       :src="src"

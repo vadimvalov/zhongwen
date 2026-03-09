@@ -31,6 +31,15 @@ const words = computed<Word[]>(() => {
 const dictTitle = computed(() => formatDictName(dictId.value))
 
 const speakingIndex = ref<number | null>(null)
+const selectedStrokeHanzi = ref<string | null>(null)
+
+function openStrokeModal(hanzi: string) {
+  selectedStrokeHanzi.value = hanzi
+}
+
+function closeStrokeModal() {
+  selectedStrokeHanzi.value = null
+}
 
 async function handleSpeak(word: Word, index: number) {
   if (!hasElevenLabsKey()) return
@@ -110,11 +119,16 @@ async function handleSpeak(word: Word, index: number) {
                     <div
                       class="flex gap-0.5 sm:gap-1 shrink-0 flex-nowrap scale-75 sm:scale-100 origin-left"
                     >
-                      <HanziStrokesOrder
-                        v-for="char in word.hanzi.split('')"
-                        :key="char"
-                        :hanzi="char"
-                      />
+                      <button
+                        v-for="(char, charIndex) in word.hanzi.split('')"
+                        :key="`${word.hanzi}-${charIndex}`"
+                        type="button"
+                        class="rounded focus:outline-none focus:ring-2 focus:ring-accent/50"
+                        :aria-label="`Open stroke order for ${char}`"
+                        @click="openStrokeModal(char)"
+                      >
+                        <HanziStrokesOrder :hanzi="char" />
+                      </button>
                     </div>
                   </td>
                   <td class="px-2 sm:px-4 py-2 sm:py-3">
@@ -144,6 +158,16 @@ async function handleSpeak(word: Word, index: number) {
           <code class="rounded bg-muted px-1">.env</code> to enable audio playback.
         </p>
       </div>
+    </div>
+  </div>
+
+  <div
+    v-if="selectedStrokeHanzi"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
+    @click.self="closeStrokeModal"
+  >
+    <div class="relative flex items-center justify-center">
+      <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="rounded-2xl h-48 w-48" />
     </div>
   </div>
 </template>
