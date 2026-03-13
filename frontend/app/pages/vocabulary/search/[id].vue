@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
@@ -42,6 +42,35 @@ const result = computed<{
 const strokeChars = computed(() => searchId.value.split('').filter(Boolean))
 
 const selectedStrokeHanzi = ref<string | null>(null)
+const googleTranslation = ref<string | null>(null)
+const googleLoading = ref(false)
+const googleError = ref(false)
+
+watch(
+  [result, searchId],
+  async () => {
+    if (result.value !== null || !searchId.value.trim()) {
+      googleTranslation.value = null
+      googleError.value = false
+      return
+    }
+    googleLoading.value = true
+    googleError.value = false
+    googleTranslation.value = null
+    try {
+      const { translation } = await $fetch<{ translation: string }>('/api/translate', {
+        method: 'POST',
+        body: { text: searchId.value.trim() },
+      })
+      googleTranslation.value = translation || null
+    } catch {
+      googleError.value = true
+    } finally {
+      googleLoading.value = false
+    }
+  },
+  { immediate: true },
+)
 
 function openStrokeModal(hanzi: string) {
   selectedStrokeHanzi.value = hanzi
@@ -94,9 +123,35 @@ function closeStrokeModal() {
                 </div>
               </template>
               <template v-else>
-                <p class="text-sm sm:text-base text-muted-foreground">
+                <div class="flex flex-col gap-2 sm:gap-3">
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-lg sm:text-2xl font-semibold text-foreground">
+                      {{ searchId }}
+                    </span>
+                  </div>
+                <p v-if="googleLoading" class="text-sm sm:text-base text-muted-foreground">
+                  Translating…
+                </p>
+                <p
+                  v-else-if="googleError"
+                  class="text-sm sm:text-base text-muted-foreground"
+                >
                   Translation not found.
                 </p>
+                <p
+                  v-else-if="googleTranslation"
+                  class="text-sm sm:text-base text-foreground"
+                >
+                  {{ googleTranslation }}
+                </p>
+                <p v-else class="text-sm sm:text-base text-muted-foreground">
+                  Translation not found.
+                </p>
+                  <p class="text-xs sm:text-sm text-muted-foreground">
+                    Level:
+                    <span class="font-medium text-foreground">Unknown</span>
+                  </p>
+                </div>
               </template>
             </div>
 

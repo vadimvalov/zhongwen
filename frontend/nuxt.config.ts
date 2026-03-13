@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     openaiApiKey: '',
     elevenlabsApiKey: '',
+    googleApiKey: '',
     public: {
       hasElevenLabs: !!process.env.NUXT_ELEVENLABS_API_KEY,
     },
