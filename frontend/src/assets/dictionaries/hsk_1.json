@@ -148,5 +148,13 @@
   { "hanzi": "冷", "pinyin": "lěng", "translation": "cold" },
   { "hanzi": "热", "pinyin": "rè", "translation": "hot" },
   { "hanzi": "高兴", "pinyin": "gāoxìng", "translation": "happy" },
-  { "hanzi": "漂亮", "pinyin": "piàoliang", "translation": "beautiful" }
+  { "hanzi": "漂亮", "pinyin": "piàoliang", "translation": "beautiful" },
+  { "hanzi": "星期一", "pinyin": "xīngqīyī", "translation": "Monday" },
+  { "hanzi": "星期二", "pinyin": "xīngqīèr", "translation": "Tuesday" },
+  { "hanzi": "星期三", "pinyin": "xīngqīsān", "translation": "Wednesday" },
+  { "hanzi": "星期四", "pinyin": "xīngqīsì", "translation": "Thursday" },
+  { "hanzi": "星期五", "pinyin": "xīngqīwǔ", "translation": "Friday" },
+  { "hanzi": "星期六", "pinyin": "xīngqīliù", "translation": "Saturday" },
+  { "hanzi": "星期天", "pinyin": "xīngqītiān", "translation": "Sunday (informal)" },
+  { "hanzi": "星期日", "pinyin": "xīngqírì", "translation": "Sunday (formal)" }
 ]
