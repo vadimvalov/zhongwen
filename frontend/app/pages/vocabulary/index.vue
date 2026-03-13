@@ -39,7 +39,7 @@ function handleSearch() {
     return
   }
 
-  router.push(`/vocabulary/${encodeURIComponent(value)}`)
+  router.push(`/vocabulary/search/${encodeURIComponent(value)}`)
 }
 </script>
 
@@ -74,7 +74,7 @@ function handleSearch() {
         <Link
           v-for="dict in dictionaries"
           :key="dict.id"
-          :to="`/vocabulary/dictionary/${dict.id}`"
+          :to="`/vocabulary/${dict.id}`"
           class="block"
           :hover="true"
         >

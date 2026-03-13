@@ -8,6 +8,12 @@ export function useEscapeBack() {
     if (e.key !== 'Escape') return
     const path = route.path
     if (path === '/' || path === '') return
+
+    if (path.startsWith('/vocabulary/search/')) {
+      router.push('/vocabulary')
+      return
+    }
+
     const segments = path.replace(/^\/|\/$/g, '').split('/').filter(Boolean)
     if (segments.length === 0) return
     segments.pop()

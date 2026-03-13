@@ -1,146 +1,32 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { pinyin } from 'pinyin-pro'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { Icon } from '@iconify/vue'
 import { Link } from '@/shared/ui/Link'
 import { Button } from '@/shared/ui/Button'
 import { HanziStrokesOrder } from '@/shared/ui/HanziStrokesOrder'
+import { useHasElevenLabs, speakWithElevenLabs } from '@/shared/lib/elevenlabs'
+import { formatDictName } from '@/shared/lib/formatters'
 import type { Word } from '@/shared/lib/types'
 
 const route = useRoute()
+const hasElevenLabs = useHasElevenLabs()
 
 const modules = import.meta.glob('@/assets/dictionaries/*.json', {
   eager: true,
 }) as Record<string, { default: Word[] }>
 
-const searchId = computed(() => (route.params.id as string) || '')
+const dictId = computed(() => route.params.id as string)
 
-const result = computed<{
-  word: Word
-  level: string
-} | null>(() => {
-  const query = searchId.value.trim()
-  if (!query) return null
-
-  for (const [path, mod] of Object.entries(modules)) {
-    const filename = path.split('/').pop() || ''
-    const dictId = filename.replace('.json', '')
-    const levelPart = dictId.split('_')[1]
-    const level = levelPart ? `HSK ${levelPart}` : dictId
-
-    const found = mod.default.find((word) => word.hanzi === query)
-    if (found) {
-      return {
-        word: found,
-        level,
-      }
-    }
-  }
-
-  return null
+const words = computed<Word[]>(() => {
+  const entry = Object.entries(modules).find(([path]) => path.endsWith(`${dictId.value}.json`))
+  return entry?.[1]?.default ?? []
 })
 
-const strokeChars = computed(() => searchId.value.split('').filter(Boolean))
+const dictTitle = computed(() => formatDictName(dictId.value))
 
-const isLongPhrase = computed(() => searchId.value.trim().length >= 4)
-
+const speakingIndex = ref<number | null>(null)
 const selectedStrokeHanzi = ref<string | null>(null)
-const googleTranslation = ref<string | null>(null)
-const googleLoading = ref(false)
-const googleError = ref(false)
-
-function loadInitialCache(): Record<string, string> {
-  try {
-    if (typeof window === 'undefined') return {}
-    const raw = localStorage.getItem('vocabulary-translation-cache')
-    if (!raw) return {}
-    const parsed = JSON.parse(raw) as Record<string, string>
-    if (parsed && typeof parsed === 'object') {
-      return parsed
-    }
-    return {}
-  } catch {
-    return {}
-  }
-}
-
-const translationCache = ref<Record<string, string>>(loadInitialCache())
-
-function persistCache() {
-  try {
-    const entries = Object.entries(translationCache.value)
-    const MAX_ENTRIES = 100
-    if (entries.length > MAX_ENTRIES) {
-      const toKeep = entries.slice(entries.length - MAX_ENTRIES)
-      translationCache.value = Object.fromEntries(toKeep)
-    }
-    localStorage.setItem(
-      'vocabulary-translation-cache',
-      JSON.stringify(translationCache.value),
-    )
-  } catch {
-    // ignore persistence errors
-  }
-}
-
-const googlePinyin = computed(() => {
-  const query = searchId.value.trim()
-  if (!query) return null
-  return pinyin(query, {
-    toneType: 'symbol',
-    nonZh: 'spaced',
-  })
-})
-
-function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-}
-
-watch(
-  [result, searchId],
-  async () => {
-    const key = searchId.value.trim()
-    if (result.value !== null || !key) {
-      googleTranslation.value = null
-      googleError.value = false
-      return
-    }
-
-    const cached = translationCache.value[key]
-    if (cached) {
-      googleTranslation.value = cached
-      googleError.value = false
-      googleLoading.value = false
-      return
-    }
-
-    googleLoading.value = true
-    googleError.value = false
-    googleTranslation.value = null
-    try {
-      const { translation } = await $fetch<{ translation: string }>('/api/translate', {
-        method: 'POST',
-        body: { text: key },
-      })
-      const normalized = translation ? decodeHtmlEntities(translation) : null
-      googleTranslation.value = normalized
-      if (normalized) {
-        translationCache.value[key] = normalized
-        persistCache()
-      }
-    } catch {
-      googleError.value = true
-    } finally {
-      googleLoading.value = false
-    }
-  },
-  { immediate: true },
-)
 
 function openStrokeModal(hanzi: string) {
   selectedStrokeHanzi.value = hanzi
@@ -149,105 +35,123 @@ function openStrokeModal(hanzi: string) {
 function closeStrokeModal() {
   selectedStrokeHanzi.value = null
 }
+
+async function handleSpeak(word: Word, index: number) {
+  if (!hasElevenLabs) return
+  speakingIndex.value = index
+  try {
+    await speakWithElevenLabs(word.hanzi)
+  } catch {
+    // Ignore playback errors
+  } finally {
+    speakingIndex.value = null
+  }
+}
 </script>
 
 <template>
   <div class="min-h-screen py-4 px-3 sm:py-8 sm:px-4 flex flex-col items-center">
-    <div class="w-full max-w-3xl space-y-6 sm:space-y-8">
+    <div class="w-full max-w-4xl">
+      <p v-if="!words.length" class="text-xs sm:text-sm text-muted-foreground">
+        Dictionary not found.
+      </p>
+      <div v-else class="space-y-3 sm:space-y-4">
       <div class="flex items-center gap-2 sm:gap-3">
         <Link to="/vocabulary" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
-        <div>
-          <h1 class="text-xl sm:text-2xl font-semibold text-foreground">
-            Vocabulary search
-          </h1>
-          <p class="text-xs sm:text-sm text-muted-foreground">
-            Search result for:
-            <span class="font-medium text-foreground">{{ searchId }}</span>
-          </p>
-        </div>
+        <h1 class="text-xl sm:text-2xl font-semibold text-foreground">
+          {{ dictTitle }}
+        </h1>
       </div>
 
-      <div class="space-y-4 sm:space-y-6">
-        <div class="rounded-lg border border-border p-3 sm:p-4">
-          <div class="flex flex-col gap-4">
-            <div>
-              <template v-if="result">
-                <div class="flex flex-col gap-2 sm:gap-3">
-                  <div class="flex items-baseline gap-2">
-                    <span class="text-lg sm:text-2xl font-semibold text-foreground">
-                      {{ result.word.hanzi }}
-                    </span>
-                    <span class="text-xs sm:text-sm text-muted-foreground">
-                      {{ result.word.pinyin }}
-                    </span>
-                  </div>
-                  <p class="text-sm sm:text-base text-foreground">
-                    {{ result.word.translation }}
-                  </p>
-                  <p v-if="!isLongPhrase" class="text-xs sm:text-sm text-muted-foreground">
-                    Level:
-                    <span class="font-medium text-foreground">{{ result.level }}</span>
-                  </p>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex flex-col gap-2 sm:gap-3">
-                  <div class="flex items-baseline gap-2">
-                    <span class="text-lg sm:text-2xl font-semibold text-foreground">
-                      {{ searchId }}
-                    </span>
-                    <span
-                      v-if="googlePinyin"
-                      class="text-xs sm:text-sm text-muted-foreground"
+        <div class="rounded-lg border border-border overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-md border-collapse">
+              <thead>
+                <tr class="bg-muted/50">
+                  <th
+                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                  >
+                    Hanzi
+                  </th>
+                  <th
+                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                  >
+                    Pinyin
+                  </th>
+                  <th
+                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                  >
+                    Translation
+                  </th>
+                  <th
+                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                  >
+                    Strokes
+                  </th>
+                  <th class="w-9 sm:w-12 px-2 sm:px-4 py-2 sm:py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(word, index) in words"
+                  :key="index"
+                  class="border-t border-border hover:bg-muted/30 transition-colors"
+                >
+                  <td
+                    class="px-2 sm:px-4 py-2 sm:py-3 text-base sm:text-xl text-foreground font-medium"
+                  >
+                    {{ word.hanzi }}
+                  </td>
+                  <td class="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-base text-muted-foreground">
+                    {{ word.pinyin }}
+                  </td>
+                  <td class="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-base text-foreground">
+                    {{ word.translation }}
+                  </td>
+                  <td class="px-2 sm:px-4 py-2 sm:py-3">
+                    <div
+                      class="flex gap-0.5 sm:gap-1 shrink-0 flex-nowrap scale-75 sm:scale-100 origin-left"
                     >
-                      {{ googlePinyin }}
-                    </span>
-                  </div>
-                  <p v-if="googleLoading" class="text-sm sm:text-base text-muted-foreground">
-                    Translating…
-                  </p>
-                  <p
-                    v-else-if="googleError"
-                    class="text-sm sm:text-base text-muted-foreground"
-                  >
-                    Translation not found.
-                  </p>
-                  <p
-                    v-else-if="googleTranslation"
-                    class="text-sm sm:text-base text-foreground"
-                  >
-                    {{ googleTranslation }}
-                  </p>
-                  <p v-else class="text-sm sm:text-base text-muted-foreground">
-                    Translation not found.
-                  </p>
-                  <p v-if="!isLongPhrase" class="text-xs sm:text-sm text-muted-foreground">
-                    Level:
-                    <span class="font-medium text-foreground">Unknown</span>
-                  </p>
-                </div>
-              </template>
-            </div>
-
-            <div
-              v-if="strokeChars.length"
-              class="flex flex-wrap gap-2 sm:gap-3 items-center justify-start"
-            >
-              <button
-                v-for="(char, index) in strokeChars"
-                :key="`${char}-${index}`"
-                type="button"
-                class="rounded focus:outline-none focus:ring-2 focus:ring-accent/50"
-                :aria-label="`Open stroke order for ${char}`"
-                @click="openStrokeModal(char)"
-              >
-                <HanziStrokesOrder :hanzi="char" class="h-16 w-16 sm:h-20 sm:w-20" />
-              </button>
-            </div>
+                      <button
+                        v-for="(char, charIndex) in word.hanzi.split('')"
+                        :key="`${word.hanzi}-${charIndex}`"
+                        type="button"
+                        class="rounded focus:outline-none focus:ring-2 focus:ring-accent/50"
+                        :aria-label="`Open stroke order for ${char}`"
+                        @click="openStrokeModal(char)"
+                      >
+                        <HanziStrokesOrder :hanzi="char" />
+                      </button>
+                    </div>
+                  </td>
+                  <td class="px-2 sm:px-4 py-2 sm:py-3">
+                    <button
+                      type="button"
+                      class="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-border bg-card text-foreground hover:bg-muted transition-colors disabled:opacity-50 shrink-0"
+                      :disabled="!hasElevenLabs || speakingIndex === index"
+                      :aria-label="`Play pronunciation for ${word.hanzi}`"
+                      @click="handleSpeak(word, index)"
+                    >
+                      <Icon
+                        v-if="speakingIndex === index"
+                        icon="mdi:loading"
+                        class="h-4 w-4 sm:h-5 sm:w-5 animate-spin"
+                      />
+                      <Icon v-else icon="lucide:volume-2" class="h-4 w-4 sm:h-5 sm:w-5" />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+
+        <p v-if="!hasElevenLabs" class="text-xs sm:text-sm text-muted-foreground">
+          Add <code class="rounded bg-muted px-1">NUXT_ELEVENLABS_API_KEY</code> to your
+          <code class="rounded bg-muted px-1">.env</code> to enable audio playback.
+        </p>
       </div>
     </div>
 
