@@ -31,7 +31,7 @@ const dictionaries = computed(() => {
 function handleSearch() {
   const value = searchQuery.value.trim()
   if (!value) return
-  router.push(`/vocabulary/search/${encodeURIComponent(value)}`)
+  router.push(`/vocabulary/${encodeURIComponent(value)}`)
 }
 </script>
 
@@ -66,7 +66,7 @@ function handleSearch() {
         <Link
           v-for="dict in dictionaries"
           :key="dict.id"
-          :to="`/vocabulary/${dict.id}`"
+          :to="`/vocabulary/dictionary/${dict.id}`"
           class="block"
           :hover="true"
         >
