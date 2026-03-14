@@ -1,3 +1,57 @@
+import * as Minio from 'minio'
+
+function getMinioClient() {
+  return new Minio.Client({
+    endPoint: process.env.NUXT_MINIO_ENDPOINT!,
+    port: 443,
+    useSSL: true,
+    accessKey: process.env.NUXT_MINIO_ACCESS_KEY!,
+    secretKey: process.env.NUXT_MINIO_SECRET_KEY!,
+  })
+}
+
+function getObjectKey(text: string, slug?: string): string {
+  if (slug) return `${slug}.mp3`
+  return `${text.trim().slice(0, 80)}.mp3`
+}
+
+async function getFromMinio(
+  client: Minio.Client,
+  bucket: string,
+  key: string,
+): Promise<Buffer | null> {
+  try {
+    const stream = await client.getObject(bucket, key)
+    return await new Promise<Buffer>((resolve, reject) => {
+      const chunks: Buffer[] = []
+      stream.on('data', (chunk: Buffer) => chunks.push(chunk))
+      stream.on('end', () => resolve(Buffer.concat(chunks)))
+      stream.on('error', reject)
+    })
+  } catch (err: unknown) {
+    if (
+      err &&
+      typeof err === 'object' &&
+      'code' in err &&
+      (err as { code: string }).code === 'NoSuchKey'
+    ) {
+      return null
+    }
+    throw err
+  }
+}
+
+async function saveToMinio(
+  client: Minio.Client,
+  bucket: string,
+  key: string,
+  data: Buffer,
+): Promise<void> {
+  await client.putObject(bucket, key, data, data.length, {
+    'Content-Type': 'audio/mpeg',
+  })
+}
+
 const VOICE_ID = 'EXAVITQu4vr4xnSDxMaL'
 const MODEL_ID = 'eleven_multilingual_v2'
 
@@ -8,10 +62,26 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 503, statusMessage: 'ElevenLabs API key not configured' })
   }
 
-  const body = (await readBody(event)) as { text?: string; speed?: number }
+  const body = (await readBody(event)) as { text?: string; slug?: string }
   const text = body?.text?.trim()
   if (!text) {
     throw createError({ statusCode: 400, statusMessage: 'Missing text' })
+  }
+
+  const bucket = process.env.NUXT_MINIO_BUCKET || 'audio'
+  const key = getObjectKey(text, body.slug)
+
+  try {
+    const minio = getMinioClient()
+    const cached = await getFromMinio(minio, bucket, key)
+    if (cached) {
+      console.log('[TTS] cache hit:', key)
+      setResponseHeaders(event, { 'Content-Type': 'audio/mpeg' })
+      return cached
+    }
+    console.log('[TTS] cache miss, generating...')
+  } catch (err) {
+    console.warn('[TTS] MinIO read error:', err)
   }
 
   const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`
@@ -19,12 +89,12 @@ export default defineEventHandler(async (event) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'xi-api-key': apiKey as string,
+      'xi-api-key': apiKey,
     },
     body: JSON.stringify({
       text,
       model_id: MODEL_ID,
-      voice_settings: { speed: body.speed ?? 1 },
+      voice_settings: { speed: 1 },
     }),
   })
 
@@ -36,9 +106,14 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const blob = await res.arrayBuffer()
-  setResponseHeaders(event, {
-    'Content-Type': 'audio/mpeg',
-  })
-  return blob
+  const arrayBuffer = await res.arrayBuffer()
+  const audioBuffer = Buffer.from(arrayBuffer)
+
+  const minio = getMinioClient()
+  saveToMinio(minio, bucket, key, audioBuffer)
+    .then(() => console.log('[TTS] saved to MinIO:', key))
+    .catch((err) => console.warn('[TTS] MinIO write error:', err))
+
+  setResponseHeaders(event, { 'Content-Type': 'audio/mpeg' })
+  return audioBuffer
 })

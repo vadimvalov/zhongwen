@@ -16,7 +16,8 @@ const modules = import.meta.glob('@/assets/dictionaries/*.json', {
   eager: true,
 }) as Record<string, { default: Word[] }>
 
-const dictId = computed(() => route.params.id as string)
+const slug = computed(() => route.params.slug as string)
+const dictId = slug
 
 const words = computed<Word[]>(() => {
   const entry = Object.entries(modules).find(([path]) => path.endsWith(`${dictId.value}.json`))

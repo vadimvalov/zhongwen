@@ -20,7 +20,7 @@ function pickRandom<T>(arr: T[], count: number): T[] {
 // ── route & view ─────────────────────────────────────────────────────────────
 const route = useRoute()
 const hasElevenLabs = useHasElevenLabs()
-const dictId = computed(() => (route.params.id as string) ?? '')
+const dictId = computed(() => (route.params.slug ?? route.params.id) as string ?? '')
 const isModeSelect = computed(() => route.path === '/speaking')
 const isDictList = computed(() => route.path === '/speaking/words' && !dictId.value)
 const isPractice = computed(() => Boolean(dictId.value))

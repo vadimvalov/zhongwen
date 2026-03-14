@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     openaiApiKey: '',
     elevenlabsApiKey: '',
     googleApiKey: '',
+    minioEndpoint: '',
+    minioAccessKey: '',
+    minioSecretKey: '',
+    minioBucket: '',
     public: {
       hasElevenLabs: !!process.env.NUXT_ELEVENLABS_API_KEY,
     },
@@ -21,12 +25,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: '中文',
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      ],
-      link: [
-        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
-      ],
+      meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
     },
   },
 

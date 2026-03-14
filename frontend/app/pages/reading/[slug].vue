@@ -19,7 +19,8 @@ const modules = import.meta.glob('@/assets/texts/*.json', {
   eager: true,
 }) as Record<string, { default: TextData }>
 
-const textId = computed(() => route.params.id as string)
+const slug = computed(() => route.params.slug as string)
+const textId = slug
 
 const textData = computed<TextData | null>(() => {
   const entry = Object.entries(modules).find(([path]) => path.endsWith(`${textId.value}.json`))
@@ -211,7 +212,7 @@ function toggleMarkAsRead() {
           </template>
         </div>
 
-        <TTSPlayer v-if="textData" :title="textData.title" :text="fullText" class="mt-8" />
+        <TTSPlayer v-if="textData" :title="textData.title" :text="fullText" :slug="slug" class="mt-8" />
       </div>
     </div>
   </div>

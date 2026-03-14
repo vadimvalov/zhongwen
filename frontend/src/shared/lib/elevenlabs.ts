@@ -30,9 +30,9 @@ function playBlob(blob: Blob): Promise<void> {
   })
 }
 
-export async function speakWithElevenLabs(text: string): Promise<void> {
-  const key = text.trim()
-  if (!key) return
+export async function speakWithElevenLabs(text: string, slug?: string): Promise<void> {
+  const key = slug ? `${slug}:${text.trim()}` : text.trim()
+  if (!text.trim()) return
 
   if (currentAudio) {
     currentAudio.pause()
@@ -49,7 +49,7 @@ export async function speakWithElevenLabs(text: string): Promise<void> {
 
   const blob = await $fetch<Blob>('/api/tts', {
     method: 'POST',
-    body: { text: key },
+    body: { text: text.trim(), slug },
     responseType: 'blob',
   })
 

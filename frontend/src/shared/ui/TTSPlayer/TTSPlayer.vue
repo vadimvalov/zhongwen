@@ -7,6 +7,7 @@ import { cn } from '@/shared/ui/utils'
 const props = defineProps<{
   title: string
   text: string
+  slug?: string
   class?: string
 }>()
 
@@ -40,7 +41,7 @@ async function fetchAudio(): Promise<string> {
 
   const blob = await $fetch<Blob>('/api/tts', {
     method: 'POST',
-    body: { text: props.text, speed: TTS_SPEED },
+    body: { text: props.text, speed: TTS_SPEED, slug: props.slug },
     responseType: 'blob',
   })
   if (cachedAudioUrl.value) URL.revokeObjectURL(cachedAudioUrl.value)
