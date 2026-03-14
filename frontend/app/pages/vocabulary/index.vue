@@ -31,6 +31,7 @@ const dictionaries = computed(() => {
 function handleSearch() {
   const value = searchQuery.value.trim()
   if (!value) return
+  if (!/^[\u4e00-\u9fff\u3400-\u4dbf]+$/.test(value)) return
 
   if (value === '我操你吗') {
     if (typeof window !== 'undefined') {
@@ -56,18 +57,30 @@ function handleSearch() {
         <p class="text-xs sm:text-sm text-muted-foreground">
           Select a dictionary to view words or search for a specific word.
         </p>
-        <form class="flex gap-2" @submit.prevent="handleSearch">
-          <input
-            v-model="searchQuery"
-            type="text"
-            inputmode="text"
-            autocomplete="off"
-            placeholder="Search word (hanzi)..."
-            class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/60"
-          />
-          <Button type="submit" class="px-3 py-2 text-xs sm:text-sm">
-            Search
-          </Button>
+        <form class="flex flex-col gap-2" @submit.prevent="handleSearch">
+          <div class="flex gap-2">
+            <input
+              v-model="searchQuery"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              placeholder="Search word (hanzi)..."
+              class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/60"
+            />
+            <Button
+              type="submit"
+              class="px-3 py-2 text-xs sm:text-sm"
+              :disabled="!searchQuery.trim() || !/^[\u4e00-\u9fff\u3400-\u4dbf]+$/.test(searchQuery.trim())"
+            >
+              Search
+            </Button>
+          </div>
+          <p
+            v-if="searchQuery.trim() && !/^[\u4e00-\u9fff\u3400-\u4dbf]+$/.test(searchQuery.trim())"
+            class="text-xs text-muted-foreground"
+          >
+            Only Chinese characters (hanzi) are allowed.
+          </p>
         </form>
       </div>
       <div class="grid grid-cols-2 gap-2 sm:gap-3">
