@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.3...zhongwen/app-v0.2.4) (2026-03-15)
+
+
+### Bug Fixes
+
+* migrate on startup ([aa66db6](https://github.com/vadimvalov/zhongwen/commit/aa66db6a00c90f24ec01f2cfb796e1d463b33979))
+
 ## [0.2.3](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.2...zhongwen/app-v0.2.3) (2026-03-15)
 
 
