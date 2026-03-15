@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import appPackage from "./package.json" with { type: "json" };
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -14,12 +16,15 @@ export default defineNuxtConfig({
     s3Bucket: "",
     public: {
       hasElevenLabs: !!process.env.NUXT_ELEVENLABS_API_KEY,
+      version: (appPackage as { version?: string }).version ?? "0.0.0",
     },
   },
   app: {
     head: {
       title: "中文",
-      meta: [{ name: "viewport", content: "width=device-width, initial-scale=1.0" }],
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+      ],
       link: [{ rel: "icon", href: "/favicon.ico" }],
     },
   },

@@ -4,6 +4,8 @@ import Link from "~/components/ui/Link.vue";
 import { getCardStyle } from "~/utils/cardStyles";
 import type { MainCard } from "~/utils/types";
 
+const config = useRuntimeConfig();
+
 const mainCards: MainCard[] = [
   {
     title: "Reading",
@@ -53,18 +55,20 @@ const mainCards: MainCard[] = [
 
     <p class="mt-8 max-w-sm text-[10px] leading-snug text-muted-foreground">
       This is open-source project. You can find the source code on
-      <a
-        href="https://github.com/vadimvalov/zhongwen"
-        target="_blank"
-        class="text-foreground"
+      <a href="https://github.com/vadimvalov/zhongwen" target="_blank" class="text-foreground"
         >GitHub</a
       >.
     </p>
     <p class="mt-2 text-[10px] leading-snug text-muted-foreground">
       Any contributions are welcome. Contact me on
-      <a href="https://t.me/valovvadim" target="_blank" class="text-foreground"
-        >Telegram</a
-      >.
+      <a href="https://t.me/valovvadim" target="_blank" class="text-foreground">Telegram</a>.
     </p>
+    <a
+      href="https://github.com/vadimvalov/zhongwen/releases"
+      target="_blank"
+      class="mt-4 inline-block text-[10px] text-muted-foreground"
+    >
+      v{{ config.public.version }}
+    </a>
   </div>
 </template>
