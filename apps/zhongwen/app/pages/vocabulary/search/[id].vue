@@ -2,7 +2,7 @@
 import { pinyin } from "pinyin-pro";
 import { computed, ref, watch } from "vue";
 
-import { HanziStrokesOrder } from "~/components/hanzi-strokes-order";
+import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { Link } from "~/components/ui/link";
 import { useDictionaryModules } from "~/composables/useDictionaries";
 import type { Word } from "~/lib/types";

@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 
-import { HanziStrokesOrder } from "~/components/hanzi-strokes-order";
+import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { TTSPlayer } from "~/components/tts-player";
 import { Link } from "~/components/ui/link";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
