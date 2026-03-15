@@ -1,4 +1,4 @@
-import * as Minio from "minio";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 type S3Config = {
   endpoint: string;
@@ -8,30 +8,28 @@ type S3Config = {
 };
 
 export function createS3Client(config: S3Config) {
-  const client = new Minio.Client({
-    endPoint: config.endpoint,
-    port: 443,
-    useSSL: true,
-    accessKey: config.accessKey,
-    secretKey: config.secretKey,
+  const client = new S3Client({
+    endpoint: config.endpoint,
+    region: "auto",
+    credentials: {
+      accessKeyId: config.accessKey,
+      secretAccessKey: config.secretKey,
+    },
+    forcePathStyle: true,
   });
 
   return {
     async get(key: string): Promise<Buffer | null> {
       try {
-        const stream = await client.getObject(config.bucket, key);
-        return await new Promise<Buffer>((resolve, reject) => {
-          const chunks: Buffer[] = [];
-          stream.on("data", (chunk: Buffer) => chunks.push(chunk));
-          stream.on("end", () => resolve(Buffer.concat(chunks)));
-          stream.on("error", reject);
-        });
+        const res = await client.send(new GetObjectCommand({ Bucket: config.bucket, Key: key }));
+        const bytes = await res.Body?.transformToByteArray();
+        return bytes ? Buffer.from(bytes) : null;
       } catch (err: unknown) {
         if (
           err &&
           typeof err === "object" &&
-          "code" in err &&
-          (err as { code: string }).code === "NoSuchKey"
+          "name" in err &&
+          (err as { name: string }).name === "NoSuchKey"
         ) {
           return null;
         }
@@ -40,9 +38,14 @@ export function createS3Client(config: S3Config) {
     },
 
     async put(key: string, data: Buffer, contentType = "application/octet-stream"): Promise<void> {
-      await client.putObject(config.bucket, key, data, data.length, {
-        "Content-Type": contentType,
-      });
+      await client.send(
+        new PutObjectCommand({
+          Bucket: config.bucket,
+          Key: key,
+          Body: data,
+          ContentType: contentType,
+        }),
+      );
     },
   };
 }
