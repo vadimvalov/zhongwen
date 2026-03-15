@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.4...zhongwen/app-v0.2.5) (2026-03-15)
+
+
+### Code Refactoring
+
+* implement BackButton and apply where needed ([ad31bd6](https://github.com/vadimvalov/zhongwen/commit/ad31bd66e5f8bf8fef3a29afef1b55abbb3c9596))
+
 ## [0.2.4](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.3...zhongwen/app-v0.2.4) (2026-03-15)
 
 
