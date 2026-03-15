@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Card from "~/components/ui/Card.vue";
-import Link from "~/components/ui/Link.vue";
-import { getCardStyle } from "~/utils/cardStyles";
-import type { MainCard } from "~/utils/types";
+import { Card } from "~/components/ui/card";
+import { Link } from "~/components/ui/link";
+import { getCardStyle } from "~/lib/cardStyles";
+import type { MainCard } from "~/lib/types";
 
 const config = useRuntimeConfig();
 
@@ -38,7 +38,7 @@ const mainCards: MainCard[] = [
             :title="card.title"
             :description="card.description"
             :icon="card.icon"
-            :color="card.color"
+            :tone="card.tone"
             class="h-full"
           />
         </Link>
@@ -47,7 +47,7 @@ const mainCards: MainCard[] = [
           :title="card.title"
           :description="card.description"
           :icon="card.icon"
-          :color="card.color"
+          :tone="card.tone"
           class="h-full"
         />
       </template>

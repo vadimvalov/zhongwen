@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { useRoute } from "vue-router";
 
-import Button from "~/components/ui/Button.vue";
-import Checkbox from "~/components/ui/Checkbox.vue";
-import HanziStrokesOrder from "~/components/ui/HanziStrokesOrder.vue";
-import Link from "~/components/ui/Link.vue";
-import TTSPlayer from "~/components/ui/TTSPlayer.vue";
+import { HanziStrokesOrder } from "~/components/hanzi-strokes-order";
+import { TTSPlayer } from "~/components/tts-player";
+import { Link } from "~/components/ui/link";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
 import { useTextModules } from "~/composables/useTexts";
+import type { TextData, TextWord as Word, WordMode } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
-import type { TextData, TextWord as Word, WordMode } from "~/utils/types";
 
 const route = useRoute();
 const userStore = useUserStore();

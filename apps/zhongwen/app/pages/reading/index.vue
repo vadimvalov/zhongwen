@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
 
-import Button from "~/components/ui/Button.vue";
-import Card from "~/components/ui/Card.vue";
-import Link from "~/components/ui/Link.vue";
-import Select from "~/components/ui/Select.vue";
+import { Card } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Link } from "~/components/ui/link";
 import { useTextModules } from "~/composables/useTexts";
+import { getCardStyle } from "~/lib/cardStyles";
+import type { ReadingItem as Item, TextMeta } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
-import { getCardStyle } from "~/utils/cardStyles";
-import type { ReadingItem as Item, TextMeta } from "~/utils/types";
 
 const route = useRoute();
 const router = useRouter();
@@ -21,7 +19,7 @@ const items: Item[] = Object.entries(rawModules).map(([path, mod], index) => {
   const idWithExt = path.split("/").pop() || "";
   const id = idWithExt.replace(".json", "");
   const data = mod;
-  const { icon, color } = getCardStyle(index, "reading");
+  const { icon, tone } = getCardStyle(index, "reading");
 
   return {
     id,
@@ -29,7 +27,7 @@ const items: Item[] = Object.entries(rawModules).map(([path, mod], index) => {
     description: data.description,
     level: data.level,
     icon,
-    color,
+    tone,
   };
 });
 
@@ -146,13 +144,13 @@ watch(
           Texts to read with translations and stroke order.
         </p>
         <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
-          <input
+          <Input
             v-model="searchQuery"
             type="text"
             placeholder="Search text name"
-            class="w-full rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:border-accent focus:outline-none sm:w-56"
+            class="w-full sm:w-56"
           />
-          <Select
+          <MultiSelect
             v-model="selectedLevels"
             :options="levelOptions.map((l) => ({ label: l, value: l }))"
             class="w-full sm:w-40"
@@ -172,7 +170,7 @@ watch(
             :title="item.title"
             :description="item.description"
             :icon="item.icon"
-            :color="item.color"
+            :tone="item.tone"
             :read="userStore.isRead(item.id)"
             class="h-full"
           />

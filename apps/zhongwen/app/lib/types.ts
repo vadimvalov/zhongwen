@@ -22,12 +22,14 @@ export type TextData = {
 
 export type Result = "correct" | "incorrect";
 
+export type CardTone = "mint" | "lavender" | "sand" | "rose" | "seafoam";
+
 export type MainCard = {
   title: string;
   description: string;
   to: string | null;
   icon: string;
-  color: string;
+  tone: CardTone;
 };
 
 export type Theme = "light" | "dark";
@@ -44,7 +46,7 @@ export type ReadingItem = {
   description: string;
   level: string;
   icon: string;
-  color: string;
+  tone: CardTone;
 };
 
 export type SelectOption = {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 
-import AuthMenu from "~/components/ui/AuthMenu.vue";
+import { AuthMenu } from "~/components/auth-menu";
 import { useEscapeBack } from "~/composables/useEscapeBack";
 import { useUserStore } from "~/stores/user";
 

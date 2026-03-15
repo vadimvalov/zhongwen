@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { pinyin } from "pinyin-pro";
 import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
 
-import Button from "~/components/ui/Button.vue";
-import HanziStrokesOrder from "~/components/ui/HanziStrokesOrder.vue";
-import Link from "~/components/ui/Link.vue";
+import { HanziStrokesOrder } from "~/components/hanzi-strokes-order";
+import { Link } from "~/components/ui/link";
 import { useDictionaryModules } from "~/composables/useDictionaries";
-import type { Word } from "~/utils/types";
+import type { Word } from "~/lib/types";
 
 const route = useRoute();
 

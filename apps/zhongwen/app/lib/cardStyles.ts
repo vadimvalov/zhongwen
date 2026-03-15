@@ -1,6 +1,12 @@
-import type { CardIconSet } from "~/utils/types";
+import type { CardIconSet, CardTone } from "~/lib/types";
 
-export const CARD_COLORS = ["#b5ead7", "#c7b8ea", "#e8d5b7", "#f4c2c2", "#d7ebe9"] as const;
+export const CARD_TONES = [
+  "mint",
+  "lavender",
+  "sand",
+  "rose",
+  "seafoam",
+] as const satisfies readonly CardTone[];
 
 export const CARD_ICON_SETS = {
   reading: [
@@ -23,10 +29,10 @@ export const CARD_ICON_SETS = {
 export function getCardStyle(
   index: number,
   iconSet: CardIconSet = "reading",
-): { icon: string; color: string } {
+): { icon: string; tone: CardTone } {
   const icons = CARD_ICON_SETS[iconSet];
   return {
     icon: icons[index % icons.length] ?? icons[0],
-    color: CARD_COLORS[index % CARD_COLORS.length] ?? CARD_COLORS[0],
+    tone: CARD_TONES[index % CARD_TONES.length] ?? CARD_TONES[0],
   };
 }
