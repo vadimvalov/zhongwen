@@ -1,0 +1,31 @@
+{
+  "name": "@zhongwen/app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "catalog:",
+    "@iconify/vue": "^5.0.0",
+    "@pinia/nuxt": "^0.11.2",
+    "ai": "catalog:",
+    "clsx": "^2.1.1",
+    "minio": "^8.0.7",
+    "nuxt": "catalog:",
+    "pinia": "^3.0.4",
+    "pinyin-pro": "^3.26.0",
+    "tailwind-merge": "^3.5.0",
+    "vue": "^3.5.30",
+    "vue-router": "^5.0.3"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "tailwindcss": "catalog:"
+  }
+}
