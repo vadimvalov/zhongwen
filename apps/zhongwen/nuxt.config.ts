@@ -4,7 +4,7 @@ import appPackage from "./package.json" with { type: "json" };
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss"],
+  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "@nuxthub/core"],
   ssr: false,
   runtimeConfig: {
     openaiApiKey: "",
@@ -19,12 +19,11 @@ export default defineNuxtConfig({
       version: (appPackage as { version?: string }).version ?? "0.0.0",
     },
   },
+  hub: {},
   app: {
     head: {
       title: "中文",
-      meta: [
-        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      ],
+      meta: [{ name: "viewport", content: "width=device-width, initial-scale=1.0" }],
       link: [{ rel: "icon", href: "/favicon.ico" }],
     },
   },

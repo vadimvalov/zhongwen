@@ -8,25 +8,33 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@ai-sdk/openai": "catalog:",
     "@elevenlabs/elevenlabs-js": "catalog:",
     "@iconify/vue": "^5.0.0",
+    "@nuxthub/core": "^0.9.0",
     "@pinia/nuxt": "^0.11.2",
     "ai": "catalog:",
     "aws4fetch": "catalog:",
+    "better-auth": "^1.2.7",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.43.1",
     "nuxt": "catalog:",
     "pinia": "^3.0.4",
     "pinyin-pro": "^3.26.0",
+    "postgres": "^3.4.7",
     "tailwind-merge": "^3.5.0",
     "vue": "^3.5.30",
     "vue-router": "^5.0.3"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "catalog:",
+    "drizzle-kit": "^0.31.0",
     "tailwindcss": "catalog:"
   }
 }
