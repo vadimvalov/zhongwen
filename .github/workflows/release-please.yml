@@ -31,5 +31,6 @@ jobs:
     needs: release-please
     if: ${{ needs.release-please.outputs.release-created == 'true' }}
     uses: ./.github/workflows/docker-build.yml
+    secrets: inherit
     with:
       version: ${{ needs.release-please.outputs.version }}

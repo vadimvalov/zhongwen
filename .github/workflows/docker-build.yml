@@ -6,6 +6,13 @@ on:
       version:
         required: false
         type: string
+    secrets:
+      SERVER_HOST:
+        required: false
+      SERVER_USER:
+        required: false
+      SSH_PRIVATE_KEY:
+        required: false
   push:
     branches: [main]
 
