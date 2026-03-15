@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.1.0...zhongwen/app-v0.1.1) (2026-03-15)
+
+
+### Miscellaneous Chores
+
+* update ftm ([b35a4a9](https://github.com/vadimvalov/zhongwen/commit/b35a4a9af4f56a7a4384e541af2d1a2667d07790))
+* update package.json ([e66d66b](https://github.com/vadimvalov/zhongwen/commit/e66d66bddadb0f6de60e0d9abe106775b8518fc6))
+
 ## [0.1.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.0.3...zhongwen/app-v0.1.0) (2026-03-15)
 
 
