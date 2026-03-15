@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.1.1...zhongwen/app-v0.2.0) (2026-03-15)
+
+
+### Features
+
+* add auth ([#7](https://github.com/vadimvalov/zhongwen/issues/7)) ([0b52247](https://github.com/vadimvalov/zhongwen/commit/0b52247586322b8a4dfdc9b8c7ef54b64f33d30d))
+* add informational footer ([82e4f16](https://github.com/vadimvalov/zhongwen/commit/82e4f16dc5b2cd55256e43466a91e08622ce98ad))
+* update app ([e71f0d1](https://github.com/vadimvalov/zhongwen/commit/e71f0d1f605027cc3523a3e791aed6594334988f))
+* use shadcn-vue ([#8](https://github.com/vadimvalov/zhongwen/issues/8)) ([b820f9c](https://github.com/vadimvalov/zhongwen/commit/b820f9c0a48e07e948730e46222fdb7336a9250d))
+
+
+### Bug Fixes
+
+* formatting ([a510497](https://github.com/vadimvalov/zhongwen/commit/a510497c17298ca1f7c9e419c3e237c14af5efb9))
+* resolve void's ([c3cb9ce](https://github.com/vadimvalov/zhongwen/commit/c3cb9cea23dd7b2a622e0d2c46518459aeb8fa68))
+* return favicon ([277addd](https://github.com/vadimvalov/zhongwen/commit/277addd9991afbaffb74e69d477dcfa76c9e01e0))
+
+
+### Miscellaneous Chores
+
+* add version of the project to the footer ([9d266e2](https://github.com/vadimvalov/zhongwen/commit/9d266e2be01605d76fb4bae3ffec7246932df897))
+* trigger build ([84685e4](https://github.com/vadimvalov/zhongwen/commit/84685e48b83fd2234de7c9129096bb2d0ae23dda))
+
+
+### Code Refactoring
+
+* remove multi-select ([587b611](https://github.com/vadimvalov/zhongwen/commit/587b6110bfc22c184b2d783f5748616d3268c751))
+* remove useless $fetch generics ([010ca74](https://github.com/vadimvalov/zhongwen/commit/010ca747b00869a32a8f50e6e0c71f835f66492c))
+
 ## [0.1.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.1.0...zhongwen/app-v0.1.1) (2026-03-15)
 
 
