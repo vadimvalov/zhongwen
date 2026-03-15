@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.0...zhongwen/app-v0.2.1) (2026-03-15)
+
+
+### Miscellaneous Chores
+
+* remove nuxt-hub ([03652a2](https://github.com/vadimvalov/zhongwen/commit/03652a277924c3cbc28a058795fbeca7f404e38b))
+* update Dockerfile ([a8231c0](https://github.com/vadimvalov/zhongwen/commit/a8231c056f70027dc08e0c158fddc4b5cec20883))
+* update Dockerfile ([5de9fd7](https://github.com/vadimvalov/zhongwen/commit/5de9fd7cc6df0a282ee3f98075835453e25ffb23))
+
 ## [0.2.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.1.1...zhongwen/app-v0.2.0) (2026-03-15)
 
 
