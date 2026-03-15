@@ -2,8 +2,8 @@
 import { Icon } from "@iconify/vue";
 import { computed, onUnmounted, ref, watch } from "vue";
 
+import { cn } from "@/lib/utils";
 import { useHasElevenLabs } from "~/composables/useElevenLabs";
-import { cn } from "~/utils/cn";
 
 const props = defineProps<{
   title: string;

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 
+import { Button } from "~/components/ui/button";
 import { authClient, useAuth } from "~/composables/useAuth";
+import type { CardTone } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
 
 const { user, isPending } = useAuth();
@@ -33,11 +35,25 @@ const initials = computed(() => {
 
 const readCount = computed(() => userStore.readTextIds.size);
 
-const stats = computed(() => [
-  { label: "Texts read", value: readCount.value, icon: "lucide:book-open", color: "#b5ead7" },
-  { label: "Streak", value: "—", icon: "lucide:flame", color: "#f4c2c2" },
-  { label: "Words saved", value: "—", icon: "lucide:bookmark", color: "#c7b8ea" },
+type DashboardStat = {
+  label: string;
+  value: number | string;
+  icon: string;
+  tone: CardTone;
+};
+
+const stats = computed<DashboardStat[]>(() => [
+  { label: "Texts read", value: readCount.value, icon: "lucide:book-open", tone: "mint" },
+  { label: "Streak", value: "—", icon: "lucide:flame", tone: "rose" },
+  { label: "Words saved", value: "—", icon: "lucide:bookmark", tone: "lavender" },
 ]);
+
+const navItems = [
+  { to: "/", label: "Home", icon: "lucide:house" },
+  { to: "/reading", label: "Reading", icon: "lucide:book-open-text" },
+  { to: "/vocabulary", label: "Vocabulary", icon: "lucide:library" },
+  { to: "/speaking", label: "Speaking", icon: "lucide:mic" },
+] as const;
 
 async function signOut() {
   await authClient.signOut();
@@ -49,9 +65,11 @@ async function signOut() {
   <div class="flex min-h-screen flex-col items-center px-4 py-16">
     <div class="w-full max-w-sm space-y-6">
       <!-- Profile -->
-      <div class="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <div
+        class="flex items-center gap-4 rounded-2xl border border-white/25 bg-card p-5 shadow-[0_18px_40px_rgb(0_0_0_/_0.18),inset_0_1px_0_rgb(255_255_255_/_0.04)]"
+      >
         <div
-          class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted text-foreground"
+          class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-muted text-foreground"
         >
           <img
             v-if="user?.image"
@@ -72,44 +90,90 @@ async function signOut() {
         <div
           v-for="stat in stats"
           :key="stat.label"
-          class="flex flex-col gap-2 rounded-2xl p-4"
-          :style="{ backgroundColor: stat.color }"
+          class="dashboard-stat flex flex-col gap-2 rounded-2xl p-4"
+          :data-tone="stat.tone"
         >
-          <Icon :icon="stat.icon" class="text-xl text-black/60" />
+          <Icon :icon="stat.icon" class="dashboard-stat__icon text-xl" />
           <div>
-            <p class="text-lg leading-none font-bold text-black">{{ stat.value }}</p>
-            <p class="mt-0.5 text-xs text-black/50">{{ stat.label }}</p>
+            <p class="dashboard-stat__value text-lg leading-none font-bold">{{ stat.value }}</p>
+            <p class="dashboard-stat__label mt-0.5 text-xs">{{ stat.label }}</p>
           </div>
         </div>
       </div>
 
       <!-- Navigation -->
-      <div class="space-y-2">
-        <NuxtLink
-          v-for="item in [
-            { to: '/', label: 'Home', icon: 'lucide:house' },
-            { to: '/reading', label: 'Reading', icon: 'lucide:book-open-text' },
-            { to: '/vocabulary', label: 'Vocabulary', icon: 'lucide:library' },
-            { to: '/speaking', label: 'Speaking', icon: 'lucide:mic' },
-          ]"
+      <div class="space-y-2.5">
+        <Button
+          v-for="item in navItems"
           :key="item.to"
-          :to="item.to"
-          class="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+          as-child
+          variant="outline"
+          size="lg"
+          class="dashboard-action w-full justify-start rounded-2xl border-border bg-card px-4 text-left text-sm font-semibold text-foreground"
         >
-          <Icon :icon="item.icon" class="text-base text-muted-foreground" />
-          {{ item.label }}
-        </NuxtLink>
+          <NuxtLink :to="item.to">
+            <Icon :icon="item.icon" class="text-base text-muted-foreground" />
+            {{ item.label }}
+          </NuxtLink>
+        </Button>
       </div>
 
       <!-- Sign out -->
-      <button
-        type="button"
-        class="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      <Button
+        variant="outline"
+        size="lg"
+        class="dashboard-action mt-5 w-full rounded-2xl border-border bg-card text-sm font-semibold text-muted-foreground"
         @click="signOut"
       >
         <Icon icon="lucide:log-out" class="text-base" />
         Sign out
-      </button>
+      </Button>
     </div>
   </div>
 </template>
+
+<style scoped>
+.dashboard-stat {
+  background-color: var(--card-tone-bg);
+}
+
+.dashboard-stat[data-tone="mint"] {
+  --card-tone-bg: var(--surface-card-mint);
+}
+
+.dashboard-stat[data-tone="lavender"] {
+  --card-tone-bg: var(--surface-card-lavender);
+}
+
+.dashboard-stat[data-tone="sand"] {
+  --card-tone-bg: var(--surface-card-sand);
+}
+
+.dashboard-stat[data-tone="rose"] {
+  --card-tone-bg: var(--surface-card-rose);
+}
+
+.dashboard-stat[data-tone="seafoam"] {
+  --card-tone-bg: var(--surface-card-seafoam);
+}
+
+.dashboard-stat__icon {
+  color: var(--surface-card-foreground-soft);
+}
+
+.dashboard-stat__value {
+  color: var(--surface-card-foreground);
+}
+
+.dashboard-stat__label {
+  color: var(--surface-card-foreground-muted);
+}
+
+.dashboard-action {
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset;
+}
+
+.dashboard-action:hover {
+  transform: translateY(-1px);
+}
+</style>

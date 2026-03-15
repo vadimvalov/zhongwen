@@ -2,7 +2,7 @@
 import { computed, type HTMLAttributes } from "vue";
 import type { RouteLocationRaw } from "vue-router";
 
-import { cn } from "~/utils/cn";
+import { cn } from "@/lib/utils";
 
 const props = withDefaults(
   defineProps<{

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
 
-import Button from "~/components/ui/Button.vue";
-import Card from "~/components/ui/Card.vue";
-import Link from "~/components/ui/Link.vue";
+import { Card } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Link } from "~/components/ui/link";
 import { useDictionaryModules } from "~/composables/useDictionaries";
-import { getCardStyle } from "~/utils/cardStyles";
-import { formatDictName } from "~/utils/formatters";
+import { getCardStyle } from "~/lib/cardStyles";
+import { formatDictName } from "~/lib/formatters";
 
 const modules = useDictionaryModules();
 
@@ -18,12 +17,12 @@ const dictionaries = computed(() => {
   return Object.entries(modules).map(([path], index) => {
     const filename = path.split("/").pop() || "";
     const id = filename.replace(".json", "");
-    const { icon, color } = getCardStyle(index, "vocabulary");
+    const { icon, tone } = getCardStyle(index, "vocabulary");
     return {
       id,
       title: formatDictName(filename),
       icon,
-      color,
+      tone,
     };
   });
 });
@@ -62,13 +61,13 @@ function handleSearch() {
         </p>
         <form class="flex flex-col gap-2" @submit.prevent="handleSearch">
           <div class="flex gap-2">
-            <input
+            <Input
               v-model="searchQuery"
               type="text"
               inputmode="text"
               autocomplete="off"
               placeholder="Search word (hanzi)..."
-              class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-accent/60 focus:outline-none"
+              class="flex-1"
             />
             <Button
               type="submit"
@@ -100,7 +99,7 @@ function handleSearch() {
             :title="dict.title"
             :description="`View ${dict.title} word list`"
             :icon="dict.icon"
-            :color="dict.color"
+            :tone="dict.tone"
             class="h-full"
           />
         </Link>

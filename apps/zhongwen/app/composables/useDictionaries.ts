@@ -1,4 +1,4 @@
-import type { Word } from "~/utils/types";
+import type { Word } from "~/lib/types";
 
 export function useDictionaryModules() {
   return import.meta.glob("../assets/dictionaries/*.json", {

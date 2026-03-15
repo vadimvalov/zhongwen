@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
 
-import Button from "~/components/ui/Button.vue";
-import HanziStrokesOrder from "~/components/ui/HanziStrokesOrder.vue";
-import Link from "~/components/ui/Link.vue";
+import { HanziStrokesOrder } from "~/components/hanzi-strokes-order";
+import { Link } from "~/components/ui/link";
 import { useDictionaryModules } from "~/composables/useDictionaries";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
-import { formatDictName } from "~/utils/formatters";
-import type { Word } from "~/utils/types";
+import { formatDictName } from "~/lib/formatters";
+import type { Word } from "~/lib/types";
 
 const route = useRoute();
 const hasElevenLabs = useHasElevenLabs();
@@ -152,7 +150,8 @@ async function handleSpeak(word: Word, index: number) {
         </div>
 
         <p v-if="!hasElevenLabs" class="text-xs text-muted-foreground sm:text-sm">
-          Add <code class="rounded bg-muted px-1">NUXT_ELEVENLABS_API_KEY</code> to your
+          Add
+          <code class="rounded bg-muted px-1">NUXT_ELEVENLABS_API_KEY</code> to your
           <code class="rounded bg-muted px-1">.env</code> to enable audio playback.
         </p>
       </div>

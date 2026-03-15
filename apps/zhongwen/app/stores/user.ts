@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 
-import type { Theme } from "~/utils/types";
+import type { Theme } from "~/lib/types";
 
 const THEME_KEY = "zhongwen-theme";
 const READ_TEXTS_KEY = "zhongwen-read-texts";
@@ -87,6 +87,7 @@ export const useUserStore = defineStore("user", () => {
     theme,
     (v) => {
       if (typeof document !== "undefined") {
+        document.documentElement.classList.toggle("dark", v === "dark");
         document.documentElement.setAttribute("data-theme", v);
       }
     },

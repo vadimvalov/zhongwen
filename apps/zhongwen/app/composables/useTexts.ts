@@ -1,4 +1,4 @@
-import type { TextData } from "~/utils/types";
+import type { TextData } from "~/lib/types";
 
 export function useTextModules() {
   return import.meta.glob("../assets/texts/*.json", {

@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
 
-import Button from "~/components/ui/Button.vue";
-import Card from "~/components/ui/Card.vue";
-import Link from "~/components/ui/Link.vue";
+import { Card } from "~/components/ui/card";
+import { Link } from "~/components/ui/link";
 import { useDictionaryModules } from "~/composables/useDictionaries";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
-import { getCardStyle } from "~/utils/cardStyles";
-import { formatDictName } from "~/utils/formatters";
-import type { Result, Word } from "~/utils/types";
+import { getCardStyle } from "~/lib/cardStyles";
+import { formatDictName } from "~/lib/formatters";
+import type { Result, Word } from "~/lib/types";
 
 import { transcribeChineseSpeech } from "./lib/transcribeChineseSpeech";
 
@@ -52,12 +50,12 @@ const dictionaries = computed(() => {
   return Object.entries(modules).map(([path], index) => {
     const filename = path.split("/").pop() || "";
     const id = filename.replace(".json", "");
-    const { icon, color } = getCardStyle(index, "vocabulary");
+    const { icon, tone } = getCardStyle(index, "vocabulary");
     return {
       id,
       title: formatDictName(id),
       icon,
-      color,
+      tone,
     };
   });
 });
@@ -259,7 +257,7 @@ function reveal() {
             :title="mode.title"
             :description="mode.description"
             :icon="mode.icon"
-            :color="mode.color"
+            :tone="mode.tone"
             class="h-full"
           />
         </Link>
@@ -289,7 +287,7 @@ function reveal() {
             :title="dict.title"
             :description="`Practise ${dict.title} words`"
             :icon="dict.icon"
-            :color="dict.color"
+            :tone="dict.tone"
             class="h-full"
           />
         </Link>
