@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.1...zhongwen/app-v0.2.2) (2026-03-15)
+
+
+### Miscellaneous Chores
+
+* remove check for elevenlaps api key ([f976f08](https://github.com/vadimvalov/zhongwen/commit/f976f082d971d3755c542eab047fd82392165e0b))
+
 ## [0.2.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.0...zhongwen/app-v0.2.1) (2026-03-15)
 
 
