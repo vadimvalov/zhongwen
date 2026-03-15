@@ -4,7 +4,7 @@ import appPackage from "./package.json" with { type: "json" };
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "@nuxthub/core", "shadcn-nuxt", "@vueuse/nuxt"],
+  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "shadcn-nuxt", "@vueuse/nuxt"],
   ssr: false,
   runtimeConfig: {
     openaiApiKey: "",
@@ -19,7 +19,6 @@ export default defineNuxtConfig({
       version: (appPackage as { version?: string }).version ?? "0.0.0",
     },
   },
-  hub: {},
   app: {
     head: {
       title: "中文",
