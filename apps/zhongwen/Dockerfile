@@ -15,6 +15,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/zhongwen/node_modules ./apps/zhongwen/node_modules
 COPY . .
+ENV NITRO_PRESET=node_server
 RUN pnpm --filter @zhongwen/app build
 
 FROM node:22-alpine AS runner
