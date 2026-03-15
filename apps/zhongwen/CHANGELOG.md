@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.2...zhongwen/app-v0.2.3) (2026-03-15)
+
+
+### Miscellaneous Chores
+
+* migrate on run ([1774f3b](https://github.com/vadimvalov/zhongwen/commit/1774f3b7e013990a829fb65e48b0977fe8737f71))
+
 ## [0.2.2](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.1...zhongwen/app-v0.2.2) (2026-03-15)
 
 
