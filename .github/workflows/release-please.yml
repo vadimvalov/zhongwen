@@ -21,4 +21,4 @@ jobs:
         with:
           config-file: .release-please/config.json
           manifest-file: .release-please/manifest.json
-          token: ${{ secrets.CI_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
