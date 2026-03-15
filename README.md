@@ -30,7 +30,7 @@ vp run dev
 
 ## Local Infra
 
-Start Postgres and Hatchet Lite from the repo root:
+Start MinIO from the repo root:
 
 ```bash
 docker compose up -d
@@ -38,8 +38,21 @@ docker compose up -d
 
 This compose file provisions:
 
-- `postgres` on `localhost:5432`
-- `circles_dev` for the backend app using `postgres://circles:password@127.0.0.1:5432/circles_dev`
-- `hatchet-lite` on `localhost:8888` and gRPC on `localhost:7077`
+- `minio` S3-compatible storage on `localhost:9000`
+- MinIO Console on `localhost:9001` (login: `minioadmin` / `minioadmin`)
 
-For the backend worker, set `HATCHET_CLIENT_TOKEN` in `apps/backend/.env`. If your Hatchet client needs explicit self-hosted settings, also set `HATCHET_SERVER_URL=http://127.0.0.1:8888` and `HATCHET_CLIENT_TLS_STRATEGY=none`.
+After starting, create a bucket via the console at http://localhost:9001 or with the MinIO client:
+
+```bash
+mc alias set local http://localhost:9000 minioadmin minioadmin
+mc mb local/zhongwen
+```
+
+Then configure `apps/zhongwen/.env` with:
+
+```env
+NUXT_S3_ENDPOINT=http://localhost:9000
+NUXT_S3_ACCESS_KEY=minioadmin
+NUXT_S3_SECRET_KEY=minioadmin
+NUXT_S3_BUCKET=zhongwen
+```
