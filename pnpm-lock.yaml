@@ -12,6 +12,9 @@ catalogs:
     '@aws-sdk/client-s3':
       specifier: ^3.1009.0
       version: 3.1009.0
+    '@elevenlabs/elevenlabs-js':
+      specifier: ^2.39.0
+      version: 2.39.0
     '@nuxtjs/tailwindcss':
       specifier: 7.0.0-beta.1
       version: 7.0.0-beta.1
@@ -51,6 +54,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: 'catalog:'
         version: 3.1009.0
+      '@elevenlabs/elevenlabs-js':
+        specifier: 'catalog:'
+        version: 2.39.0
       '@iconify/vue':
         specifier: ^5.0.0
         version: 5.0.0(vue@3.5.30(typescript@5.9.3))
@@ -449,6 +455,10 @@ packages:
 
   '@dxup/unimport@0.1.2':
     resolution: {integrity: sha512-/B8YJGPzaYq1NbsQmwgP8EZqg40NpTw4ZB3suuI0TplbxKHeK94jeaawLmVhCv+YwUnOpiWEz9U6SeThku/8JQ==}
+
+  '@elevenlabs/elevenlabs-js@2.39.0':
+    resolution: {integrity: sha512-Yfh2wa5Y7wwoEHi2Na1YWrkc3z21oeHMo8qhGc5kcbQoWfgQfIxWuGfXHZSmUXOJz0mNL5bAfp3hHaJEX68DIA==}
+    engines: {node: '>=18.0.0'}
 
   '@emnapi/core@1.9.0':
     resolution: {integrity: sha512-0DQ98G9ZQZOxfUcQn1waV2yS8aWdZ6kJMbYCJB3oUBecjWYO1fqJ+a1DRfPF3O5JEkwqwP1A9QEN/9mYm2Yd0w==}
@@ -2729,6 +2739,9 @@ packages:
 
   colord@2.9.3:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
+
+  command-exists@1.2.9:
+    resolution: {integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==}
 
   commander@11.1.0:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
@@ -5438,6 +5451,16 @@ snapshots:
 
   '@dxup/unimport@0.1.2': {}
 
+  '@elevenlabs/elevenlabs-js@2.39.0':
+    dependencies:
+      command-exists: 1.2.9
+      node-fetch: 2.7.0
+      ws: 8.19.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+
   '@emnapi/core@1.9.0':
     dependencies:
       '@emnapi/wasi-threads': 1.2.0
@@ -7495,6 +7518,8 @@ snapshots:
   color-name@1.1.4: {}
 
   colord@2.9.3: {}
+
+  command-exists@1.2.9: {}
 
   commander@11.1.0: {}
 

@@ -1,3 +1,4 @@
+import { createElevenLabsClient } from "../utils/elevenlabs";
 import { createS3Client } from "../utils/s3";
 
 type TtsBody = {
@@ -12,6 +13,7 @@ function getObjectKey(text: string, slug?: string): string {
 
 const VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
 const MODEL_ID = "eleven_multilingual_v2";
+const OUTPUT_FORMAT = "mp3_44100_128";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
@@ -49,30 +51,8 @@ export default defineEventHandler(async (event) => {
     console.warn("[TTS] S3 read error:", err);
   }
 
-  const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "xi-api-key": apiKey,
-    },
-    body: JSON.stringify({
-      text,
-      model_id: MODEL_ID,
-      voice_settings: { speed: 1 },
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw createError({
-      statusCode: res.status,
-      statusMessage: (err as { detail?: { message?: string } })?.detail?.message ?? res.statusText,
-    });
-  }
-
-  const arrayBuffer = await res.arrayBuffer();
-  const audioBuffer = Buffer.from(arrayBuffer);
+  const elevenlabs = createElevenLabsClient(apiKey);
+  const audioBuffer = await elevenlabs.textToSpeech(VOICE_ID, text, MODEL_ID, OUTPUT_FORMAT);
 
   if (s3) {
     void s3
