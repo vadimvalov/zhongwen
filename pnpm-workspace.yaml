@@ -15,8 +15,10 @@ catalog:
   "@tailwindcss/vite": ^4.2.1
   "@types/node": ^24
   ai: ^6.0.116
+  aws4fetch: ^1.0.20
   nuxt: ^4.4.2
   tailwindcss: ^4.2.1
+  tslib: ^2.8.1
   typescript: ^5
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vite-plus: latest
