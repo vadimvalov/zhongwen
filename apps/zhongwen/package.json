@@ -27,5 +27,6 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "catalog:",
     "tailwindcss": "catalog:"
-  }
+  },
+  "version": "0.1.0"
 }
