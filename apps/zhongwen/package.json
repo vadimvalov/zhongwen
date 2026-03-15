@@ -2,6 +2,7 @@
   "name": "@zhongwen/app",
   "private": true,
   "type": "module",
+  "version": "0.1.0",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -27,6 +28,5 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "catalog:",
     "tailwindcss": "catalog:"
-  },
-  "version": "0.1.0"
+  }
 }
