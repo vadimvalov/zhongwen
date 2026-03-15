@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
 import Button from "~/components/ui/Button.vue";
 import Card from "~/components/ui/Card.vue";
 import Link from "~/components/ui/Link.vue";
 import Select from "~/components/ui/Select.vue";
-import { useUserStore } from "~/stores/user";
 import { useTextModules } from "~/composables/useTexts";
+import { useUserStore } from "~/stores/user";
 import { getCardStyle } from "~/utils/cardStyles";
 import type { ReadingItem as Item, TextMeta } from "~/utils/types";
 
@@ -132,7 +133,7 @@ watch(
 </script>
 
 <template>
-  <div class="min-h-screen py-8 px-4 flex flex-col items-center">
+  <div class="flex min-h-screen flex-col items-center px-4 py-8">
     <div class="w-full max-w-4xl">
       <div class="mb-4 flex items-center gap-3">
         <Link to="/" :hover="true" class="shrink-0">
@@ -159,7 +160,7 @@ watch(
           />
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+      <div class="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4">
         <Link
           v-for="item in paginatedItems"
           :key="item.id"
@@ -190,7 +191,7 @@ watch(
         >
           ← Prev
         </Button>
-        <span class="text-sm text-muted-foreground px-2">
+        <span class="px-2 text-sm text-muted-foreground">
           {{ currentPage }} / {{ totalPages }}
         </span>
         <Button

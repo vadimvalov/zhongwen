@@ -27,9 +27,9 @@ const mainCards: MainCard[] = [
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen py-8 px-4">
-    <h1 class="text-2xl font-semibold text-foreground mb-6">大家好</h1>
-    <div class="grid grid-cols-2 gap-3 w-full max-w-sm">
+  <div class="flex min-h-screen flex-col items-center justify-center px-4 py-8">
+    <h1 class="mb-6 text-2xl font-semibold text-foreground">大家好</h1>
+    <div class="grid w-full max-w-sm grid-cols-2 gap-3">
       <template v-for="card in mainCards" :key="card.title">
         <Link v-if="card.to" :to="card.to" class="block" :hover="true">
           <Card

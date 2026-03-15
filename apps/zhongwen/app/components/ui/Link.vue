@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, type HTMLAttributes } from "vue";
 import type { RouteLocationRaw } from "vue-router";
+
 import { cn } from "~/utils/cn";
 
 const props = withDefaults(

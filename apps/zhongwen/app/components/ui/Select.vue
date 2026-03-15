@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, type HTMLAttributes } from "vue";
-import type { SelectOption as Option } from "~/utils/types";
+
 import { cn } from "~/utils/cn";
+import type { SelectOption as Option } from "~/utils/types";
 
 const props = withDefaults(
   defineProps<{

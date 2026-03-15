@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
-import { Icon } from "@iconify/vue";
+
 import Button from "~/components/ui/Button.vue";
 import HanziStrokesOrder from "~/components/ui/HanziStrokesOrder.vue";
 import Link from "~/components/ui/Link.vue";
@@ -52,9 +53,9 @@ async function handleSpeak(word: Word, index: number) {
 </script>
 
 <template>
-  <div class="min-h-screen py-4 px-3 sm:py-8 sm:px-4 flex flex-col items-center">
+  <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
     <div class="w-full max-w-4xl">
-      <p v-if="!words.length" class="text-xs sm:text-sm text-muted-foreground">
+      <p v-if="!words.length" class="text-xs text-muted-foreground sm:text-sm">
         Dictionary not found.
       </p>
       <div v-else class="space-y-3 sm:space-y-4">
@@ -62,65 +63,65 @@ async function handleSpeak(word: Word, index: number) {
           <Link to="/vocabulary" :hover="true" class="shrink-0">
             <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
           </Link>
-          <h1 class="text-xl sm:text-2xl font-semibold text-foreground">
+          <h1 class="text-xl font-semibold text-foreground sm:text-2xl">
             {{ dictTitle }}
           </h1>
         </div>
 
-        <div class="rounded-lg border border-border overflow-hidden">
+        <div class="overflow-hidden rounded-lg border border-border">
           <div class="overflow-x-auto">
             <table class="w-full min-w-md border-collapse">
               <thead>
                 <tr class="bg-muted/50">
                   <th
-                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
                   >
                     Hanzi
                   </th>
                   <th
-                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
                   >
                     Pinyin
                   </th>
                   <th
-                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
                   >
                     Translation
                   </th>
                   <th
-                    class="text-left px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-muted-foreground"
+                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
                   >
                     Strokes
                   </th>
-                  <th class="w-9 sm:w-12 px-2 sm:px-4 py-2 sm:py-3"></th>
+                  <th class="w-9 px-2 py-2 sm:w-12 sm:px-4 sm:py-3"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   v-for="(word, index) in words"
                   :key="index"
-                  class="border-t border-border hover:bg-muted/30 transition-colors"
+                  class="border-t border-border transition-colors hover:bg-muted/30"
                 >
                   <td
-                    class="px-2 sm:px-4 py-2 sm:py-3 text-base sm:text-xl text-foreground font-medium"
+                    class="px-2 py-2 text-base font-medium text-foreground sm:px-4 sm:py-3 sm:text-xl"
                   >
                     {{ word.hanzi }}
                   </td>
-                  <td class="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-base text-muted-foreground">
+                  <td class="px-2 py-2 text-xs text-muted-foreground sm:px-4 sm:py-3 sm:text-base">
                     {{ word.pinyin }}
                   </td>
-                  <td class="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-base text-foreground">
+                  <td class="px-2 py-2 text-xs text-foreground sm:px-4 sm:py-3 sm:text-base">
                     {{ word.translation }}
                   </td>
-                  <td class="px-2 sm:px-4 py-2 sm:py-3">
+                  <td class="px-2 py-2 sm:px-4 sm:py-3">
                     <div
-                      class="flex gap-0.5 sm:gap-1 shrink-0 flex-nowrap scale-75 sm:scale-100 origin-left"
+                      class="flex shrink-0 origin-left scale-75 flex-nowrap gap-0.5 sm:scale-100 sm:gap-1"
                     >
                       <button
                         v-for="(char, charIndex) in word.hanzi.split('')"
                         :key="`${word.hanzi}-${charIndex}`"
                         type="button"
-                        class="rounded focus:outline-none focus:ring-2 focus:ring-accent/50"
+                        class="rounded focus:ring-2 focus:ring-accent/50 focus:outline-none"
                         :aria-label="`Open stroke order for ${char}`"
                         @click="openStrokeModal(char)"
                       >
@@ -128,10 +129,10 @@ async function handleSpeak(word: Word, index: number) {
                       </button>
                     </div>
                   </td>
-                  <td class="px-2 sm:px-4 py-2 sm:py-3">
+                  <td class="px-2 py-2 sm:px-4 sm:py-3">
                     <button
                       type="button"
-                      class="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-border bg-card text-foreground hover:bg-muted transition-colors disabled:opacity-50 shrink-0"
+                      class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-muted disabled:opacity-50 sm:h-9 sm:w-9"
                       :disabled="!hasElevenLabs || speakingIndex === index"
                       :aria-label="`Play pronunciation for ${word.hanzi}`"
                       @click="handleSpeak(word, index)"
@@ -139,7 +140,7 @@ async function handleSpeak(word: Word, index: number) {
                       <Icon
                         v-if="speakingIndex === index"
                         icon="mdi:loading"
-                        class="h-4 w-4 sm:h-5 sm:w-5 animate-spin"
+                        class="h-4 w-4 animate-spin sm:h-5 sm:w-5"
                       />
                       <Icon v-else icon="lucide:volume-2" class="h-4 w-4 sm:h-5 sm:w-5" />
                     </button>
@@ -150,7 +151,7 @@ async function handleSpeak(word: Word, index: number) {
           </div>
         </div>
 
-        <p v-if="!hasElevenLabs" class="text-xs sm:text-sm text-muted-foreground">
+        <p v-if="!hasElevenLabs" class="text-xs text-muted-foreground sm:text-sm">
           Add <code class="rounded bg-muted px-1">NUXT_ELEVENLABS_API_KEY</code> to your
           <code class="rounded bg-muted px-1">.env</code> to enable audio playback.
         </p>
@@ -163,7 +164,7 @@ async function handleSpeak(word: Word, index: number) {
       @click.self="closeStrokeModal"
     >
       <div class="relative flex items-center justify-center">
-        <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="rounded-2xl h-48 w-48" />
+        <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="h-48 w-48 rounded-2xl" />
       </div>
     </div>
   </div>

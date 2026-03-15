@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes, InputHTMLAttributes } from "vue";
+
 import { cn } from "~/utils/cn";
 
 const props = withDefaults(
@@ -30,7 +31,7 @@ function onChange(event: Event) {
   <label
     :class="
       cn(
-        'inline-flex items-center gap-2 text-muted-foreground cursor-pointer select-none',
+        'inline-flex cursor-pointer items-center gap-2 text-muted-foreground select-none',
         props.class,
       )
     "

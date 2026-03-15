@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
 import { pinyin } from "pinyin-pro";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+
 import Button from "~/components/ui/Button.vue";
 import HanziStrokesOrder from "~/components/ui/HanziStrokesOrder.vue";
 import Link from "~/components/ui/Link.vue";
@@ -156,15 +157,15 @@ function closeStrokeModal() {
 </script>
 
 <template>
-  <div class="min-h-screen py-4 px-3 sm:py-8 sm:px-4 flex flex-col items-center">
+  <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
     <div class="w-full max-w-3xl space-y-6 sm:space-y-8">
       <div class="flex items-center gap-2 sm:gap-3">
         <Link to="/vocabulary" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
         <div>
-          <h1 class="text-xl sm:text-2xl font-semibold text-foreground">Vocabulary search</h1>
-          <p class="text-xs sm:text-sm text-muted-foreground">
+          <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Vocabulary search</h1>
+          <p class="text-xs text-muted-foreground sm:text-sm">
             Search result for:
             <span class="font-medium text-foreground">{{ searchId }}</span>
           </p>
@@ -178,17 +179,17 @@ function closeStrokeModal() {
               <template v-if="result">
                 <div class="flex flex-col gap-2 sm:gap-3">
                   <div class="flex items-baseline gap-2">
-                    <span class="text-lg sm:text-2xl font-semibold text-foreground">
+                    <span class="text-lg font-semibold text-foreground sm:text-2xl">
                       {{ result.word.hanzi }}
                     </span>
-                    <span class="text-xs sm:text-sm text-muted-foreground">
+                    <span class="text-xs text-muted-foreground sm:text-sm">
                       {{ result.word.pinyin }}
                     </span>
                   </div>
-                  <p class="text-sm sm:text-base text-foreground">
+                  <p class="text-sm text-foreground sm:text-base">
                     {{ result.word.translation }}
                   </p>
-                  <p v-if="!isLongPhrase" class="text-xs sm:text-sm text-muted-foreground">
+                  <p v-if="!isLongPhrase" class="text-xs text-muted-foreground sm:text-sm">
                     Level:
                     <span class="font-medium text-foreground">{{ result.level }}</span>
                   </p>
@@ -197,26 +198,26 @@ function closeStrokeModal() {
               <template v-else>
                 <div class="flex flex-col gap-2 sm:gap-3">
                   <div class="flex items-baseline gap-2">
-                    <span class="text-lg sm:text-2xl font-semibold text-foreground">
+                    <span class="text-lg font-semibold text-foreground sm:text-2xl">
                       {{ searchId }}
                     </span>
-                    <span v-if="googlePinyin" class="text-xs sm:text-sm text-muted-foreground">
+                    <span v-if="googlePinyin" class="text-xs text-muted-foreground sm:text-sm">
                       {{ googlePinyin }}
                     </span>
                   </div>
-                  <p v-if="googleLoading" class="text-sm sm:text-base text-muted-foreground">
+                  <p v-if="googleLoading" class="text-sm text-muted-foreground sm:text-base">
                     Translating…
                   </p>
-                  <p v-else-if="googleError" class="text-sm sm:text-base text-muted-foreground">
+                  <p v-else-if="googleError" class="text-sm text-muted-foreground sm:text-base">
                     Translation not found.
                   </p>
-                  <p v-else-if="googleTranslation" class="text-sm sm:text-base text-foreground">
+                  <p v-else-if="googleTranslation" class="text-sm text-foreground sm:text-base">
                     {{ googleTranslation }}
                   </p>
-                  <p v-else class="text-sm sm:text-base text-muted-foreground">
+                  <p v-else class="text-sm text-muted-foreground sm:text-base">
                     Translation not found.
                   </p>
-                  <p v-if="!isLongPhrase" class="text-xs sm:text-sm text-muted-foreground">
+                  <p v-if="!isLongPhrase" class="text-xs text-muted-foreground sm:text-sm">
                     Level:
                     <span class="font-medium text-foreground">Unknown</span>
                   </p>
@@ -226,13 +227,13 @@ function closeStrokeModal() {
 
             <div
               v-if="strokeChars.length"
-              class="flex flex-wrap gap-2 sm:gap-3 items-center justify-start"
+              class="flex flex-wrap items-center justify-start gap-2 sm:gap-3"
             >
               <button
                 v-for="(char, index) in strokeChars"
                 :key="`${char}-${index}`"
                 type="button"
-                class="rounded focus:outline-none focus:ring-2 focus:ring-accent/50"
+                class="rounded focus:ring-2 focus:ring-accent/50 focus:outline-none"
                 :aria-label="`Open stroke order for ${char}`"
                 @click="openStrokeModal(char)"
               >
@@ -250,7 +251,7 @@ function closeStrokeModal() {
       @click.self="closeStrokeModal"
     >
       <div class="relative flex items-center justify-center">
-        <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="rounded-2xl h-48 w-48" />
+        <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="h-48 w-48 rounded-2xl" />
       </div>
     </div>
   </div>

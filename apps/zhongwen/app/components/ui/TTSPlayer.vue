@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
+import { computed, onUnmounted, ref, watch } from "vue";
+
 import { useHasElevenLabs } from "~/composables/useElevenLabs";
 import { cn } from "~/utils/cn";
 
@@ -170,7 +171,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div :class="cn('rounded-lg bg-card border border-border p-4 flex flex-col gap-3', props.class)">
+  <div :class="cn('flex flex-col gap-3 rounded-lg border border-border bg-card p-4', props.class)">
     <div v-if="!hasApiKey" class="rounded-md bg-muted/50 px-3 py-2 text-sm text-muted-foreground">
       Add <code class="rounded bg-muted px-1">NUXT_ELEVENLABS_API_KEY</code> to your
       <code class="rounded bg-muted px-1">.env</code> to enable ElevenLabs TTS.
@@ -183,14 +184,14 @@ onUnmounted(() => {
     <div class="flex items-center gap-4">
       <button
         type="button"
-        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground hover:opacity-90 transition-opacity disabled:opacity-50"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
         :disabled="!text.trim() || !hasApiKey || isLoading"
         :aria-label="isPlaying ? 'Pause' : 'Play'"
         @click="togglePlayPause"
       >
         <Icon v-if="isLoading" icon="mdi:loading" class="h-5 w-5 animate-spin" aria-hidden />
         <Icon v-else-if="isPlaying" icon="mdi:pause" class="h-5 w-5" aria-hidden />
-        <Icon v-else icon="mdi:play" class="h-5 w-5 ml-0.5" aria-hidden />
+        <Icon v-else icon="mdi:play" class="ml-0.5 h-5 w-5" aria-hidden />
       </button>
 
       <div class="min-w-0 flex-1">
@@ -211,7 +212,7 @@ onUnmounted(() => {
     </div>
 
     <div
-      class="relative h-1.5 w-full cursor-pointer rounded-full bg-muted overflow-hidden"
+      class="relative h-1.5 w-full cursor-pointer overflow-hidden rounded-full bg-muted"
       role="slider"
       :aria-valuemin="0"
       :aria-valuemax="duration"

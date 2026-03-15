@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
 import { Icon } from "@iconify/vue";
+import type { HTMLAttributes } from "vue";
+
 import { cn } from "~/utils/cn";
 
 const props = withDefaults(
@@ -20,7 +21,7 @@ const props = withDefaults(
   <div
     :class="
       cn(
-        'relative rounded-2xl cursor-pointer transition-transform hover:-translate-y-1',
+        'relative cursor-pointer rounded-2xl transition-transform hover:-translate-y-1',
         props.class,
       )
     "
@@ -28,18 +29,18 @@ const props = withDefaults(
     <article
       :class="
         cn(
-          'rounded-md md:rounded-2xl p-4 gap-3 sm:p-5 sm:gap-4 flex flex-col h-full',
+          'flex h-full flex-col gap-3 rounded-md p-4 sm:gap-4 sm:p-5 md:rounded-2xl',
           read && 'opacity-40',
         )
       "
       :style="{ backgroundColor: props.color ?? '#b5ead7' }"
     >
-      <div class="flex items-center justify-between w-full">
-        <Icon :icon="icon" class="text-2xl md:text-3xl text-black/70" />
+      <div class="flex w-full items-center justify-between">
+        <Icon :icon="icon" class="text-2xl text-black/70 md:text-3xl" />
       </div>
       <div>
-        <h3 class="text-sm md:text-lg font-bold text-black m-0">{{ title }}</h3>
-        <p class="text-xs md:text-sm line-clamp-3 text-black/50 mt-0.5 sm:mt-1 m-0">
+        <h3 class="m-0 text-sm font-bold text-black md:text-lg">{{ title }}</h3>
+        <p class="m-0 mt-0.5 line-clamp-3 text-xs text-black/50 sm:mt-1 md:text-sm">
           {{ description }}
         </p>
       </div>
@@ -47,7 +48,7 @@ const props = withDefaults(
     <Icon
       v-if="read"
       icon="lucide:check"
-      class="absolute top-4 right-4 sm:top-5 sm:right-5 text-xl md:text-3xl bg-black/50 rounded-lg p-1 text-green-400 pointer-events-none"
+      class="pointer-events-none absolute top-4 right-4 rounded-lg bg-black/50 p-1 text-xl text-green-400 sm:top-5 sm:right-5 md:text-3xl"
       aria-hidden
     />
   </div>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { Icon } from "@iconify/vue";
+
 import Button from "~/components/ui/Button.vue";
 import Card from "~/components/ui/Card.vue";
 import Link from "~/components/ui/Link.vue";
@@ -10,6 +11,7 @@ import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLa
 import { getCardStyle } from "~/utils/cardStyles";
 import { formatDictName } from "~/utils/formatters";
 import type { Result, Word } from "~/utils/types";
+
 import { transcribeChineseSpeech } from "./lib/transcribeChineseSpeech";
 
 const QUEUE_SIZE = 10;
@@ -241,16 +243,16 @@ function reveal() {
 </script>
 
 <template>
-  <div class="min-h-screen py-4 px-3 sm:py-8 sm:px-4 flex flex-col items-center">
+  <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
     <!-- ── Mode select: /speaking ─────────────────────────────────────────── -->
     <div v-if="isModeSelect" class="w-full max-w-sm">
-      <div class="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+      <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
         <Link to="/" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
-        <h1 class="text-xl sm:text-2xl font-semibold text-foreground">Speaking</h1>
+        <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Speaking</h1>
       </div>
-      <p class="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">Choose a practice mode.</p>
+      <p class="mb-4 text-xs text-muted-foreground sm:mb-6 sm:text-sm">Choose a practice mode.</p>
       <div class="grid grid-cols-2 gap-3">
         <Link v-for="mode in modes" :key="mode.title" :to="mode.to" class="block" :hover="true">
           <Card
@@ -266,13 +268,13 @@ function reveal() {
 
     <!-- ── Dict list: /speaking/words ───────────────────────────────────────── -->
     <div v-else-if="isDictList" class="w-full max-w-xl">
-      <div class="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+      <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
         <Link to="/speaking" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
-        <h1 class="text-xl sm:text-2xl font-semibold text-foreground">Words</h1>
+        <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Words</h1>
       </div>
-      <p class="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
+      <p class="mb-4 text-xs text-muted-foreground sm:mb-6 sm:text-sm">
         Select a dictionary to practise pronunciation.
       </p>
       <div class="grid gap-2 sm:gap-3 md:grid-cols-2">
@@ -296,11 +298,11 @@ function reveal() {
 
     <!-- ── Sentences placeholder: /speaking/sentences ───────────────────────── -->
     <div v-else-if="isSentences" class="w-full max-w-sm">
-      <div class="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+      <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
         <Link to="/speaking" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
-        <h1 class="text-xl sm:text-2xl font-semibold text-foreground">Sentences</h1>
+        <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Sentences</h1>
       </div>
       <div class="rounded-2xl border border-border bg-card p-8 text-center">
         <p class="text-muted-foreground">Content will be added later.</p>
@@ -308,18 +310,18 @@ function reveal() {
     </div>
 
     <!-- ── Practice: /speaking/words/:id ────────────────────────────────────── -->
-    <div v-else-if="isPractice" class="w-full max-w-md flex flex-col gap-4">
+    <div v-else-if="isPractice" class="flex w-full max-w-md flex-col gap-4">
       <div class="flex items-center gap-2 sm:gap-3">
         <Link to="/speaking/words" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
-        <h1 class="text-xl sm:text-2xl font-semibold text-foreground">{{ dictTitle }}</h1>
+        <h1 class="text-xl font-semibold text-foreground sm:text-2xl">{{ dictTitle }}</h1>
         <span class="ml-auto text-sm font-medium text-muted-foreground tabular-nums">
           {{ done ? queue.length : currentIndex + 1 }} / {{ queue.length }}
         </span>
       </div>
 
-      <div class="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+      <div class="h-1.5 w-full overflow-hidden rounded-full bg-muted">
         <div
           class="h-full rounded-full bg-accent transition-all duration-300"
           :style="{ width: done ? '100%' : `${progress}%` }"
@@ -347,7 +349,7 @@ function reveal() {
               : `${Math.round((score / queue.length) * 100)}% correct`
           }}
         </p>
-        <Button class="px-6 py-2 mt-2" @click="initQueue">Try again</Button>
+        <Button class="mt-2 px-6 py-2" @click="initQueue">Try again</Button>
       </div>
 
       <!-- Flashcard -->
@@ -377,11 +379,11 @@ function reveal() {
             ✓ {{ score }}
           </div>
           <p
-            class="text-7xl sm:text-8xl font-bold text-foreground tracking-wider leading-none mt-4"
+            class="mt-4 text-7xl leading-none font-bold tracking-wider text-foreground sm:text-8xl"
           >
             {{ currentWord.hanzi }}
           </p>
-          <p class="text-xl sm:text-2xl text-accent font-medium tracking-widest">
+          <p class="text-xl font-medium tracking-widest text-accent sm:text-2xl">
             {{ currentWord.pinyin }}
           </p>
           <div class="min-h-6 w-full">
@@ -391,7 +393,7 @@ function reveal() {
             <button
               v-else
               type="button"
-              class="text-sm text-muted-foreground hover:underline underline-offset-2"
+              class="text-sm text-muted-foreground underline-offset-2 hover:underline"
               @click="reveal"
             >
               Show translation
@@ -406,11 +408,11 @@ function reveal() {
           >
             Heard: "{{ transcribedText }}"
           </p>
-          <p v-if="apiError" class="text-xs text-red-400 mt-0.5">{{ apiError }}</p>
-          <div class="flex items-center gap-6 mt-2">
+          <p v-if="apiError" class="mt-0.5 text-xs text-red-400">{{ apiError }}</p>
+          <div class="mt-2 flex items-center gap-6">
             <button
               type="button"
-              class="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted text-foreground hover:bg-muted/70 transition-colors disabled:opacity-40"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted text-foreground transition-colors hover:bg-muted/70 disabled:opacity-40"
               :disabled="!hasElevenLabs || isSpeaking"
               aria-label="Play pronunciation"
               @click="speak"
@@ -423,7 +425,7 @@ function reveal() {
               type="button"
               class="flex h-16 w-16 items-center justify-center rounded-full border-2 transition-all duration-200 disabled:opacity-40"
               :class="{
-                'border-red-500 bg-red-500/20 text-red-400 scale-110': isRecording,
+                'scale-110 border-red-500 bg-red-500/20 text-red-400': isRecording,
                 'border-accent bg-accent/10 text-accent hover:bg-accent/20':
                   !isRecording && !isTranscribing,
                 'border-muted bg-muted text-muted-foreground': isTranscribing,
@@ -437,7 +439,7 @@ function reveal() {
               <Icon v-else icon="lucide:mic" class="h-7 w-7" />
             </button>
           </div>
-          <p class="text-xs text-muted-foreground -mt-1">
+          <p class="-mt-1 text-xs text-muted-foreground">
             <template v-if="isRecording">Tap ■ to stop</template>
             <template v-else-if="isTranscribing">Checking…</template>
             <template v-else-if="lastResult">Moving to next word…</template>

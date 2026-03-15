@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
+
 import Button from "~/components/ui/Button.vue";
 import Card from "~/components/ui/Card.vue";
 import Link from "~/components/ui/Link.vue";
@@ -47,16 +48,16 @@ function handleSearch() {
 </script>
 
 <template>
-  <div class="min-h-screen py-4 px-3 sm:py-8 sm:px-4 flex flex-col items-center">
+  <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
     <div class="w-full max-w-xl">
-      <div class="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+      <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
         <Link to="/" :hover="true" class="shrink-0">
           <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
         </Link>
-        <h1 class="text-xl sm:text-2xl font-semibold text-foreground">Vocabulary</h1>
+        <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Vocabulary</h1>
       </div>
-      <div class="mb-4 sm:mb-6 space-y-2">
-        <p class="text-xs sm:text-sm text-muted-foreground">
+      <div class="mb-4 space-y-2 sm:mb-6">
+        <p class="text-xs text-muted-foreground sm:text-sm">
           Select a dictionary to view words or search for a specific word.
         </p>
         <form class="flex flex-col gap-2" @submit.prevent="handleSearch">
@@ -67,7 +68,7 @@ function handleSearch() {
               inputmode="text"
               autocomplete="off"
               placeholder="Search word (hanzi)..."
-              class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/60"
+              class="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-accent/60 focus:outline-none"
             />
             <Button
               type="submit"

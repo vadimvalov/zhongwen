@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { Icon } from "@iconify/vue";
+
 import Button from "~/components/ui/Button.vue";
 import Checkbox from "~/components/ui/Checkbox.vue";
 import HanziStrokesOrder from "~/components/ui/HanziStrokesOrder.vue";
 import Link from "~/components/ui/Link.vue";
 import TTSPlayer from "~/components/ui/TTSPlayer.vue";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
-import { useUserStore } from "~/stores/user";
 import { useTextModules } from "~/composables/useTexts";
+import { useUserStore } from "~/stores/user";
 import type { TextData, TextWord as Word, WordMode } from "~/utils/types";
 
 const route = useRoute();
@@ -111,7 +112,7 @@ function toggleMarkAsRead() {
 </script>
 
 <template>
-  <div class="min-h-screen py-8 px-4 flex flex-col items-center">
+  <div class="flex min-h-screen flex-col items-center px-4 py-8">
     <div class="w-full max-w-xl">
       <p v-if="!textData" class="text-sm text-muted-foreground">Text not found.</p>
       <div v-else class="space-y-4">
@@ -128,13 +129,13 @@ function toggleMarkAsRead() {
         <p class="text-sm text-muted-foreground">
           {{ textData.description }}
         </p>
-        <div class="flex flex-wrap justify-between items-center gap-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
           <Checkbox v-model="showPinyin" label="Pinyin" />
           <Button type="button" class="px-3 py-1.5 text-sm" @click="toggleMarkAsRead()">
             {{ isRead ? "Mark as unread" : "Mark as Read" }}
           </Button>
         </div>
-        <div class="flex md:hidden justify-end mt-2">
+        <div class="mt-2 flex justify-end md:hidden">
           <div class="flex items-center gap-0.5 rounded-md border border-border bg-muted/50 p-0.5">
             <button
               type="button"
@@ -169,7 +170,7 @@ function toggleMarkAsRead() {
           <template v-for="(word, index) in textData.text.words" :key="index">
             <span
               v-if="word.type === 'punct'"
-              class="flex flex-col justify-end items-end text-2xl text-foreground leading-none px-0.5 shrink-0"
+              class="flex shrink-0 flex-col items-end justify-end px-0.5 text-2xl leading-none text-foreground"
               :class="textData.text.words[index + 1]?.type === 'punct' ? 'mr-2' : 'mr-5'"
             >
               {{ word.hanzi }}
@@ -177,7 +178,7 @@ function toggleMarkAsRead() {
 
             <span
               v-else
-              class="relative flex flex-col items-center group cursor-pointer select-none shrink-0"
+              class="group relative flex shrink-0 cursor-pointer flex-col items-center select-none"
               :class="textData.text.words[index + 1]?.type === 'punct' ? 'mr-2' : 'mr-5'"
               role="button"
               tabindex="0"
@@ -188,33 +189,33 @@ function toggleMarkAsRead() {
             >
               <div
                 :ref="(el) => setTooltipRef(el as HTMLElement | null, index)"
-                class="pointer-events-none absolute -top-24 lg:-top-16 left-1/2 z-10 rounded-md bg-card px-3 py-2 text-sm text-foreground shadow-lg transition-opacity duration-150 max-w-[min(320px,calc(100vw-3rem))] text-left overflow-hidden"
+                class="pointer-events-none absolute -top-24 left-1/2 z-10 max-w-[min(320px,calc(100vw-3rem))] overflow-hidden rounded-md bg-card px-3 py-2 text-left text-sm text-foreground shadow-lg transition-opacity duration-150 lg:-top-16"
                 :class="
                   activeTooltipIndex === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                 "
               >
                 <div class="flex items-center gap-3">
-                  <div class="flex gap-1 shrink-0">
+                  <div class="flex shrink-0 gap-1">
                     <HanziStrokesOrder
                       v-for="char in word.hanzi.split('')"
                       :key="char"
                       :hanzi="char"
                     />
                   </div>
-                  <div class="flex flex-col min-w-0">
-                    <span class="whitespace-nowrap text-ellipsis overflow-hidden">
+                  <div class="flex min-w-0 flex-col">
+                    <span class="overflow-hidden text-ellipsis whitespace-nowrap">
                       {{ word.translation }}
                     </span>
-                    <span class="text-xs text-muted-foreground whitespace-nowrap">
+                    <span class="text-xs whitespace-nowrap text-muted-foreground">
                       HSK {{ word.hsk }}
                     </span>
                   </div>
                 </div>
               </div>
-              <span v-if="showPinyin" class="text-sm text-accent-muted mb-1 leading-none">
+              <span v-if="showPinyin" class="mb-1 text-sm leading-none text-accent-muted">
                 {{ word.pinyin }}
               </span>
-              <span class="text-2xl text-foreground leading-none">
+              <span class="text-2xl leading-none text-foreground">
                 {{ word.hanzi }}
               </span>
             </span>
