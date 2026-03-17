@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.3.1...zhongwen/app-v0.4.0) (2026-03-17)
+
+
+### Features
+
+* add dialogue menus for openai and elevenlabs consents ([acabae2](https://github.com/vadimvalov/zhongwen/commit/acabae25570e9d5d2aeee921c9d5afd33b8e0180))
+
+
+### Bug Fixes
+
+* close the access to speaking for non-authorized user ([5c02699](https://github.com/vadimvalov/zhongwen/commit/5c026997fa41e143b5feeb1209e9dcf70ecc2b7f))
+
 ## [0.3.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.3.0...zhongwen/app-v0.3.1) (2026-03-17)
 
 
