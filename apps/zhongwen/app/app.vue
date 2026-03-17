@@ -7,6 +7,7 @@ import { useAuth } from "~/composables/useAuth";
 import { useEscapeBack } from "~/composables/useEscapeBack";
 import { useUserStore } from "~/stores/user";
 
+const route = useRoute();
 const userStore = useUserStore();
 const { user, isPending } = useAuth();
 
@@ -32,6 +33,14 @@ watch(
 <template>
   <div class="relative min-h-screen overflow-x-hidden">
     <div class="absolute top-3 right-3 z-10 flex items-center gap-2">
+      <NuxtLink
+        v-if="route.path !== '/'"
+        to="/"
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card text-foreground shadow transition-colors hover:bg-muted"
+        aria-label="Home"
+      >
+        <Icon icon="lucide:home" class="text-lg" />
+      </NuxtLink>
       <AuthMenu />
       <button
         type="button"
