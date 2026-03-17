@@ -4,10 +4,7 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { TTSPlayer } from "~/components/tts-player";
-import {
-  useHasElevenLabs,
-  speakWithElevenLabs,
-} from "~/composables/useElevenLabs";
+import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
 import { useTextModules } from "~/composables/useTexts";
 import type { TextData, TextWord as Word, WordMode } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
@@ -22,9 +19,7 @@ const slug = computed(() => route.params.slug as string);
 const textId = slug;
 
 const textData = computed<TextData | null>(() => {
-  const entry = Object.entries(modules).find(([path]) =>
-    path.endsWith(`${textId.value}.json`),
-  );
+  const entry = Object.entries(modules).find(([path]) => path.endsWith(`${textId.value}.json`));
   return entry?.[1] ?? null;
 });
 
@@ -40,7 +35,9 @@ type WordGroup =
   | { kind: "punct"; word: Word; index: number };
 
 const wordGroups = computed<WordGroup[]>(() => {
-  if (!textData.value) return [];
+  if (!textData.value) {
+    return [];
+  }
   const words = textData.value.text.words;
   const groups: WordGroup[] = [];
   let i = 0;
@@ -108,8 +105,7 @@ async function handleWordClick(word: Word, index: number) {
     return;
   }
   if (wordMode.value === "stroke") {
-    activeTooltipIndex.value =
-      activeTooltipIndex.value === index ? null : index;
+    activeTooltipIndex.value = activeTooltipIndex.value === index ? null : index;
     return;
   }
   if (!hasElevenLabs) {
@@ -144,9 +140,7 @@ function toggleMarkAsRead() {
 <template>
   <div class="flex min-h-screen flex-col items-center px-4 py-8">
     <div class="w-full max-w-xl">
-      <p v-if="!textData" class="text-sm text-muted-foreground">
-        Text not found.
-      </p>
+      <p v-if="!textData" class="text-sm text-muted-foreground">Text not found.</p>
       <div v-else class="space-y-4">
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
@@ -161,18 +155,12 @@ function toggleMarkAsRead() {
         </p>
         <div class="flex flex-wrap items-center justify-between gap-3">
           <Checkbox v-model="showPinyin" label="Pinyin" />
-          <Button
-            type="button"
-            class="px-3 py-1.5 text-sm"
-            @click="toggleMarkAsRead()"
-          >
+          <Button type="button" class="px-3 py-1.5 text-sm" @click="toggleMarkAsRead()">
             {{ isRead ? "Mark as unread" : "Mark as Read" }}
           </Button>
         </div>
         <div class="mt-2 flex justify-end md:hidden">
-          <div
-            class="flex items-center gap-0.5 rounded-md border border-border bg-muted/50 p-0.5"
-          >
+          <div class="flex items-center gap-0.5 rounded-md border border-border bg-muted/50 p-0.5">
             <button
               type="button"
               class="flex h-8 w-8 items-center justify-center rounded transition-colors"
@@ -207,15 +195,12 @@ function toggleMarkAsRead() {
             <!-- Standalone punctuation (e.g. opening quotes at the very start) -->
             <span
               v-if="group.kind === 'punct'"
-              class="flex shrink-0 flex-col items-end justify-end px-0.5 text-2xl leading-none text-foreground mr-5"
+              class="mr-5 flex shrink-0 flex-col items-end justify-end px-0.5 text-2xl leading-none text-foreground"
             >
               {{ group.word.hanzi }}
             </span>
 
-            <span
-              v-else
-              class="inline-flex shrink-0 items-end whitespace-nowrap mr-3"
-            >
+            <span v-else class="mr-3 inline-flex shrink-0 items-end whitespace-nowrap">
               <span
                 class="group relative flex shrink-0 cursor-pointer flex-col items-center select-none"
                 :class="group.punct ? 'mr-0' : ''"
@@ -224,14 +209,10 @@ function toggleMarkAsRead() {
                 @mouseenter="handleMouseEnter(group.index)"
                 @mouseleave="handleMouseLeave(group.index)"
                 @click.stop="handleWordClick(group.word, group.index)"
-                @keydown.enter.space.prevent="
-                  handleWordClick(group.word, group.index)
-                "
+                @keydown.enter.space.prevent="handleWordClick(group.word, group.index)"
               >
                 <div
-                  :ref="
-                    (el) => setTooltipRef(el as HTMLElement | null, group.index)
-                  "
+                  :ref="(el) => setTooltipRef(el as HTMLElement | null, group.index)"
                   class="pointer-events-none absolute -top-24 left-1/2 z-10 max-w-[min(320px,calc(100vw-3rem))] overflow-hidden rounded-md bg-card px-3 py-2 text-left text-sm text-foreground shadow-lg transition-opacity duration-150 lg:-top-16"
                   :class="
                     activeTooltipIndex === group.index
@@ -248,23 +229,16 @@ function toggleMarkAsRead() {
                       />
                     </div>
                     <div class="flex min-w-0 flex-col">
-                      <span
-                        class="overflow-hidden text-ellipsis whitespace-nowrap"
-                      >
+                      <span class="overflow-hidden text-ellipsis whitespace-nowrap">
                         {{ group.word.translation }}
                       </span>
-                      <span
-                        class="text-xs whitespace-nowrap text-muted-foreground"
-                      >
+                      <span class="text-xs whitespace-nowrap text-muted-foreground">
                         HSK {{ group.word.hsk }}
                       </span>
                     </div>
                   </div>
                 </div>
-                <span
-                  v-if="showPinyin"
-                  class="mb-1 text-sm leading-none text-accent-muted"
-                >
+                <span v-if="showPinyin" class="mb-1 text-sm leading-none text-accent-muted">
                   {{ group.word.pinyin }}
                 </span>
                 <span class="text-2xl leading-none text-foreground">

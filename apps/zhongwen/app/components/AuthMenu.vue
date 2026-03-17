@@ -32,15 +32,20 @@ async function signOut() {
 
 <template>
   <div>
-    <button
-      v-if="!isPending && !user"
-      type="button"
-      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card text-foreground shadow transition-colors hover:bg-muted"
-      aria-label="Sign in"
-      @click="authClient.signIn.social({ provider: 'google', callbackURL: '/' })"
-    >
-      <Icon icon="lucide:user" class="text-lg" />
-    </button>
+    <div v-if="!isPending && !user" class="flex items-center gap-3">
+      <p class="hidden text-xs text-muted-foreground lg:flex lg:items-center lg:gap-1.5">
+        <span>Save the progress, sign in</span>
+        <Icon icon="lucide:arrow-right" class="text-sm" />
+      </p>
+      <button
+        type="button"
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-white text-foreground shadow transition-colors hover:bg-gray-300"
+        aria-label="Sign in"
+        @click="authClient.signIn.social({ provider: 'google', callbackURL: '/' })"
+      >
+        <Icon icon="logos:google-icon" class="text-xl" />
+      </button>
+    </div>
 
     <DropdownMenu v-else-if="user">
       <DropdownMenuTrigger as-child>
@@ -77,8 +82,12 @@ async function signOut() {
               <span v-else class="text-sm font-semibold">{{ initials }}</span>
             </div>
             <div class="min-w-0">
-              <p class="truncate text-base font-semibold text-foreground">{{ user.name }}</p>
-              <p class="truncate text-sm text-muted-foreground">{{ user.email }}</p>
+              <p class="truncate text-base font-semibold text-foreground">
+                {{ user.name }}
+              </p>
+              <p class="truncate text-sm text-muted-foreground">
+                {{ user.email }}
+              </p>
             </div>
           </div>
         </DropdownMenuLabel>
