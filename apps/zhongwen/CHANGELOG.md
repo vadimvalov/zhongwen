@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.3.0...zhongwen/app-v0.3.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* don't allow highlighting without auth ([0f4c640](https://github.com/vadimvalov/zhongwen/commit/0f4c6402ec530e171d2e1e097a1043242865055e))
+
 ## [0.3.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.4...zhongwen/app-v0.3.0) (2026-03-17)
 
 
