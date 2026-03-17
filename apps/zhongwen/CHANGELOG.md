@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.3.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.4...zhongwen/app-v0.3.0) (2026-03-17)
+
+
+### Features
+
+* add confetti on mark text as read ([6db4de8](https://github.com/vadimvalov/zhongwen/commit/6db4de8e5877ae166e5a7c2737f3101f7e85402a))
+* implementation of known words feature ([1899aa4](https://github.com/vadimvalov/zhongwen/commit/1899aa4ba8af700c73175f674740f65ea5924586))
+* move saving books from localstore to pg ([00c7e26](https://github.com/vadimvalov/zhongwen/commit/00c7e26f193e2c937e16b4b1fb286489ba1961b4))
+
+
+### Bug Fixes
+
+* rework auth button ([12e981b](https://github.com/vadimvalov/zhongwen/commit/12e981b950ed4ada31ba65513427ebedfc41e511))
+
+
+### Miscellaneous Chores
+
+* add new texts ([6db2bac](https://github.com/vadimvalov/zhongwen/commit/6db2bac4916a462353e484215833f6940e8534ee))
+
+
+### Code Refactoring
+
+* implement BackButton and apply where needed ([ad31bd6](https://github.com/vadimvalov/zhongwen/commit/ad31bd66e5f8bf8fef3a29afef1b55abbb3c9596))
+
 ## [0.2.4](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.2.3...zhongwen/app-v0.2.4) (2026-03-15)
 
 
