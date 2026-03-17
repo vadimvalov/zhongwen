@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import confetti from "canvas-confetti";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { TTSPlayer } from "~/components/tts-player";
@@ -174,6 +174,13 @@ async function toggleMarkAsRead() {
     });
   }
 }
+
+watch(highlightKnown, (val) => {
+  if (val && !user.value) {
+    highlightKnown.value = false;
+    toast.warning("Authorize to highlight known words");
+  }
+});
 </script>
 
 <template>
