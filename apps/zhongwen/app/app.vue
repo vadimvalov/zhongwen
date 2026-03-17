@@ -2,12 +2,30 @@
 import { Icon } from "@iconify/vue";
 
 import AuthMenu from "~/components/AuthMenu.vue";
+import { Toaster } from "~/components/ui/sonner";
+import { useAuth } from "~/composables/useAuth";
 import { useEscapeBack } from "~/composables/useEscapeBack";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
+const { user, isPending } = useAuth();
 
 useEscapeBack();
+
+watch(
+  [user, isPending],
+  async ([u, pending]) => {
+    if (pending) {
+      return;
+    }
+    if (u) {
+      await userStore.refreshReadTextIds();
+    } else {
+      userStore.readTextIds = new Set();
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -25,5 +43,10 @@ useEscapeBack();
     </div>
 
     <NuxtPage />
+    <Toaster
+      :theme="userStore.theme === 'dark' ? 'dark' : 'light'"
+      position="bottom-right"
+      rich-colors
+    />
   </div>
 </template>

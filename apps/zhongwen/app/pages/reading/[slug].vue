@@ -4,6 +4,8 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { TTSPlayer } from "~/components/tts-player";
+import { toast } from "~/components/ui/sonner";
+import { useAuth } from "~/composables/useAuth";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
 import { useTextModules } from "~/composables/useTexts";
 import type { TextData, TextWord as Word, WordMode } from "~/lib/types";
@@ -12,6 +14,7 @@ import { useUserStore } from "~/stores/user";
 const route = useRoute();
 const userStore = useUserStore();
 const hasElevenLabs = useHasElevenLabs();
+const { user } = useAuth();
 
 const modules = useTextModules() as Record<string, TextData>;
 
@@ -133,6 +136,10 @@ onUnmounted(() => {
 const isRead = computed(() => userStore.isRead(textId.value));
 
 function toggleMarkAsRead() {
+  if (!user.value) {
+    toast.warning("Authorize to save the progress");
+    return;
+  }
   userStore.toggleRead(textId.value);
 }
 </script>

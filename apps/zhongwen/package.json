@@ -34,7 +34,8 @@
     "postgres": "^3.4.7",
     "reka-ui": "catalog:",
     "tailwind-merge": "^3.5.0",
-    "vue": "^3.5.30"
+    "vue": "^3.5.30",
+    "vue-sonner": "catalog:"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "catalog:",

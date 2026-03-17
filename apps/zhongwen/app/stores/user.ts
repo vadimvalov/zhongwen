@@ -4,7 +4,6 @@ import { ref, watch } from "vue";
 import type { Theme } from "~/lib/types";
 
 const THEME_KEY = "zhongwen-theme";
-const READ_TEXTS_KEY = "zhongwen-read-texts";
 
 function getStoredTheme() {
   try {
@@ -18,33 +17,9 @@ function getStoredTheme() {
   return "dark";
 }
 
-function getStoredReadTextIds() {
-  try {
-    const raw = localStorage.getItem(READ_TEXTS_KEY);
-    if (!raw) {
-      return new Set<string>();
-    }
-    const arr = JSON.parse(raw) as unknown;
-    if (Array.isArray(arr) && arr.every((x) => typeof x === "string")) {
-      return new Set<string>(arr);
-    }
-  } catch {
-    /* ignore */
-  }
-  return new Set<string>();
-}
-
-function saveReadTextIds(ids: Set<string>) {
-  try {
-    localStorage.setItem(READ_TEXTS_KEY, JSON.stringify([...ids]));
-  } catch {
-    /* ignore */
-  }
-}
-
 export const useUserStore = defineStore("user", () => {
   const theme = ref<Theme>(getStoredTheme());
-  const readTextIds = ref<Set<string>>(getStoredReadTextIds());
+  const readTextIds = ref<Set<string>>(new Set());
 
   function setTheme(value: Theme) {
     theme.value = value;
@@ -63,23 +38,59 @@ export const useUserStore = defineStore("user", () => {
     return readTextIds.value.has(textId);
   }
 
-  function markAsRead(textId: string) {
-    readTextIds.value = new Set([...readTextIds.value, textId]);
-    saveReadTextIds(readTextIds.value);
+  async function refreshReadTextIds() {
+    try {
+      const ids = await $fetch<string[]>("/api/reading/read-texts");
+      readTextIds.value = new Set(ids);
+    } catch (err) {
+      // Ignore unauthorized; other errors can be logged in dev
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.warn("[userStore] failed to refresh read texts", err);
+      }
+    }
   }
 
-  function unmarkAsRead(textId: string) {
+  async function markAsRead(textId: string) {
+    if (readTextIds.value.has(textId)) {
+      return;
+    }
+    readTextIds.value = new Set([...readTextIds.value, textId]);
+    try {
+      await $fetch("/api/reading/read-texts", {
+        method: "POST",
+        body: { textId, read: true },
+      });
+    } catch (err) {
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.warn("[userStore] failed to mark as read", err);
+      }
+    }
+  }
+
+  async function unmarkAsRead(textId: string) {
     const next = new Set(readTextIds.value);
     next.delete(textId);
     readTextIds.value = next;
-    saveReadTextIds(readTextIds.value);
+    try {
+      await $fetch("/api/reading/read-texts", {
+        method: "POST",
+        body: { textId, read: false },
+      });
+    } catch (err) {
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.warn("[userStore] failed to unmark as read", err);
+      }
+    }
   }
 
-  function toggleRead(textId: string) {
+  async function toggleRead(textId: string) {
     if (readTextIds.value.has(textId)) {
-      unmarkAsRead(textId);
+      await unmarkAsRead(textId);
     } else {
-      markAsRead(textId);
+      await markAsRead(textId);
     }
   }
 
@@ -99,6 +110,7 @@ export const useUserStore = defineStore("user", () => {
     setTheme,
     toggleTheme,
     readTextIds,
+    refreshReadTextIds,
     isRead,
     markAsRead,
     unmarkAsRead,

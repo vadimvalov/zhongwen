@@ -170,3 +170,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.toaster [data-sonner-toast][data-type="warning"] [data-icon] {
+  color: var(--surface-card-rose);
+}
