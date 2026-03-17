@@ -18,6 +18,7 @@ catalog:
   "@vueuse/nuxt": 14.2.1
   ai: ^6.0.116
   aws4fetch: ^1.0.20
+  canvas-confetti: ^1.9.4
   class-variance-authority: ^0.7.1
   lucide-vue-next: ^0.577.0
   nuxt: ^4.4.2

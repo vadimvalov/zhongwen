@@ -24,6 +24,7 @@
     "ai": "catalog:",
     "aws4fetch": "catalog:",
     "better-auth": "^1.2.7",
+    "canvas-confetti": "catalog:",
     "class-variance-authority": "catalog:",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.43.1",

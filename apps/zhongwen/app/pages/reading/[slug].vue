@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
+import confetti from "canvas-confetti";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
@@ -135,12 +136,23 @@ onUnmounted(() => {
 
 const isRead = computed(() => userStore.isRead(textId.value));
 
-function toggleMarkAsRead() {
+async function toggleMarkAsRead() {
   if (!user.value) {
     toast.warning("Authorize to save the progress");
     return;
   }
-  userStore.toggleRead(textId.value);
+  await userStore.toggleRead(textId.value);
+
+  if (isRead.value) {
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.2 },
+      scalar: 0.9,
+      colors: ["#b5ead7", "#c7b8ea", "#e8d5b7", "#f4c2c2", "#d7ebe9"],
+      disableForReducedMotion: true,
+    });
+  }
 }
 </script>
 
