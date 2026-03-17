@@ -1,16 +1,16 @@
 # Changelog
 
-## [0.4.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.3.1...zhongwen/app-v0.4.0) (2026-03-17)
+## [2026-03-17] - Fix SRS review enrollment and completion stats
+- Known words now automatically enter the review queue (`review: true` in stores/user.ts)
+- Completion screen waits for all saves before fetching stats, fixing "Next review: Now" bug (review.vue)
+- Files modified: stores/user.ts, pages/review.vue
 
-
-### Features
-
-* add dialogue menus for openai and elevenlabs consents ([acabae2](https://github.com/vadimvalov/zhongwen/commit/acabae25570e9d5d2aeee921c9d5afd33b8e0180))
-
-
-### Bug Fixes
-
-* close the access to speaking for non-authorized user ([5c02699](https://github.com/vadimvalov/zhongwen/commit/5c026997fa41e143b5feeb1209e9dcf70ecc2b7f))
+## [2026-03-18] - SRS review, placement quiz, challenges, home button
+- Added SM-2 spaced repetition system with review queue, grading, and streaks
+- Added onboarding placement quiz with weighted HSK 1–6 scoring
+- Added async Kahoot-style challenge system with invite codes, timed MCQ, leaderboards
+- Added persistent home button to global top bar
+- Files modified: server/lib/sm2.ts, server/api/review/*, server/api/challenges/**, app/pages/review.vue, app/pages/placement.vue, app/pages/challenges/**, app/app.vue, server/database/schema.ts, .gitignore
 
 ## [0.3.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.3.0...zhongwen/app-v0.3.1) (2026-03-17)
 

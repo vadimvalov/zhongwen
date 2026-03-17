@@ -77,7 +77,7 @@ export const useUserStore = defineStore("user", () => {
     try {
       await $fetch("/api/known-words", {
         method: "POST",
-        body: { hanzi },
+        body: { hanzi, review: true },
       });
     } catch (err) {
       if (process.dev) {

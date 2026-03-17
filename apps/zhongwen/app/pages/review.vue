@@ -179,10 +179,12 @@ function revealAnswer() {
   state.value = "grading";
 }
 
+const savePromises: Promise<void>[] = [];
+
 /** Fire-and-forget grade submission with pending counter. */
 function submitGradeToServer(hanzi: string, grade: number) {
   pendingSaves.value++;
-  $fetch("/api/review/submit", {
+  const p = $fetch("/api/review/submit", {
     method: "POST",
     body: { wordId: hanzi, grade },
   })
@@ -193,6 +195,15 @@ function submitGradeToServer(hanzi: string, grade: number) {
       pendingSaves.value--;
       saveError.value = true;
     });
+  savePromises.push(p);
+}
+
+/** Wait for all in-flight saves to settle before querying stats. */
+async function waitForSaves() {
+  if (savePromises.length) {
+    await Promise.allSettled(savePromises);
+    savePromises.length = 0;
+  }
 }
 
 function submitGrade(grade: number) {
@@ -209,7 +220,7 @@ function submitGrade(grade: number) {
   advanceCard();
 }
 
-function advanceCard() {
+async function advanceCard() {
   const q = activeQueue.value;
 
   if (currentIndex.value + 1 >= q.length) {
@@ -221,7 +232,8 @@ function advanceCard() {
       return;
     }
     state.value = "complete";
-    loadCompletionStats();
+    await waitForSaves();
+    await loadCompletionStats();
   } else {
     currentIndex.value++;
     showAnswer.value = false;
