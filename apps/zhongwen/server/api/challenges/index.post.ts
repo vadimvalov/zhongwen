@@ -69,10 +69,15 @@ export default defineEventHandler(async (event) => {
       .from(challenge)
       .where(eq(challenge.inviteCode, inviteCode))
       .limit(1);
-    if (existing.length === 0) break;
+    if (existing.length === 0) {
+      break;
+    }
     inviteCode = generateInviteCode();
     if (i === MAX_RETRIES - 1) {
-      throw createError({ statusCode: 500, statusMessage: "Could not generate unique invite code" });
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Could not generate unique invite code",
+      });
     }
   }
 

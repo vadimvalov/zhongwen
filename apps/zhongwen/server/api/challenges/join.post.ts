@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   const code = body.inviteCode.trim().toUpperCase();
 
   const [row] = await db
-    .select({ id: challenge.id, endsAt: challenge.endsAt })
+    .select({ id: challenge.id, inviteCode: challenge.inviteCode, endsAt: challenge.endsAt })
     .from(challenge)
     .where(eq(challenge.inviteCode, code))
     .limit(1);
@@ -48,5 +48,5 @@ export default defineEventHandler(async (event) => {
     })
     .onConflictDoNothing();
 
-  return { id: row.id };
+  return { inviteCode: row.inviteCode };
 });

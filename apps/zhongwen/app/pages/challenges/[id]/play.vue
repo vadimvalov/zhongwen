@@ -37,7 +37,13 @@ const results = ref<{
   score: number;
   totalQuestions: number;
   timeMs: number;
-  answers: { questionIdx: number; hanzi: string; selected: string; correctAnswer: string; correct: boolean }[];
+  answers: {
+    questionIdx: number;
+    hanzi: string;
+    selected: string;
+    correctAnswer: string;
+    correct: boolean;
+  }[];
 } | null>(null);
 
 const loadError = ref("");
@@ -70,7 +76,9 @@ async function startChallenge() {
 function startTimer() {
   timerStart.value = Date.now();
   timerRemaining.value = 1;
-  if (timerInterval) clearInterval(timerInterval);
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
   timerInterval = setInterval(() => {
     const elapsed = Date.now() - timerStart.value;
     const ratio = 1 - elapsed / (timeLimitSec.value * 1000);
@@ -97,7 +105,9 @@ function selectAnswer(label: string | null) {
     current.value++;
     startTimer();
   } else {
-    if (timerInterval) clearInterval(timerInterval);
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
     submitAnswers();
   }
 }
@@ -128,25 +138,41 @@ function formatTime(ms: number): string {
   return mins > 0 ? `${mins}m ${rem}s` : `${secs}s`;
 }
 
-watch(user, (u) => {
-  if (u && phase.value === "loading" && !loadError.value) startChallenge();
-}, { immediate: true });
+watch(
+  user,
+  (u) => {
+    if (u && phase.value === "loading" && !loadError.value) {
+      startChallenge();
+    }
+  },
+  { immediate: true },
+);
 
 onUnmounted(() => {
-  if (timerInterval) clearInterval(timerInterval);
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
 });
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col items-center justify-center px-4 py-8">
     <div class="w-full max-w-md">
-
       <!-- Auth gate -->
       <div v-if="!isPending && !user" class="py-20 text-center">
         <Icon icon="lucide:lock" class="mx-auto mb-4 text-4xl text-muted-foreground" />
         <p class="mb-1 text-lg font-semibold text-foreground">Sign in required</p>
-        <p class="mb-6 text-sm text-muted-foreground">Sign in with Google to play this challenge.</p>
-        <Button @click="authClient.signIn.social({ provider: 'google', callbackURL: `/challenges/${challengeId}/play` })">
+        <p class="mb-6 text-sm text-muted-foreground">
+          Sign in with Google to play this challenge.
+        </p>
+        <Button
+          @click="
+            authClient.signIn.social({
+              provider: 'google',
+              callbackURL: `/challenges/${challengeId}/play`,
+            })
+          "
+        >
           <Icon icon="logos:google-icon" class="mr-2 text-lg" />
           Sign in with Google
         </Button>
@@ -253,7 +279,9 @@ onUnmounted(() => {
               :key="ans.questionIdx"
               :class="[
                 'rounded-xl border px-4 py-3 text-sm',
-                ans.correct ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-red-500/30 bg-red-500/5',
+                ans.correct
+                  ? 'border-emerald-500/30 bg-emerald-500/5'
+                  : 'border-red-500/30 bg-red-500/5',
               ]"
             >
               <p class="font-medium text-foreground">{{ ans.hanzi }}</p>
@@ -264,9 +292,7 @@ onUnmounted(() => {
                 <p class="text-xs text-red-600 dark:text-red-400">
                   ✗ Your answer: {{ ans.selected || "(timed out)" }}
                 </p>
-                <p class="text-xs text-muted-foreground">
-                  Correct: {{ ans.correctAnswer }}
-                </p>
+                <p class="text-xs text-muted-foreground">Correct: {{ ans.correctAnswer }}</p>
               </template>
             </div>
           </div>
@@ -279,7 +305,9 @@ onUnmounted(() => {
 <style scoped>
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
 }
 .slide-fade-enter-from {
   opacity: 0;

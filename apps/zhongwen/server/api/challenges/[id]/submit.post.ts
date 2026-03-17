@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
 
-  const id = getRouterParam(event, "id");
-  if (!id) {
-    throw createError({ statusCode: 400, statusMessage: "Missing challenge id" });
+  const code = getRouterParam(event, "id");
+  if (!code) {
+    throw createError({ statusCode: 400, statusMessage: "Missing challenge code" });
   }
 
   const body = await readBody<Body>(event);
@@ -36,13 +36,21 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Invalid request body" });
   }
 
+  const [ch] = await db.select().from(challenge).where(eq(challenge.inviteCode, code)).limit(1);
+
+  if (!ch) {
+    throw createError({ statusCode: 404, statusMessage: "Challenge not found" });
+  }
+
+  const challengeId = ch.id;
+
   const [attempt] = await db
     .select()
     .from(challengeAttempt)
     .where(
       and(
         eq(challengeAttempt.id, body.attemptId),
-        eq(challengeAttempt.challengeId, id),
+        eq(challengeAttempt.challengeId, challengeId),
         eq(challengeAttempt.userId, session.user.id),
         isNull(challengeAttempt.finishedAt),
       ),
@@ -53,18 +61,8 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Attempt not found or already finished" });
   }
 
-  const [ch] = await db
-    .select()
-    .from(challenge)
-    .where(eq(challenge.id, id))
-    .limit(1);
-
-  if (!ch) {
-    throw createError({ statusCode: 404, statusMessage: "Challenge not found" });
-  }
-
   const questions = generateChallengeQuestions({
-    challengeId: id,
+    challengeId,
     hskLevel: ch.hskLevel,
     questionCount: ch.questionCount,
   });
@@ -88,7 +86,9 @@ export default defineEventHandler(async (event) => {
     const correctOption = question.options.find((o) => o.correct);
     const isCorrect = correctOption?.label === ans.selected;
 
-    if (isCorrect) totalScore++;
+    if (isCorrect) {
+      totalScore++;
+    }
     totalTimeMs += ans.timeMs;
 
     return {

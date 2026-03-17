@@ -9,24 +9,18 @@ import { auth } from "../../lib/auth";
  * Counts consecutive review days going backward from today.
  */
 function calculateStreak(dateStrings: string[], now: Date): number {
-  if (!dateStrings.length) return 0;
+  if (!dateStrings.length) {
+    return 0;
+  }
 
   const oneDay = 24 * 60 * 60 * 1000;
-  const todayMs = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-  ).getTime();
+  const todayMs = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
   const uniqueDays = [
     ...new Set(
       dateStrings.map((d) => {
         const dt = new Date(d);
-        return new Date(
-          dt.getFullYear(),
-          dt.getMonth(),
-          dt.getDate(),
-        ).getTime();
+        return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()).getTime();
       }),
     ),
   ].sort((a, b) => b - a);
@@ -67,12 +61,7 @@ export default defineEventHandler(async (event) => {
     db
       .select({ value: count() })
       .from(userKnownWord)
-      .where(
-        and(
-          eq(userKnownWord.userId, session.user.id),
-          lte(userKnownWord.nextReviewAt, now),
-        ),
-      ),
+      .where(and(eq(userKnownWord.userId, session.user.id), lte(userKnownWord.nextReviewAt, now))),
 
     db
       .select({ value: count() })
@@ -87,12 +76,7 @@ export default defineEventHandler(async (event) => {
     db
       .select({ value: min(userKnownWord.nextReviewAt) })
       .from(userKnownWord)
-      .where(
-        and(
-          eq(userKnownWord.userId, session.user.id),
-          isNotNull(userKnownWord.nextReviewAt),
-        ),
-      ),
+      .where(and(eq(userKnownWord.userId, session.user.id), isNotNull(userKnownWord.nextReviewAt))),
 
     db
       .select({
@@ -100,10 +84,7 @@ export default defineEventHandler(async (event) => {
       })
       .from(userKnownWord)
       .where(
-        and(
-          eq(userKnownWord.userId, session.user.id),
-          isNotNull(userKnownWord.lastReviewedAt),
-        ),
+        and(eq(userKnownWord.userId, session.user.id), isNotNull(userKnownWord.lastReviewedAt)),
       )
       .groupBy(sql`DATE(${userKnownWord.lastReviewedAt})`)
       .orderBy(sql`DATE(${userKnownWord.lastReviewedAt}) DESC`)

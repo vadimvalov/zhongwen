@@ -13,20 +13,18 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
 
-  const id = getRouterParam(event, "id");
-  if (!id) {
-    throw createError({ statusCode: 400, statusMessage: "Missing challenge id" });
+  const code = getRouterParam(event, "id");
+  if (!code) {
+    throw createError({ statusCode: 400, statusMessage: "Missing challenge code" });
   }
 
-  const [row] = await db
-    .select()
-    .from(challenge)
-    .where(eq(challenge.id, id))
-    .limit(1);
+  const [row] = await db.select().from(challenge).where(eq(challenge.inviteCode, code)).limit(1);
 
   if (!row) {
     throw createError({ statusCode: 404, statusMessage: "Challenge not found" });
   }
+
+  const challengeId = row.id;
 
   const participants = await db
     .select({
@@ -37,7 +35,7 @@ export default defineEventHandler(async (event) => {
     })
     .from(challengeParticipant)
     .innerJoin(user, eq(challengeParticipant.userId, user.id))
-    .where(eq(challengeParticipant.challengeId, id));
+    .where(eq(challengeParticipant.challengeId, challengeId));
 
   const bestAttempts = await db
     .select({
@@ -48,14 +46,11 @@ export default defineEventHandler(async (event) => {
     })
     .from(challengeAttempt)
     .where(
-      and(
-        eq(challengeAttempt.challengeId, id),
-        isNotNull(challengeAttempt.finishedAt),
-      ),
+      and(eq(challengeAttempt.challengeId, challengeId), isNotNull(challengeAttempt.finishedAt)),
     )
     .orderBy(desc(challengeAttempt.score), sql`${challengeAttempt.timeMs} ASC`);
 
-  const bestByUser = new Map<string, typeof bestAttempts[number]>();
+  const bestByUser = new Map<string, (typeof bestAttempts)[number]>();
   for (const attempt of bestAttempts) {
     if (!bestByUser.has(attempt.odUserId)) {
       bestByUser.set(attempt.odUserId, attempt);
@@ -64,19 +59,18 @@ export default defineEventHandler(async (event) => {
 
   const participantMap = new Map(participants.map((p) => [p.userId, p]));
 
-  const leaderboard = [...bestByUser.entries()]
-    .map(([userId, attempt], idx) => {
-      const p = participantMap.get(userId);
-      return {
-        rank: idx + 1,
-        userId,
-        name: p?.name ?? "Unknown",
-        image: p?.image ?? null,
-        score: attempt.score,
-        timeMs: attempt.timeMs,
-        finishedAt: attempt.finishedAt,
-      };
-    });
+  const leaderboard = [...bestByUser.entries()].map(([userId, attempt], idx) => {
+    const p = participantMap.get(userId);
+    return {
+      rank: idx + 1,
+      userId,
+      name: p?.name ?? "Unknown",
+      image: p?.image ?? null,
+      score: attempt.score,
+      timeMs: attempt.timeMs,
+      finishedAt: attempt.finishedAt,
+    };
+  });
 
   const isParticipant = participants.some((p) => p.userId === session.user.id);
 

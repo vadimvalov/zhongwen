@@ -37,12 +37,7 @@ export default defineEventHandler(async (event) => {
         repetitions: userKnownWord.repetitions,
       })
       .from(userKnownWord)
-      .where(
-        and(
-          eq(userKnownWord.userId, session.user.id),
-          eq(userKnownWord.hanzi, body.wordId),
-        ),
-      );
+      .where(and(eq(userKnownWord.userId, session.user.id), eq(userKnownWord.hanzi, body.wordId)));
 
     if (!card) {
       throw createError({ statusCode: 404, statusMessage: "Card not found" });
@@ -66,12 +61,7 @@ export default defineEventHandler(async (event) => {
         repetitions: srs.repetitions,
         lastReviewedAt: new Date(),
       })
-      .where(
-        and(
-          eq(userKnownWord.userId, session.user.id),
-          eq(userKnownWord.hanzi, body.wordId),
-        ),
-      );
+      .where(and(eq(userKnownWord.userId, session.user.id), eq(userKnownWord.hanzi, body.wordId)));
 
     return srs;
   });

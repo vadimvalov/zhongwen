@@ -4,7 +4,7 @@ import { Icon } from "@iconify/vue";
 import { Button } from "~/components/ui/button";
 import { useAuth } from "~/composables/useAuth";
 import { useDictionaryModules } from "~/composables/useDictionaries";
-import type { Word } from "~/lib/types";
+import type { ReviewCard, ReviewSessionState, Word } from "~/lib/types";
 
 const router = useRouter();
 const { user, isPending } = useAuth();
@@ -20,18 +20,7 @@ watch(
   { immediate: true },
 );
 
-type ReviewCard = {
-  hanzi: string;
-  pinyin: string;
-  translation: string;
-  easeFactor: number;
-  intervalDays: number;
-  repetitions: number;
-};
-
-type SessionState = "loading" | "reviewing" | "grading" | "complete";
-
-const state = ref<SessionState>("loading");
+const state = ref<ReviewSessionState>("loading");
 const queue = ref<ReviewCard[]>([]);
 const currentIndex = ref(0);
 const showAnswer = ref(false);
@@ -51,18 +40,20 @@ const currentCard = computed(() => {
   return queue.value[currentIndex.value] ?? null;
 });
 
-const activeQueue = computed(() =>
-  reviewingFailed.value ? failedQueue.value : queue.value,
-);
+const activeQueue = computed(() => (reviewingFailed.value ? failedQueue.value : queue.value));
 
 const progress = computed(() => {
   const q = activeQueue.value;
-  if (!q.length) return 0;
+  if (!q.length) {
+    return 0;
+  }
   return currentIndex.value / q.length;
 });
 
 const accuracy = computed(() => {
-  if (!results.value.length) return 0;
+  if (!results.value.length) {
+    return 0;
+  }
   const correct = results.value.filter((r) => r.grade >= 3).length;
   return Math.round((correct / results.value.length) * 100);
 });
@@ -90,9 +81,15 @@ function buildWordMap(): Map<string, Word> {
  * Mirrors the SM-2 logic so hints are accurate.
  */
 function previewInterval(card: ReviewCard, grade: number): number {
-  if (grade < 3) return 1;
-  if (card.repetitions === 0) return 1;
-  if (card.repetitions === 1) return 6;
+  if (grade < 3) {
+    return 1;
+  }
+  if (card.repetitions === 0) {
+    return 1;
+  }
+  if (card.repetitions === 1) {
+    return 6;
+  }
   return Math.round(card.intervalDays * card.easeFactor);
 }
 
@@ -108,9 +105,15 @@ function previewLabel(card: ReviewCard, grade: number): string {
 
 /** Format days into a human-readable hint. */
 function formatInterval(days: number): string {
-  if (days === 1) return "1d";
-  if (days < 30) return `${days}d`;
-  if (days < 365) return `${Math.round(days / 30)}mo`;
+  if (days === 1) {
+    return "1d";
+  }
+  if (days < 30) {
+    return `${days}d`;
+  }
+  if (days < 365) {
+    return `${Math.round(days / 30)}mo`;
+  }
   return `${(days / 365).toFixed(1)}y`;
 }
 
@@ -208,7 +211,9 @@ async function waitForSaves() {
 
 function submitGrade(grade: number) {
   const card = currentCard.value;
-  if (!card) return;
+  if (!card) {
+    return;
+  }
 
   results.value.push({ grade, saved: true });
   submitGradeToServer(card.hanzi, grade);
@@ -242,11 +247,17 @@ async function advanceCard() {
 }
 
 function formatTimeUntil(dateStr: string | null): string {
-  if (!dateStr) return "No reviews scheduled";
+  if (!dateStr) {
+    return "No reviews scheduled";
+  }
   const diff = new Date(dateStr).getTime() - Date.now();
-  if (diff <= 0) return "Now";
+  if (diff <= 0) {
+    return "Now";
+  }
   const hours = Math.ceil(diff / (1000 * 60 * 60));
-  if (hours < 24) return `in ${hours}h`;
+  if (hours < 24) {
+    return `in ${hours}h`;
+  }
   return `in ${Math.ceil(hours / 24)}d`;
 }
 
@@ -293,10 +304,7 @@ onMounted(() => {
       </div>
 
       <!-- Loading -->
-      <div
-        v-if="state === 'loading'"
-        class="flex flex-col items-center justify-center gap-4 py-20"
-      >
+      <div v-if="state === 'loading'" class="flex flex-col items-center justify-center gap-4 py-20">
         <Icon icon="lucide:loader-2" class="h-8 w-8 animate-spin text-muted-foreground" />
         <p class="text-sm text-muted-foreground">Loading review cards…</p>
       </div>
@@ -328,10 +336,7 @@ onMounted(() => {
         </div>
 
         <!-- Answer (pinyin + meaning) -->
-        <div
-          v-if="showAnswer"
-          class="flex flex-col items-center gap-1 text-center"
-        >
+        <div v-if="showAnswer" class="flex flex-col items-center gap-1 text-center">
           <p class="text-xl font-medium text-foreground sm:text-2xl">
             {{ currentCard.pinyin }}
           </p>
@@ -366,7 +371,7 @@ onMounted(() => {
           </button>
 
           <button
-            class="flex flex-col items-center gap-1 rounded-xl border border-orange-500/30 bg-orange-500/10 px-2 py-3 text-orange-600 transition-colors hover:bg-orange-500/20 active:bg-orange-500/30 dark:text-orange-400 sm:px-3 sm:py-4"
+            class="flex flex-col items-center gap-1 rounded-xl border border-orange-500/30 bg-orange-500/10 px-2 py-3 text-orange-600 transition-colors hover:bg-orange-500/20 active:bg-orange-500/30 sm:px-3 sm:py-4 dark:text-orange-400"
             @click="submitGrade(3)"
           >
             <span class="text-sm font-semibold sm:text-base">Hard</span>
@@ -386,7 +391,7 @@ onMounted(() => {
           </button>
 
           <button
-            class="flex flex-col items-center gap-1 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-2 py-3 text-emerald-600 transition-colors hover:bg-emerald-500/20 active:bg-emerald-500/30 dark:text-emerald-400 sm:px-3 sm:py-4"
+            class="flex flex-col items-center gap-1 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-2 py-3 text-emerald-600 transition-colors hover:bg-emerald-500/20 active:bg-emerald-500/30 sm:px-3 sm:py-4 dark:text-emerald-400"
             @click="submitGrade(5)"
           >
             <span class="text-sm font-semibold sm:text-base">Easy</span>
@@ -402,18 +407,15 @@ onMounted(() => {
         v-else-if="state === 'complete'"
         class="flex flex-col items-center gap-6 py-12 text-center"
       >
-        <Icon
-          icon="lucide:check-circle-2"
-          class="h-16 w-16 text-emerald-500 sm:h-20 sm:w-20"
-        />
+        <Icon icon="lucide:check-circle-2" class="h-16 w-16 text-emerald-500 sm:h-20 sm:w-20" />
 
         <div class="space-y-1">
           <h2 class="text-xl font-semibold text-foreground sm:text-2xl">
             {{ results.length ? "Session complete!" : "All caught up!" }}
           </h2>
           <p v-if="results.length" class="text-sm text-muted-foreground">
-            {{ results.length }} card{{ results.length === 1 ? "" : "s" }} reviewed
-            · {{ accuracy }}% accuracy
+            {{ results.length }} card{{ results.length === 1 ? "" : "s" }} reviewed ·
+            {{ accuracy }}% accuracy
           </p>
         </div>
 
@@ -433,12 +435,7 @@ onMounted(() => {
         </p>
 
         <div class="flex w-full max-w-xs flex-col gap-2">
-          <Button
-            v-if="remainingDue > 0"
-            class="w-full"
-            size="lg"
-            @click="loadQueue()"
-          >
+          <Button v-if="remainingDue > 0" class="w-full" size="lg" @click="loadQueue()">
             Review more ({{ remainingDue }})
           </Button>
           <Button

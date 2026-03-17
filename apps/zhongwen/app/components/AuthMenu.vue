@@ -42,9 +42,15 @@ async function loadReviewDue() {
   }
 }
 
-watch(user, (u) => {
-  if (u) loadReviewDue();
-}, { immediate: true });
+watch(
+  user,
+  (u) => {
+    if (u) {
+      loadReviewDue();
+    }
+  },
+  { immediate: true },
+);
 
 async function signOut() {
   await authClient.signOut();
@@ -133,11 +139,6 @@ async function signOut() {
               {{ reviewDue }}
             </span>
           </DropdownMenuItem>
-          <DropdownMenuItem @select="router.push('/placement')">
-            <Icon icon="lucide:graduation-cap" class="text-base text-muted-foreground" />
-            <span class="flex-1 text-xs font-medium text-foreground">Change HSK level</span>
-          </DropdownMenuItem>
-
           <DropdownMenuSeparator class="my-1.5" />
           <DropdownMenuItem @select="signOut">
             <Icon icon="lucide:log-out" class="text-base text-muted-foreground" />

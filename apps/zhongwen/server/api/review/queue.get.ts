@@ -32,10 +32,7 @@ export default defineEventHandler(async (event) => {
       .where(dueFilter)
       .orderBy(asc(userKnownWord.nextReviewAt))
       .limit(20),
-    db
-      .select({ value: count() })
-      .from(userKnownWord)
-      .where(dueFilter),
+    db.select({ value: count() }).from(userKnownWord).where(dueFilter),
   ]);
 
   return { cards, totalDue: countRow?.value ?? 0 };

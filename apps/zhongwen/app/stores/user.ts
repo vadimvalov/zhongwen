@@ -154,7 +154,9 @@ export const useUserStore = defineStore("user", () => {
   function getHskLevel(): number | null {
     try {
       const raw = localStorage.getItem(HSK_LEVEL_KEY);
-      if (raw === null) return null;
+      if (raw === null) {
+        return null;
+      }
       const n = Number(raw);
       return n >= 1 && n <= 6 ? n : null;
     } catch {

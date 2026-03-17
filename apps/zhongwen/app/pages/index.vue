@@ -6,13 +6,9 @@ import { Link } from "~/components/ui/link";
 import { useAuth } from "~/composables/useAuth";
 import { getCardStyle } from "~/lib/cardStyles";
 import type { MainCard } from "~/lib/types";
-import { useUserStore } from "~/stores/user";
 
 const config = useRuntimeConfig();
 const { user } = useAuth();
-const userStore = useUserStore();
-
-const hasPlacement = computed(() => userStore.getHskLevel() !== null);
 
 const mainCards: MainCard[] = [
   {
@@ -48,62 +44,59 @@ const reviewStats = ref<{
 
 async function loadReviewStats() {
   try {
-    reviewStats.value = await $fetch("/api/review/stats");
+    const { data } = await useFetch("/api/review/stats");
+    reviewStats.value = data.value ?? null;
   } catch {
     /* ignore when logged out */
   }
 }
 
-const hasAnyWords = computed(() =>
-  reviewStats.value !== null &&
-  (reviewStats.value.due_today > 0 ||
-   reviewStats.value.reviewed_today > 0 ||
-   reviewStats.value.next_session_at !== null),
+const hasAnyWords = computed(
+  () =>
+    reviewStats.value !== null &&
+    (reviewStats.value.due_today > 0 ||
+      reviewStats.value.reviewed_today > 0 ||
+      reviewStats.value.next_session_at !== null),
 );
 
 const reviewLabel = computed(() => {
-  if (!reviewStats.value) return "";
-  if (!hasAnyWords.value) return "Mark words as known in Vocabulary to start";
+  if (!reviewStats.value) {
+    return "";
+  }
+  if (!hasAnyWords.value) {
+    return "Mark words as known in Vocabulary to start";
+  }
   const due = reviewStats.value.due_today;
-  if (due > 0) return `${due} card${due === 1 ? "" : "s"} due`;
+  if (due > 0) {
+    return `${due} card${due === 1 ? "" : "s"} due`;
+  }
   const diff = new Date(reviewStats.value.next_session_at!).getTime() - Date.now();
-  if (diff <= 0) return "Reviews ready";
+  if (diff <= 0) {
+    return "Reviews ready";
+  }
   const hours = Math.ceil(diff / (1000 * 60 * 60));
-  if (hours < 24) return `Next in ${hours}h`;
+  if (hours < 24) {
+    return `Next in ${hours}h`;
+  }
   return `Next in ${Math.ceil(hours / 24)}d`;
 });
 
 const isDue = computed(() => (reviewStats.value?.due_today ?? 0) > 0);
 
-watch(user, (u) => {
-  if (u) loadReviewStats();
-}, { immediate: true });
+watch(
+  user,
+  (u) => {
+    if (u) {
+      loadReviewStats();
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col items-center justify-center px-4 py-8">
     <h1 class="mb-6 text-2xl font-semibold text-foreground">大家好</h1>
-
-    <!-- Placement prompt for new users -->
-    <Link
-      v-if="!hasPlacement"
-      to="/placement"
-      class="mb-4 block w-full max-w-sm"
-      :hover="true"
-    >
-      <div class="flex items-center gap-3 rounded-2xl bg-muted/50 px-4 py-3 transition-transform hover:-translate-y-0.5 sm:px-5 sm:py-4">
-        <Icon icon="lucide:graduation-cap" class="text-xl text-muted-foreground sm:text-2xl" />
-        <div class="flex-1">
-          <p class="text-sm font-semibold text-foreground sm:text-base">
-            Find your level
-          </p>
-          <p class="text-xs text-muted-foreground">
-            Imagine you're opening a Chinese book — take a 30-second quiz so we show you the right pages
-          </p>
-        </div>
-        <Icon icon="lucide:chevron-right" class="text-lg text-muted-foreground" />
-      </div>
-    </Link>
 
     <div class="grid w-full max-w-sm grid-cols-2 gap-3">
       <template v-for="card in mainCards" :key="card.title">
@@ -127,7 +120,6 @@ watch(user, (u) => {
       </template>
     </div>
 
-    <!-- SRS Review card -->
     <component
       :is="hasAnyWords ? Link : 'div'"
       v-if="user && reviewStats"
@@ -146,7 +138,9 @@ watch(user, (u) => {
         ]"
       >
         <Icon
-          :icon="isDue ? 'lucide:clock-alert' : hasAnyWords ? 'lucide:circle-check' : 'lucide:layers'"
+          :icon="
+            isDue ? 'lucide:clock-alert' : hasAnyWords ? 'lucide:circle-check' : 'lucide:layers'
+          "
           :class="[
             'text-xl sm:text-2xl',
             isDue
@@ -164,7 +158,11 @@ watch(user, (u) => {
             {{ reviewLabel }}
           </p>
         </div>
-        <Icon v-if="hasAnyWords" icon="lucide:chevron-right" class="text-lg text-muted-foreground" />
+        <Icon
+          v-if="hasAnyWords"
+          icon="lucide:chevron-right"
+          class="text-lg text-muted-foreground"
+        />
       </div>
     </component>
 

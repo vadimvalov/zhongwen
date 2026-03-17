@@ -18,17 +18,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
 
-  const id = getRouterParam(event, "id");
-  if (!id) {
-    throw createError({ statusCode: 400, statusMessage: "Missing challenge id" });
+  const code = getRouterParam(event, "id");
+  if (!code) {
+    throw createError({ statusCode: 400, statusMessage: "Missing challenge code" });
   }
+
+  const [ch] = await db.select().from(challenge).where(eq(challenge.inviteCode, code)).limit(1);
+
+  if (!ch) {
+    throw createError({ statusCode: 404, statusMessage: "Challenge not found" });
+  }
+
+  const challengeId = ch.id;
 
   const [attempt] = await db
     .select()
     .from(challengeAttempt)
     .where(
       and(
-        eq(challengeAttempt.challengeId, id),
+        eq(challengeAttempt.challengeId, challengeId),
         eq(challengeAttempt.userId, session.user.id),
         isNotNull(challengeAttempt.finishedAt),
       ),
@@ -39,23 +47,13 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: "No completed attempt found" });
   }
 
-  const [ch] = await db
-    .select()
-    .from(challenge)
-    .where(eq(challenge.id, id))
-    .limit(1);
-
-  if (!ch) {
-    throw createError({ statusCode: 404, statusMessage: "Challenge not found" });
-  }
-
   const savedAnswers = await db
     .select()
     .from(challengeAnswer)
     .where(eq(challengeAnswer.attemptId, attempt.id));
 
   const questions = generateChallengeQuestions({
-    challengeId: id,
+    challengeId,
     hskLevel: ch.hskLevel,
     questionCount: ch.questionCount,
   });

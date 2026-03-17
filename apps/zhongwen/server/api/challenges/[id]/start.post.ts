@@ -14,16 +14,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
 
-  const id = getRouterParam(event, "id");
-  if (!id) {
-    throw createError({ statusCode: 400, statusMessage: "Missing challenge id" });
+  const code = getRouterParam(event, "id");
+  if (!code) {
+    throw createError({ statusCode: 400, statusMessage: "Missing challenge code" });
   }
 
-  const [ch] = await db
-    .select()
-    .from(challenge)
-    .where(eq(challenge.id, id))
-    .limit(1);
+  const [ch] = await db.select().from(challenge).where(eq(challenge.inviteCode, code)).limit(1);
 
   if (!ch) {
     throw createError({ statusCode: 404, statusMessage: "Challenge not found" });
@@ -34,12 +30,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Challenge is not active" });
   }
 
+  const challengeId = ch.id;
+
   const [participant] = await db
     .select()
     .from(challengeParticipant)
     .where(
       and(
-        eq(challengeParticipant.challengeId, id),
+        eq(challengeParticipant.challengeId, challengeId),
         eq(challengeParticipant.userId, session.user.id),
       ),
     )
@@ -54,7 +52,7 @@ export default defineEventHandler(async (event) => {
     .from(challengeAttempt)
     .where(
       and(
-        eq(challengeAttempt.challengeId, id),
+        eq(challengeAttempt.challengeId, challengeId),
         eq(challengeAttempt.userId, session.user.id),
         isNotNull(challengeAttempt.finishedAt),
       ),
@@ -62,7 +60,10 @@ export default defineEventHandler(async (event) => {
     .limit(1);
 
   if (completedAttempt) {
-    throw createError({ statusCode: 400, statusMessage: "You have already completed this challenge" });
+    throw createError({
+      statusCode: 400,
+      statusMessage: "You have already completed this challenge",
+    });
   }
 
   const [existing] = await db
@@ -70,7 +71,7 @@ export default defineEventHandler(async (event) => {
     .from(challengeAttempt)
     .where(
       and(
-        eq(challengeAttempt.challengeId, id),
+        eq(challengeAttempt.challengeId, challengeId),
         eq(challengeAttempt.userId, session.user.id),
         isNull(challengeAttempt.finishedAt),
       ),
@@ -85,7 +86,7 @@ export default defineEventHandler(async (event) => {
     attemptId = crypto.randomUUID();
     await db.insert(challengeAttempt).values({
       id: attemptId,
-      challengeId: id,
+      challengeId,
       userId: session.user.id,
       score: 0,
       timeMs: 0,
@@ -94,7 +95,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const questions = generateChallengeQuestions({
-    challengeId: id,
+    challengeId,
     hskLevel: ch.hskLevel,
     questionCount: ch.questionCount,
   });

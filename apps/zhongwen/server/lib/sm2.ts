@@ -11,13 +11,6 @@ export type SrsResult = {
   repetitions: number;
 };
 
-/**
- * SM-2 spaced repetition algorithm.
- * Grades 0–2 count as failed, 3 = hard, 4 = good, 5 = easy.
- * @param card  Current SRS state of the card
- * @param grade Quality of response (0–5)
- * @param now   Reference timestamp (defaults to current time)
- */
 export function calculateNextReview(
   card: SrsCard,
   grade: number,
@@ -39,16 +32,13 @@ export function calculateNextReview(
     repetitions += 1;
   }
 
-  ease_factor =
-    ease_factor + (0.1 - (5 - grade) * (0.08 + (5 - grade) * 0.02));
+  ease_factor = ease_factor + (0.1 - (5 - grade) * (0.08 + (5 - grade) * 0.02));
 
   if (ease_factor < 1.3) {
     ease_factor = 1.3;
   }
 
-  const next_review_at = new Date(
-    now.getTime() + interval_days * 24 * 60 * 60 * 1000,
-  );
+  const next_review_at = new Date(now.getTime() + interval_days * 24 * 60 * 60 * 1000);
 
   return { next_review_at, ease_factor, interval_days, repetitions };
 }

@@ -48,7 +48,9 @@ function initLevelFromQuery(): string[] {
     return [q];
   }
   const stored = userStore.getHskLevel();
-  if (stored) return [`HSK${stored}`];
+  if (stored) {
+    return [`HSK${stored}`];
+  }
   return [];
 }
 

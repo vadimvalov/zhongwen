@@ -1,4 +1,4 @@
-import { and, count, desc, eq, gt, max, or, sql } from "drizzle-orm";
+import { count, desc, eq, gt, max, or, sql } from "drizzle-orm";
 
 import { db } from "../../database";
 import { challenge, challengeAttempt, challengeParticipant } from "../../database/schema";
@@ -39,12 +39,7 @@ export default defineEventHandler(async (event) => {
     })
     .from(challenge)
     .leftJoin(challengeParticipant, eq(challenge.id, challengeParticipant.challengeId))
-    .where(
-      or(
-        gt(challenge.endsAt, now),
-        sql`${challenge.id} IN (${participantSub})`,
-      ),
-    )
+    .where(or(gt(challenge.endsAt, now), sql`${challenge.id} IN (${participantSub})`))
     .groupBy(challenge.id)
     .orderBy(desc(challenge.startsAt));
 
@@ -86,7 +81,11 @@ export default defineEventHandler(async (event) => {
   const enriched = rows.map((r) => {
     const isActive = r.startsAt <= now && r.endsAt > now;
     const isUpcoming = r.startsAt > now;
-    const status = isActive ? "active" : isUpcoming ? "upcoming" : "past";
+    const status: "active" | "upcoming" | "past" = isActive
+      ? "active"
+      : isUpcoming
+        ? "upcoming"
+        : "past";
     const rankInfo = rankMap.get(r.id);
     return {
       ...r,
@@ -97,10 +96,13 @@ export default defineEventHandler(async (event) => {
     };
   });
 
-  enriched.sort((a, b) => {
-    const order = { active: 0, upcoming: 1, past: 2 };
-    return order[a.status] - order[b.status];
-  });
+  const order: Record<"active" | "upcoming" | "past", number> = {
+    active: 0,
+    upcoming: 1,
+    past: 2,
+  };
+
+  enriched.sort((a, b) => order[a.status] - order[b.status]);
 
   return enriched;
 });

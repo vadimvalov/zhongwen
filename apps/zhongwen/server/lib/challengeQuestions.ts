@@ -20,12 +20,11 @@ const dictionaryCache = new Map<number, DictEntry[]>();
  */
 function loadDictionary(hskLevel: number): DictEntry[] {
   const cached = dictionaryCache.get(hskLevel);
-  if (cached) return cached;
+  if (cached) {
+    return cached;
+  }
 
-  const filePath = resolve(
-    process.cwd(),
-    `app/assets/dictionaries/hsk_${hskLevel}.json`,
-  );
+  const filePath = resolve(process.cwd(), `app/assets/dictionaries/hsk_${hskLevel}.json`);
   const data: DictEntry[] = JSON.parse(readFileSync(filePath, "utf-8"));
   dictionaryCache.set(hskLevel, data);
   return data;
