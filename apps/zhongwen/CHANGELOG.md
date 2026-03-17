@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.5.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.4.0...zhongwen/app-v0.5.0) (2026-03-17)
+
+
+### Features
+
+* implement SRS reviews, challenges, home button ([#17](https://github.com/vadimvalov/zhongwen/issues/17)) ([ce03830](https://github.com/vadimvalov/zhongwen/commit/ce0383097cd466699dd4dbfb3e8d4de8f8316f09))
+
+
+### Bug Fixes
+
+* format ([b211f8c](https://github.com/vadimvalov/zhongwen/commit/b211f8cf000aaa737a1739299ed3da02271ce848))
+
+
+### Miscellaneous Chores
+
+* prepare migrations ([468ab19](https://github.com/vadimvalov/zhongwen/commit/468ab1978050983c82b8b3141a91851bd423a011))
+
 ## [0.3.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.3.0...zhongwen/app-v0.3.1) (2026-03-17)
 
 
