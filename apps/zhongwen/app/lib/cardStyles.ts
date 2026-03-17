@@ -23,7 +23,7 @@ export const CARD_ICON_SETS = {
     "lucide:scroll-text",
     "lucide:file-text",
   ],
-  main: ["lucide:book-open", "lucide:layers", "lucide:headphones", "lucide:pen-line"],
+  main: ["lucide:book-open", "lucide:layers", "lucide:headphones", "lucide:trophy"],
 } as const;
 
 export function getCardStyle(
