@@ -30,26 +30,20 @@ import {
           ElevenLabs</DialogTitle
         >
         <DialogDescription>
-          <span class="font-bold underline">zhongwen.lol</span> uses ElevenLabs
-          for AI-powered audio generation. All spoken content in this app —
-          including vocabulary pronunciations and story narrations — is
-          generated using ElevenLabs&apos; text-to-speech technology.
+          <span class="font-bold underline">zhongwen.lol</span> uses ElevenLabs for AI-powered audio
+          generation. All spoken content in this app — including vocabulary pronunciations and story
+          narrations — is generated using ElevenLabs&apos; text-to-speech technology.
           <br />
           <br />
-          While we strive for accuracy, AI-generated audio may occasionally
-          mispronounce words, misplace tones, or produce other inaccuracies,
-          especially with less common Chinese characters and proper nouns. We
-          recommend using this app as a supplementary learning tool alongside
-          other verified resources.
+          While we strive for accuracy, AI-generated audio may occasionally mispronounce words,
+          misplace tones, or produce other inaccuracies, especially with less common Chinese
+          characters and proper nouns. We recommend using this app as a supplementary learning tool
+          alongside other verified resources.
           <br />
           <br />
-          If you notice any audio errors or inaccuracies, we&apos;d appreciate
-          your feedback. Please reach out via Telegram at
-          <a
-            href="https://t.me/valovvadim"
-            target="_blank"
-            rel="noreferrer"
-            class="underline"
+          If you notice any audio errors or inaccuracies, we&apos;d appreciate your feedback. Please
+          reach out via Telegram at
+          <a href="https://t.me/valovvadim" target="_blank" rel="noreferrer" class="underline"
             >t.me/valovvadim</a
           >
           — your reports help us improve the quality of the content.
