@@ -4,6 +4,7 @@ import { auth } from "../lib/auth";
 
 type Body = {
   hanzi: string;
+  review?: boolean;
 };
 
 export default defineEventHandler(async (event) => {
@@ -22,12 +23,15 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Missing hanzi" });
   }
 
+  const review = body.review === true;
+
   await db
     .insert(userKnownWord)
     .values({
       userId: session.user.id,
       hanzi,
       createdAt: new Date(),
+      nextReviewAt: review ? new Date() : null,
     })
     .onConflictDoNothing();
 
