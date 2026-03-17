@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import ElevenLabsDisclosureDialog from "~/components/ElevenLabsDisclosureDialog.vue";
+import OpenAIPartnerDialog from "~/components/OpenAIPartnerDialog.vue";
 import { Card } from "~/components/ui/card";
 import { Link } from "~/components/ui/link";
+import { toast } from "~/components/ui/sonner";
+import { useAuth } from "~/composables/useAuth";
 import { getCardStyle } from "~/lib/cardStyles";
 import type { MainCard } from "~/lib/types";
 
 const config = useRuntimeConfig();
+const { user } = useAuth();
 
 const mainCards: MainCard[] = [
   {
@@ -29,7 +34,7 @@ const mainCards: MainCard[] = [
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col items-center justify-center px-4 py-8">
+  <div class="relative flex min-h-screen flex-col items-center justify-center px-4 py-8">
     <h1 class="mb-6 text-2xl font-semibold text-foreground">大家好</h1>
     <div class="grid w-full max-w-sm grid-cols-2 gap-3">
       <template v-for="card in mainCards" :key="card.title">
@@ -59,7 +64,7 @@ const mainCards: MainCard[] = [
         >GitHub</a
       >.
     </p>
-    <p class="mt-2 text-[10px] leading-snug text-muted-foreground">
+    <p class="mt-2 max-w-sm text-[10px] leading-snug text-muted-foreground">
       Any contributions are welcome. Contact me on
       <a href="https://t.me/valovvadim" target="_blank" class="text-foreground">Telegram</a>.
     </p>
@@ -70,5 +75,11 @@ const mainCards: MainCard[] = [
     >
       v{{ config.public.version }}
     </a>
+    <div
+      class="absolute right-4 bottom-4 text-right text-[10px] leading-snug text-muted-foreground"
+    >
+      <OpenAIPartnerDialog />
+      <ElevenLabsDisclosureDialog />
+    </div>
   </div>
 </template>
