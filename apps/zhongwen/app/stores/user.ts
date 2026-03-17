@@ -20,6 +20,7 @@ function getStoredTheme() {
 export const useUserStore = defineStore("user", () => {
   const theme = ref<Theme>(getStoredTheme());
   const readTextIds = ref<Set<string>>(new Set());
+  const knownWords = ref<Set<string>>(new Set());
 
   function setTheme(value: Theme) {
     theme.value = value;
@@ -38,6 +39,10 @@ export const useUserStore = defineStore("user", () => {
     return readTextIds.value.has(textId);
   }
 
+  function isKnown(hanzi: string) {
+    return knownWords.value.has(hanzi);
+  }
+
   async function refreshReadTextIds() {
     try {
       const ids = await $fetch<string[]>("/api/reading/read-texts");
@@ -47,6 +52,53 @@ export const useUserStore = defineStore("user", () => {
       if (process.dev) {
         // eslint-disable-next-line no-console
         console.warn("[userStore] failed to refresh read texts", err);
+      }
+    }
+  }
+
+  async function refreshKnownWords() {
+    try {
+      const list = await $fetch<string[]>("/api/known-words");
+      knownWords.value = new Set(list);
+    } catch (err) {
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.warn("[userStore] failed to refresh known words", err);
+      }
+    }
+  }
+
+  async function addKnownWord(hanzi: string) {
+    if (knownWords.value.has(hanzi)) {
+      return;
+    }
+    knownWords.value = new Set([...knownWords.value, hanzi]);
+    try {
+      await $fetch("/api/known-words", {
+        method: "POST",
+        body: { hanzi },
+      });
+    } catch (err) {
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.warn("[userStore] failed to add known word", err);
+      }
+    }
+  }
+
+  async function removeKnownWord(hanzi: string) {
+    const next = new Set(knownWords.value);
+    next.delete(hanzi);
+    knownWords.value = next;
+    try {
+      await $fetch("/api/known-words", {
+        method: "DELETE",
+        query: { hanzi },
+      });
+    } catch (err) {
+      if (process.dev) {
+        // eslint-disable-next-line no-console
+        console.warn("[userStore] failed to remove known word", err);
       }
     }
   }
@@ -110,10 +162,15 @@ export const useUserStore = defineStore("user", () => {
     setTheme,
     toggleTheme,
     readTextIds,
+    knownWords,
     refreshReadTextIds,
+    refreshKnownWords,
     isRead,
+    isKnown,
     markAsRead,
     unmarkAsRead,
     toggleRead,
+    addKnownWord,
+    removeKnownWord,
   };
 });

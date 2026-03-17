@@ -7,8 +7,10 @@ import { Link } from "~/components/ui/link";
 import { useDictionaryModules } from "~/composables/useDictionaries";
 import { getCardStyle } from "~/lib/cardStyles";
 import { formatDictName } from "~/lib/formatters";
+import { useUserStore } from "~/stores/user";
 
 const modules = useDictionaryModules();
+const userStore = useUserStore();
 
 const router = useRouter();
 const searchQuery = ref("");
@@ -17,15 +19,23 @@ const dictionaries = computed(() => {
   return Object.entries(modules).map(([path], index) => {
     const filename = path.split("/").pop() || "";
     const id = filename.replace(".json", "");
+    const words = modules[path] as { hanzi: string }[] | undefined;
+    const total = words?.length ?? 0;
+    const known = words ? words.filter((w) => userStore.isKnown(w.hanzi)).length : 0;
     const { icon, tone } = getCardStyle(index, "vocabulary");
     return {
       id,
       title: formatDictName(filename),
       icon,
       tone,
+      total,
+      known,
     };
   });
 });
+
+const totalKnown = computed(() => dictionaries.value.reduce((sum, d) => sum + d.known, 0));
+const totalWords = computed(() => dictionaries.value.reduce((sum, d) => sum + d.total, 0));
 
 function handleSearch() {
   const value = searchQuery.value.trim();
@@ -57,6 +67,23 @@ function handleSearch() {
         <p class="text-xs text-muted-foreground sm:text-sm">
           Select a dictionary to view words or search for a specific word.
         </p>
+        <div
+          v-if="totalWords"
+          class="flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs sm:text-sm"
+        >
+          <span class="text-muted-foreground">
+            Known words: <span class="font-medium text-foreground">{{ totalKnown }}</span> /
+            {{ totalWords }}
+          </span>
+          <div class="hidden h-1.5 w-32 overflow-hidden rounded-full bg-muted sm:block">
+            <div
+              class="h-full rounded-full bg-[var(--surface-card-mint)] transition-all"
+              :style="{
+                width: `${Math.min(100, Math.round((totalKnown / totalWords) * 100))}%`,
+              }"
+            />
+          </div>
+        </div>
         <form class="flex flex-col gap-2" @submit.prevent="handleSearch">
           <div class="flex gap-2">
             <Input
@@ -95,9 +122,10 @@ function handleSearch() {
         >
           <Card
             :title="dict.title"
-            :description="`View ${dict.title} word list`"
+            :description="`Known: ${dict.known} / ${dict.total}`"
             :icon="dict.icon"
             :tone="dict.tone"
+            :progress="dict.total ? dict.known / dict.total : null"
             class="h-full"
           />
         </Link>

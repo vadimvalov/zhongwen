@@ -10,8 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { authClient, useAuth } from "~/composables/useAuth";
+import { useUserStore } from "~/stores/user";
 
 const { user, isPending } = useAuth();
+const userStore = useUserStore();
+const router = useRouter();
 
 const initials = computed(() => {
   if (!user.value?.name) {
@@ -24,6 +27,9 @@ const initials = computed(() => {
     .slice(0, 2)
     .toUpperCase();
 });
+
+const textsRead = computed(() => userStore.readTextIds.size);
+const knownWords = computed(() => userStore.knownWords.size);
 
 async function signOut() {
   await authClient.signOut();
@@ -91,14 +97,19 @@ async function signOut() {
             </div>
           </div>
         </DropdownMenuLabel>
-        <div class="p-2">
-          <DropdownMenuItem as-child>
-            <NuxtLink to="/dashboard" class="w-full">
-              <Icon icon="lucide:layout-dashboard" class="text-base text-muted-foreground" />
-              Dashboard
-            </NuxtLink>
+        <div class="space-y-1.5 p-2">
+          <DropdownMenuItem @select="router.push('/reading')">
+            <Icon icon="lucide:book-open" class="text-base text-muted-foreground" />
+            <span class="flex-1 text-xs font-medium text-foreground">Texts read</span>
+            <span class="text-xs text-foreground tabular-nums">{{ textsRead }}</span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator class="my-2" />
+          <DropdownMenuItem @select="router.push('/known-words')">
+            <Icon icon="lucide:bookmark-check" class="text-base text-muted-foreground" />
+            <span class="flex-1 text-xs font-medium text-foreground">Known words</span>
+            <span class="text-xs text-foreground tabular-nums">{{ knownWords }}</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator class="my-1.5" />
           <DropdownMenuItem @select="signOut">
             <Icon icon="lucide:log-out" class="text-base text-muted-foreground" />
             Sign out

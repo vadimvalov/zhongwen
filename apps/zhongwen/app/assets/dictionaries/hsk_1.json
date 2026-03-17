@@ -37,8 +37,16 @@
   { "hanzi": "一点儿", "pinyin": "yīdiǎnr", "translation": "a little bit" },
   { "hanzi": "和", "pinyin": "hé", "translation": "and" },
   { "hanzi": "在", "pinyin": "zài", "translation": "in, at" },
-  { "hanzi": "的", "pinyin": "de", "translation": "particle (possessive/attributive)" },
-  { "hanzi": "了", "pinyin": "le", "translation": "particle (completed action)" },
+  {
+    "hanzi": "的",
+    "pinyin": "de",
+    "translation": "particle (possessive/attributive)"
+  },
+  {
+    "hanzi": "了",
+    "pinyin": "le",
+    "translation": "particle (completed action)"
+  },
   { "hanzi": "吗", "pinyin": "ma", "translation": "particle (question)" },
   { "hanzi": "呢", "pinyin": "ne", "translation": "particle (mild question)" },
   { "hanzi": "喂", "pinyin": "wèi", "translation": "hello" },
@@ -109,7 +117,11 @@
   { "hanzi": "再见", "pinyin": "zàijiàn", "translation": "goodbye" },
   { "hanzi": "请", "pinyin": "qǐng", "translation": "please" },
   { "hanzi": "对不起", "pinyin": "duìbùqǐ", "translation": "sorry" },
-  { "hanzi": "没关系", "pinyin": "méiguānxi", "translation": "it doesn't matter" },
+  {
+    "hanzi": "没关系",
+    "pinyin": "méiguānxi",
+    "translation": "it doesn't matter"
+  },
   { "hanzi": "是", "pinyin": "shì", "translation": "be (am, is, are)" },
   { "hanzi": "有", "pinyin": "yǒu", "translation": "have" },
   { "hanzi": "看", "pinyin": "kàn", "translation": "look" },
@@ -125,7 +137,11 @@
   { "hanzi": "吃", "pinyin": "chī", "translation": "eat" },
   { "hanzi": "喝", "pinyin": "hē", "translation": "drink" },
   { "hanzi": "睡觉", "pinyin": "shuìjiào", "translation": "sleep" },
-  { "hanzi": "打电话", "pinyin": "dǎdiànhuà", "translation": "make a phone call" },
+  {
+    "hanzi": "打电话",
+    "pinyin": "dǎdiànhuà",
+    "translation": "make a phone call"
+  },
   { "hanzi": "做", "pinyin": "zuò", "translation": "do" },
   { "hanzi": "买", "pinyin": "mǎi", "translation": "buy" },
   { "hanzi": "开", "pinyin": "kāi", "translation": "open" },
@@ -148,13 +164,5 @@
   { "hanzi": "冷", "pinyin": "lěng", "translation": "cold" },
   { "hanzi": "热", "pinyin": "rè", "translation": "hot" },
   { "hanzi": "高兴", "pinyin": "gāoxìng", "translation": "happy" },
-  { "hanzi": "漂亮", "pinyin": "piàoliang", "translation": "beautiful" },
-  { "hanzi": "星期一", "pinyin": "xīngqīyī", "translation": "Monday" },
-  { "hanzi": "星期二", "pinyin": "xīngqīèr", "translation": "Tuesday" },
-  { "hanzi": "星期三", "pinyin": "xīngqīsān", "translation": "Wednesday" },
-  { "hanzi": "星期四", "pinyin": "xīngqīsì", "translation": "Thursday" },
-  { "hanzi": "星期五", "pinyin": "xīngqīwǔ", "translation": "Friday" },
-  { "hanzi": "星期六", "pinyin": "xīngqīliù", "translation": "Saturday" },
-  { "hanzi": "星期天", "pinyin": "xīngqītiān", "translation": "Sunday (informal)" },
-  { "hanzi": "星期日", "pinyin": "xīngqírì", "translation": "Sunday (formal)" }
+  { "hanzi": "漂亮", "pinyin": "piàoliang", "translation": "beautiful" }
 ]

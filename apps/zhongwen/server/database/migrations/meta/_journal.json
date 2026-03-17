@@ -15,6 +15,13 @@
       "when": 1773753376777,
       "tag": "0001_rare_polaris",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773754386315,
+      "tag": "0002_daffy_jamie_braddock",
+      "breakpoints": true
     }
   ]
 }

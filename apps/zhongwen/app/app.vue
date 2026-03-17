@@ -19,9 +19,10 @@ watch(
       return;
     }
     if (u) {
-      await userStore.refreshReadTextIds();
+      await Promise.all([userStore.refreshReadTextIds(), userStore.refreshKnownWords()]);
     } else {
       userStore.readTextIds = new Set();
+      userStore.knownWords = new Set();
     }
   },
   { immediate: true },

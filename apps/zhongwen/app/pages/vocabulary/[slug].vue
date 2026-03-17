@@ -3,6 +3,7 @@ import { Icon } from "@iconify/vue";
 import { computed, ref } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
+import { useAuth } from "~/composables/useAuth";
 import { useDictionaryModules } from "~/composables/useDictionaries";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
 import { formatDictName } from "~/lib/formatters";
@@ -10,6 +11,8 @@ import type { Word } from "~/lib/types";
 
 const route = useRoute();
 const hasElevenLabs = useHasElevenLabs();
+const { user } = useAuth();
+const userStore = useUserStore();
 
 const modules = useDictionaryModules();
 
@@ -23,6 +26,11 @@ const words = computed<Word[]>(() => {
 
 const dictTitle = computed(() => formatDictName(dictId.value));
 
+const totalWordsInDict = computed(() => words.value.length);
+const knownWordsInDict = computed(
+  () => words.value.filter((w) => userStore.isKnown(w.hanzi)).length,
+);
+
 const speakingIndex = ref<number | null>(null);
 const selectedStrokeHanzi = ref<string | null>(null);
 
@@ -34,6 +42,8 @@ function closeStrokeModal() {
   selectedStrokeHanzi.value = null;
 }
 
+const speakCounts = ref<Record<string, number>>({});
+
 async function handleSpeak(word: Word, index: number) {
   if (!hasElevenLabs) {
     return;
@@ -41,26 +51,47 @@ async function handleSpeak(word: Word, index: number) {
   speakingIndex.value = index;
   try {
     await speakWithElevenLabs(word.hanzi);
+    const key = word.hanzi;
+    speakCounts.value[key] = (speakCounts.value[key] ?? 0) + 1;
+    if (speakCounts.value[key] >= 3 && user.value) {
+      void userStore.addKnownWord(key);
+    }
   } catch {
     // Ignore playback errors
   } finally {
     speakingIndex.value = null;
   }
 }
+
+function toggleKnown(word: Word) {
+  if (!user.value) {
+    return;
+  }
+  if (userStore.isKnown(word.hanzi)) {
+    void userStore.removeKnownWord(word.hanzi);
+  } else {
+    void userStore.addKnownWord(word.hanzi);
+  }
+}
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
-    <div class="w-full max-w-4xl">
+    <div class="w-full max-w-5xl">
       <p v-if="!words.length" class="text-xs text-muted-foreground sm:text-sm">
         Dictionary not found.
       </p>
       <div v-else class="space-y-3 sm:space-y-4">
-        <div class="flex items-center gap-2 sm:gap-3">
-          <BackButton />
-          <h1 class="text-xl font-semibold text-foreground sm:text-2xl">
-            {{ dictTitle }}
-          </h1>
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 sm:gap-3">
+            <BackButton />
+            <h1 class="text-xl font-semibold text-foreground sm:text-2xl">
+              {{ dictTitle }}
+            </h1>
+          </div>
+          <p class="text-xs text-muted-foreground sm:text-sm">
+            Known: {{ knownWordsInDict }} / {{ totalWordsInDict }}
+          </p>
         </div>
 
         <div class="overflow-hidden rounded-lg border border-border">
@@ -87,6 +118,11 @@ async function handleSpeak(word: Word, index: number) {
                     class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
                   >
                     Strokes
+                  </th>
+                  <th
+                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
+                  >
+                    Known?
                   </th>
                   <th class="w-9 px-2 py-2 sm:w-12 sm:px-4 sm:py-3"></th>
                 </tr>
@@ -123,6 +159,28 @@ async function handleSpeak(word: Word, index: number) {
                         <HanziStrokesOrder :hanzi="char" />
                       </button>
                     </div>
+                  </td>
+                  <td class="px-2 py-2 sm:px-4 sm:py-3">
+                    <button
+                      type="button"
+                      class="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition-colors disabled:opacity-50"
+                      :class="
+                        userStore.isKnown(word.hanzi)
+                          ? 'border-transparent bg-[var(--surface-card-mint)] text-[var(--surface-card-foreground)]'
+                          : 'border-border text-foreground hover:bg-muted'
+                      "
+                      :disabled="!user"
+                      :aria-pressed="userStore.isKnown(word.hanzi)"
+                      @click="toggleKnown(word)"
+                    >
+                      <Icon
+                        :icon="
+                          userStore.isKnown(word.hanzi) ? 'lucide:check-circle-2' : 'lucide:circle'
+                        "
+                        class="h-3.5 w-3.5"
+                      />
+                      <span> Known </span>
+                    </button>
                   </td>
                   <td class="px-2 py-2 sm:px-4 sm:py-3">
                     <button

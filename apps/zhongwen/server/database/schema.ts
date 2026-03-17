@@ -63,3 +63,17 @@ export const userReadText = pgTable(
     pk: primaryKey({ columns: [table.userId, table.textId] }),
   }),
 );
+
+export const userKnownWord = pgTable(
+  "user_known_word",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    hanzi: text("hanzi").notNull(),
+    createdAt: timestamp("created_at").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.hanzi] }),
+  }),
+);

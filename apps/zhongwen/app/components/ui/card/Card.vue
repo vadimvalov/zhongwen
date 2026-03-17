@@ -12,9 +12,10 @@ const props = withDefaults(
     icon: string;
     tone?: CardTone;
     read?: boolean;
+    progress?: number | null;
     class?: HTMLAttributes["class"];
   }>(),
-  { class: undefined, read: false },
+  { class: undefined, read: false, progress: null },
 );
 </script>
 
@@ -44,6 +45,15 @@ const props = withDefaults(
         <p class="card-description m-0 mt-0.5 line-clamp-3 text-xs sm:mt-1 md:text-sm">
           {{ description }}
         </p>
+        <div
+          v-if="typeof props.progress === 'number'"
+          class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-black/10"
+        >
+          <div
+            class="h-full rounded-full bg-black/40"
+            :style="{ width: `${Math.min(100, Math.max(0, Math.round(props.progress * 100)))}%` }"
+          />
+        </div>
       </div>
     </article>
     <Icon

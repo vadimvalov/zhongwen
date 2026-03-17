@@ -65,7 +65,11 @@ const wordGroups = computed<WordGroup[]>(() => {
 });
 
 const tooltipRefs = ref<(HTMLElement | null)[]>([]);
+const hoverStartMs = ref<Record<number, number>>({});
+const hoverAccumMs = ref<Record<number, number>>({});
+const HOVER_KNOWN_THRESHOLD_MS = 7000;
 const showPinyin = ref(true);
+const highlightKnown = ref(false);
 const wordMode = ref<WordMode>("speak");
 const activeTooltipIndex = ref<number | null>(null);
 
@@ -74,6 +78,7 @@ function setTooltipRef(el: HTMLElement | null, index: number) {
 }
 
 function handleMouseEnter(index: number) {
+  hoverStartMs.value[index] = performance.now();
   const el = tooltipRefs.value[index];
   if (!el) {
     return;
@@ -97,6 +102,21 @@ function handleMouseEnter(index: number) {
 }
 
 function handleMouseLeave(index: number) {
+  const start = hoverStartMs.value[index];
+  if (start) {
+    const delta = performance.now() - start;
+    hoverAccumMs.value[index] = (hoverAccumMs.value[index] ?? 0) + delta;
+    delete hoverStartMs.value[index];
+
+    const total = hoverAccumMs.value[index];
+    if (total >= HOVER_KNOWN_THRESHOLD_MS && user.value) {
+      const group = wordGroups.value.find((g) => g.index === index && g.kind === "word");
+      const hanzi = group?.word.hanzi;
+      if (hanzi) {
+        void userStore.addKnownWord(hanzi);
+      }
+    }
+  }
   const el = tooltipRefs.value[index];
   if (!el) {
     return;
@@ -173,7 +193,10 @@ async function toggleMarkAsRead() {
           {{ textData.description }}
         </p>
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <Checkbox v-model="showPinyin" label="Pinyin" />
+          <div class="flex flex-wrap items-center gap-3">
+            <Checkbox v-model="showPinyin" label="Pinyin" />
+            <Checkbox v-model="highlightKnown" label="Highlight known words" />
+          </div>
           <Button type="button" class="px-3 py-1.5 text-sm" @click="toggleMarkAsRead()">
             {{ isRead ? "Mark as unread" : "Mark as Read" }}
           </Button>
@@ -260,7 +283,10 @@ async function toggleMarkAsRead() {
                 <span v-if="showPinyin" class="mb-1 text-sm leading-none text-accent-muted">
                   {{ group.word.pinyin }}
                 </span>
-                <span class="text-2xl leading-none text-foreground">
+                <span
+                  class="text-2xl leading-none text-foreground"
+                  :class="highlightKnown && userStore.isKnown(group.word.hanzi) ? 'known-word' : ''"
+                >
                   {{ group.word.hanzi }}
                 </span>
               </span>
