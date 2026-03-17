@@ -31,6 +31,21 @@ const initials = computed(() => {
 const textsRead = computed(() => userStore.readTextIds.size);
 const knownWords = computed(() => userStore.knownWords.size);
 
+const reviewDue = ref(0);
+
+async function loadReviewDue() {
+  try {
+    const stats = await $fetch<{ due_today: number }>("/api/review/stats");
+    reviewDue.value = stats.due_today;
+  } catch {
+    /* ignore */
+  }
+}
+
+watch(user, (u) => {
+  if (u) loadReviewDue();
+}, { immediate: true });
+
 async function signOut() {
   await authClient.signOut();
 }
@@ -107,6 +122,20 @@ async function signOut() {
             <Icon icon="lucide:bookmark-check" class="text-base text-muted-foreground" />
             <span class="flex-1 text-xs font-medium text-foreground">Known words</span>
             <span class="text-xs text-foreground tabular-nums">{{ knownWords }}</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem @select="router.push('/review')">
+            <Icon icon="lucide:repeat-2" class="text-base text-muted-foreground" />
+            <span class="flex-1 text-xs font-medium text-foreground">Reviews</span>
+            <span
+              v-if="reviewDue > 0"
+              class="rounded-full bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-amber-600 tabular-nums dark:text-amber-400"
+            >
+              {{ reviewDue }}
+            </span>
+          </DropdownMenuItem>
+          <DropdownMenuItem @select="router.push('/placement')">
+            <Icon icon="lucide:graduation-cap" class="text-base text-muted-foreground" />
+            <span class="flex-1 text-xs font-medium text-foreground">Change HSK level</span>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator class="my-1.5" />
