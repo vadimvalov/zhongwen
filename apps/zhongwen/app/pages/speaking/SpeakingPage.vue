@@ -4,6 +4,8 @@ import { computed, ref, watch } from "vue";
 
 import { Card } from "~/components/ui/card";
 import { Link } from "~/components/ui/link";
+import { toast } from "~/components/ui/sonner";
+import { useAuth } from "~/composables/useAuth";
 import { useDictionaryModules } from "~/composables/useDictionaries";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
 import { getCardStyle } from "~/lib/cardStyles";
@@ -20,12 +22,25 @@ function pickRandom<T>(arr: T[], count: number): T[] {
 
 // ── route & view ─────────────────────────────────────────────────────────────
 const route = useRoute();
+const router = useRouter();
+const { user, isPending } = useAuth();
 const hasElevenLabs = useHasElevenLabs();
 const dictId = computed(() => ((route.params.slug ?? route.params.id) as string) ?? "");
 const isModeSelect = computed(() => route.path === "/speaking");
 const isDictList = computed(() => route.path === "/speaking/words" && !dictId.value);
 const isPractice = computed(() => Boolean(dictId.value));
 const isSentences = computed(() => route.path === "/speaking/sentences");
+
+watch(
+  [user, isPending],
+  ([u, pending]) => {
+    if (!pending && !u) {
+      toast.warning("Authorize to use speaking practice");
+      router.replace("/");
+    }
+  },
+  { immediate: true },
+);
 
 // ── mode select ─────────────────────────────────────────────────────────────
 const modes = [
