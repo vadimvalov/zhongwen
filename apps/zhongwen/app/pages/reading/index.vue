@@ -34,7 +34,27 @@ const items: Item[] = Object.entries(rawModules).map(([path, mod], index) => {
 
 const levelOptions = ["HSK1", "HSK2", "HSK3", "HSK4", "HSK5", "HSK6"] as const;
 
-const selectedLevels = ref<string[]>([]);
+/**
+ * Initialize the level filter from the ?level query param (e.g. ?level=HSK3),
+ * so the placement quiz can route directly to filtered content.
+ */
+/**
+ * Initialize level filter from ?level query param, falling back to the stored
+ * HSK placement level so the quiz result is sticky across sessions.
+ */
+function initLevelFromQuery(): string[] {
+  const q = route.query.level;
+  if (typeof q === "string" && levelOptions.includes(q as (typeof levelOptions)[number])) {
+    return [q];
+  }
+  const stored = userStore.getHskLevel();
+  if (stored) {
+    return [`HSK${stored}`];
+  }
+  return [];
+}
+
+const selectedLevels = ref<string[]>(initLevelFromQuery());
 const searchQuery = ref("");
 
 const selectedLevelsLabel = computed(() => {

@@ -1,4 +1,4 @@
-import { boolean, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, primaryKey, real, text, timestamp } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -72,8 +72,77 @@ export const userKnownWord = pgTable(
       .references(() => user.id, { onDelete: "cascade" }),
     hanzi: text("hanzi").notNull(),
     createdAt: timestamp("created_at").notNull(),
+    nextReviewAt: timestamp("next_review_at"),
+    easeFactor: real("ease_factor").default(2.5),
+    intervalDays: integer("interval_days").default(1),
+    repetitions: integer("repetitions").default(0),
+    lastReviewedAt: timestamp("last_reviewed_at"),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.userId, table.hanzi] }),
+  }),
+);
+
+export const challenge = pgTable("challenge", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  hskLevel: integer("hsk_level").notNull(),
+  mode: text("mode").notNull().default("vocab_mcq"),
+  questionCount: integer("question_count").notNull().default(20),
+  timeLimitSec: integer("time_limit_sec").notNull().default(15),
+  startsAt: timestamp("starts_at").notNull(),
+  endsAt: timestamp("ends_at").notNull(),
+  createdBy: text("created_by")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  inviteCode: text("invite_code").notNull().unique(),
+  createdAt: timestamp("created_at").notNull(),
+});
+
+export const challengeParticipant = pgTable(
+  "challenge_participant",
+  {
+    challengeId: text("challenge_id")
+      .notNull()
+      .references(() => challenge.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    joinedAt: timestamp("joined_at").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.challengeId, table.userId] }),
+  }),
+);
+
+export const challengeAttempt = pgTable("challenge_attempt", {
+  id: text("id").primaryKey(),
+  challengeId: text("challenge_id")
+    .notNull()
+    .references(() => challenge.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  score: integer("score").notNull().default(0),
+  timeMs: integer("time_ms").notNull().default(0),
+  startedAt: timestamp("started_at").notNull(),
+  finishedAt: timestamp("finished_at"),
+});
+
+export const challengeAnswer = pgTable(
+  "challenge_answer",
+  {
+    attemptId: text("attempt_id")
+      .notNull()
+      .references(() => challengeAttempt.id, { onDelete: "cascade" }),
+    questionIdx: integer("question_idx").notNull(),
+    hanzi: text("hanzi").notNull(),
+    selected: text("selected").notNull(),
+    correct: boolean("correct").notNull(),
+    timeMs: integer("time_ms").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.attemptId, table.questionIdx] }),
   }),
 );

@@ -4,6 +4,7 @@ import { ref, watch } from "vue";
 import type { Theme } from "~/lib/types";
 
 const THEME_KEY = "zhongwen-theme";
+const HSK_LEVEL_KEY = "hsk_level";
 
 function getStoredTheme() {
   try {
@@ -76,7 +77,7 @@ export const useUserStore = defineStore("user", () => {
     try {
       await $fetch("/api/known-words", {
         method: "POST",
-        body: { hanzi },
+        body: { hanzi, review: true },
       });
     } catch (err) {
       if (process.dev) {
@@ -146,6 +147,35 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Read the stored HSK placement level from localStorage.
+   * @returns The HSK level (1–6), or `null` if not yet placed.
+   */
+  function getHskLevel(): number | null {
+    try {
+      const raw = localStorage.getItem(HSK_LEVEL_KEY);
+      if (raw === null) {
+        return null;
+      }
+      const n = Number(raw);
+      return n >= 1 && n <= 6 ? n : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Persist the user's HSK placement level to localStorage.
+   * @param level - HSK level between 1 and 6.
+   */
+  function setHskLevel(level: number) {
+    try {
+      localStorage.setItem(HSK_LEVEL_KEY, String(level));
+    } catch {
+      /* ignore */
+    }
+  }
+
   watch(
     theme,
     (v) => {
@@ -172,5 +202,7 @@ export const useUserStore = defineStore("user", () => {
     toggleRead,
     addKnownWord,
     removeKnownWord,
+    getHskLevel,
+    setHskLevel,
   };
 });
