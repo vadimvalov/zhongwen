@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 
+import ElevenLabsDisclosureDialog from "~/components/ElevenLabsDisclosureDialog.vue";
+import OpenAIPartnerDialog from "~/components/OpenAIPartnerDialog.vue";
 import { Card } from "~/components/ui/card";
 import { Link } from "~/components/ui/link";
 import { useAuth } from "~/composables/useAuth";
@@ -183,5 +185,11 @@ watch(
     >
       v{{ config.public.version }}
     </a>
+    <div
+      class="absolute right-4 bottom-4 text-right text-[10px] leading-snug text-muted-foreground"
+    >
+      <OpenAIPartnerDialog />
+      <ElevenLabsDisclosureDialog />
+    </div>
   </div>
 </template>
