@@ -330,7 +330,10 @@ watch([() => challenge.value?.leaderboard, isEnded], () => {
             </div>
           </div>
 
-          <div v-if="challenge.leaderboard.length" class="rounded-2xl border border-border bg-card">
+          <div
+            v-if="userHasPlayed && challenge.leaderboard.length"
+            class="rounded-2xl border border-border bg-card"
+          >
             <h2 class="border-b border-border px-4 py-3 text-sm font-semibold text-foreground">
               Leaderboard
             </h2>
@@ -392,7 +395,7 @@ watch([() => challenge.value?.leaderboard, isEnded], () => {
             v-else
             class="rounded-2xl border border-border bg-card px-4 py-8 text-center text-sm text-muted-foreground"
           >
-            No attempts yet — be the first to play!
+            Complete the challenge to access leaderboard
           </div>
         </template>
       </div>
