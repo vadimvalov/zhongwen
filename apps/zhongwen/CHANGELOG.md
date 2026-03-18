@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.0...zhongwen/app-v0.5.1) (2026-03-18)
+
+
+### Bug Fixes
+
+* add loading state for reviews ([154bd79](https://github.com/vadimvalov/zhongwen/commit/154bd79b54558695c1cef02b2476c5731da63c5e))
+
 ## [0.5.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.4.0...zhongwen/app-v0.5.0) (2026-03-17)
 
 
