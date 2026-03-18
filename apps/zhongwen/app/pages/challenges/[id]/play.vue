@@ -20,6 +20,12 @@ type Question = {
   options: { label: string }[];
 };
 
+type StartChallengeResponse = {
+  attemptId: string;
+  timeLimitSec: number;
+  questions: Question[];
+};
+
 type Phase = "loading" | "playing" | "submitting" | "results";
 
 const phase = ref<Phase>("loading");
@@ -55,10 +61,13 @@ const currentQuestion = computed(() => questions.value[current.value]);
  */
 async function startChallenge() {
   try {
-    const data = await $fetch(`/api/challenges/${challengeId}/start`, { method: "POST" });
+    const data = await $fetch<StartChallengeResponse>(
+      `/api/challenges/${challengeId}/start` as string,
+      { method: "POST" },
+    );
     attemptId.value = data.attemptId;
     timeLimitSec.value = data.timeLimitSec;
-    questions.value = data.questions as Question[];
+    questions.value = data.questions;
     phase.value = "playing";
     startTimer();
   } catch (err: any) {
@@ -118,7 +127,7 @@ function selectAnswer(label: string | null) {
 async function submitAnswers() {
   phase.value = "submitting";
   try {
-    results.value = await $fetch(`/api/challenges/${challengeId}/submit`, {
+    results.value = await $fetch(`/api/challenges/${challengeId}/submit` as string, {
       method: "POST",
       body: { attemptId: attemptId.value, answers: answers.value },
     });

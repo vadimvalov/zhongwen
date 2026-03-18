@@ -1,7 +1,11 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-
 type DictEntry = { hanzi: string; pinyin: string; translation: string };
+
+import hsk1 from "../../app/assets/dictionaries/hsk_1.json";
+import hsk2 from "../../app/assets/dictionaries/hsk_2.json";
+import hsk3 from "../../app/assets/dictionaries/hsk_3.json";
+import hsk4 from "../../app/assets/dictionaries/hsk_4.json";
+import hsk5 from "../../app/assets/dictionaries/hsk_5.json";
+import hsk6 from "../../app/assets/dictionaries/hsk_6.json";
 
 type QuestionOption = { label: string; correct: boolean };
 
@@ -15,6 +19,15 @@ export type ChallengeQuestion = {
 
 const dictionaryCache = new Map<number, DictEntry[]>();
 
+const dictionaryModules: Record<number, DictEntry[]> = {
+  1: hsk1 as DictEntry[],
+  2: hsk2 as DictEntry[],
+  3: hsk3 as DictEntry[],
+  4: hsk4 as DictEntry[],
+  5: hsk5 as DictEntry[],
+  6: hsk6 as DictEntry[],
+};
+
 /**
  * Load an HSK dictionary file (cached after first read).
  */
@@ -24,8 +37,10 @@ function loadDictionary(hskLevel: number): DictEntry[] {
     return cached;
   }
 
-  const filePath = resolve(process.cwd(), `app/assets/dictionaries/hsk_${hskLevel}.json`);
-  const data: DictEntry[] = JSON.parse(readFileSync(filePath, "utf-8"));
+  const data = dictionaryModules[hskLevel];
+  if (!data) {
+    throw new Error(`HSK ${hskLevel} dictionary not found`);
+  }
   dictionaryCache.set(hskLevel, data);
   return data;
 }
