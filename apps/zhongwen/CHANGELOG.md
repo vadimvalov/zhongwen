@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.2...zhongwen/app-v0.5.3) (2026-03-18)
+
+
+### Bug Fixes
+
+* hide challenge leaderboard for non-passed users ([b67cf34](https://github.com/vadimvalov/zhongwen/commit/b67cf3437f277c8a6ad49c1413eed12330dcd65d))
+
 ## [0.5.2](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.1...zhongwen/app-v0.5.2) (2026-03-18)
 
 
