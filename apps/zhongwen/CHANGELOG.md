@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.2](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.1...zhongwen/app-v0.5.2) (2026-03-18)
+
+
+### Bug Fixes
+
+* add space for authmenu on mobile ([9c66ffb](https://github.com/vadimvalov/zhongwen/commit/9c66ffb64f7c3df04501473b90925db78cd61aa4))
+* proper import of dictionaries for challenges ([747303d](https://github.com/vadimvalov/zhongwen/commit/747303d9b3257c9583bc8131686275a1385284e1))
+
 ## [0.5.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.0...zhongwen/app-v0.5.1) (2026-03-18)
 
 
