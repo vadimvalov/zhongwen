@@ -162,7 +162,7 @@ watch(
 <template>
   <div class="flex min-h-screen flex-col items-center px-4 py-8">
     <div class="w-full max-w-4xl">
-      <div class="mb-4 flex items-center gap-3">
+      <div class="mb-2 flex items-center gap-3">
         <BackButton />
         <h1 class="text-2xl font-semibold text-foreground">Reading</h1>
       </div>

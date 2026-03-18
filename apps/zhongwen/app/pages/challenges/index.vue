@@ -121,7 +121,7 @@ watch(
       </div>
 
       <div v-else-if="user">
-        <div class="mb-6 flex items-center gap-3">
+        <div class="mt-6 mb-6 flex items-center gap-3 md:mt-0">
           <BackButton />
           <h1 class="text-2xl font-semibold text-foreground">Challenges</h1>
           <div class="flex-1" />

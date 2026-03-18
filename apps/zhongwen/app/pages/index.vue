@@ -40,7 +40,7 @@ const mainCards: MainCard[] = [
 
 <template>
   <div class="flex min-h-screen flex-col items-center justify-center px-4 py-8">
-    <h1 class="mb-6 text-2xl font-semibold text-foreground">大家好</h1>
+    <h1 class="mt-6 mb-6 text-2xl font-semibold text-foreground md:mt-0">大家好</h1>
 
     <div class="grid w-full max-w-sm grid-cols-2 gap-3">
       <template v-for="card in mainCards" :key="card.title">
