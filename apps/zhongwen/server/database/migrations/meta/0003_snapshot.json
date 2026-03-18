@@ -93,12 +93,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -195,12 +191,8 @@
           "name": "challenge_created_by_user_id_fk",
           "tableFrom": "challenge",
           "tableTo": "user",
-          "columnsFrom": [
-            "created_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -210,9 +202,7 @@
         "challenge_invite_code_unique": {
           "name": "challenge_invite_code_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "invite_code"
-          ]
+          "columns": ["invite_code"]
         }
       },
       "policies": {},
@@ -266,12 +256,8 @@
           "name": "challenge_answer_attempt_id_challenge_attempt_id_fk",
           "tableFrom": "challenge_answer",
           "tableTo": "challenge_attempt",
-          "columnsFrom": [
-            "attempt_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["attempt_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -279,10 +265,7 @@
       "compositePrimaryKeys": {
         "challenge_answer_attempt_id_question_idx_pk": {
           "name": "challenge_answer_attempt_id_question_idx_pk",
-          "columns": [
-            "attempt_id",
-            "question_idx"
-          ]
+          "columns": ["attempt_id", "question_idx"]
         }
       },
       "uniqueConstraints": {},
@@ -345,12 +328,8 @@
           "name": "challenge_attempt_challenge_id_challenge_id_fk",
           "tableFrom": "challenge_attempt",
           "tableTo": "challenge",
-          "columnsFrom": [
-            "challenge_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["challenge_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -358,12 +337,8 @@
           "name": "challenge_attempt_user_id_user_id_fk",
           "tableFrom": "challenge_attempt",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -403,12 +378,8 @@
           "name": "challenge_participant_challenge_id_challenge_id_fk",
           "tableFrom": "challenge_participant",
           "tableTo": "challenge",
-          "columnsFrom": [
-            "challenge_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["challenge_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -416,12 +387,8 @@
           "name": "challenge_participant_user_id_user_id_fk",
           "tableFrom": "challenge_participant",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -429,10 +396,7 @@
       "compositePrimaryKeys": {
         "challenge_participant_challenge_id_user_id_pk": {
           "name": "challenge_participant_challenge_id_user_id_pk",
-          "columns": [
-            "challenge_id",
-            "user_id"
-          ]
+          "columns": ["challenge_id", "user_id"]
         }
       },
       "uniqueConstraints": {},
@@ -499,12 +463,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -514,9 +474,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -577,9 +535,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -648,12 +604,8 @@
           "name": "user_known_word_user_id_user_id_fk",
           "tableFrom": "user_known_word",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -661,10 +613,7 @@
       "compositePrimaryKeys": {
         "user_known_word_user_id_hanzi_pk": {
           "name": "user_known_word_user_id_hanzi_pk",
-          "columns": [
-            "user_id",
-            "hanzi"
-          ]
+          "columns": ["user_id", "hanzi"]
         }
       },
       "uniqueConstraints": {},
@@ -701,12 +650,8 @@
           "name": "user_read_text_user_id_user_id_fk",
           "tableFrom": "user_read_text",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -714,10 +659,7 @@
       "compositePrimaryKeys": {
         "user_read_text_user_id_text_id_pk": {
           "name": "user_read_text_user_id_text_id_pk",
-          "columns": [
-            "user_id",
-            "text_id"
-          ]
+          "columns": ["user_id", "text_id"]
         }
       },
       "uniqueConstraints": {},
