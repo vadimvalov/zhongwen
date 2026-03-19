@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.5](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.4...zhongwen/app-v0.5.5) (2026-03-19)
+
+
+### Bug Fixes
+
+* add pinyin to the challenges right after it ends ([3fca46c](https://github.com/vadimvalov/zhongwen/commit/3fca46cf4e823a58ab1df468510909598cfef187))
+
 ## [0.5.4](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.3...zhongwen/app-v0.5.4) (2026-03-19)
 
 
