@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "catalog:",
+    "@types/canvas-confetti": "catalog:",
     "@types/node": "catalog:",
     "drizzle-kit": "^0.31.0",
     "shadcn-nuxt": "catalog:",
