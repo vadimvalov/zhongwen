@@ -3,6 +3,7 @@ import { Icon } from "@iconify/vue";
 
 import { Button } from "~/components/ui/button";
 import { authClient, useAuth } from "~/composables/useAuth";
+import type { ChallengeResults } from "~/lib/types";
 
 definePageMeta({ layout: false });
 
@@ -39,18 +40,7 @@ const timerStart = ref(0);
 const timerRemaining = ref(1);
 let timerInterval: ReturnType<typeof setInterval> | null = null;
 
-const results = ref<{
-  score: number;
-  totalQuestions: number;
-  timeMs: number;
-  answers: {
-    questionIdx: number;
-    hanzi: string;
-    selected: string;
-    correctAnswer: string;
-    correct: boolean;
-  }[];
-} | null>(null);
+const results = ref<ChallengeResults | null>(null);
 
 const loadError = ref("");
 const progress = computed(() => current.value / questions.value.length);
@@ -127,10 +117,13 @@ function selectAnswer(label: string | null) {
 async function submitAnswers() {
   phase.value = "submitting";
   try {
-    results.value = await $fetch(`/api/challenges/${challengeId}/submit` as string, {
-      method: "POST",
-      body: { attemptId: attemptId.value, answers: answers.value },
-    });
+    results.value = await $fetch<ChallengeResults>(
+      `/api/challenges/${challengeId}/submit` as string,
+      {
+        method: "POST",
+        body: { attemptId: attemptId.value, answers: answers.value },
+      },
+    );
     phase.value = "results";
   } catch {
     phase.value = "results";

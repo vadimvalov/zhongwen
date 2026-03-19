@@ -76,6 +76,7 @@ export default defineEventHandler(async (event) => {
       return {
         questionIdx: ans.questionIdx,
         hanzi: "",
+        pinyin: "",
         selected: ans.selected,
         correctAnswer: "",
         correct: false,
@@ -94,6 +95,7 @@ export default defineEventHandler(async (event) => {
     return {
       questionIdx: ans.questionIdx,
       hanzi: question.hanzi,
+      pinyin: question.pinyin,
       selected: ans.selected,
       correctAnswer: correctOption?.label ?? "",
       correct: isCorrect,
