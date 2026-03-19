@@ -137,7 +137,7 @@ watch(
           <Input
             v-model="inviteCode"
             placeholder="Enter invite code"
-            class="flex-1 uppercase"
+            class="flex-1"
             maxlength="6"
             @keydown.enter="joinByCode"
           />
