@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { Icon } from "@iconify/vue";
-
 import ElevenLabsDisclosureDialog from "~/components/ElevenLabsDisclosureDialog.vue";
 import OpenAIPartnerDialog from "~/components/OpenAIPartnerDialog.vue";
 import ReviewStatusCard from "~/components/ReviewStatusCard.vue";
 import { Card } from "~/components/ui/card";
-import { Link } from "~/components/ui/link";
 import { toast } from "~/components/ui/sonner";
 import { useAuth } from "~/composables/useAuth";
 import { getCardStyle } from "~/lib/cardStyles";
