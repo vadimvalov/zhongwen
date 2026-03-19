@@ -105,7 +105,7 @@ async function loadResults() {
   }
   resultsLoading.value = true;
   try {
-    resultsData.value = await $fetch(`/api/challenges/${id}/results`);
+    resultsData.value = await $fetch<ChallengeResults>(`/api/challenges/${id}/results` as string);
     showResults.value = true;
   } catch {
     /* no results available */
