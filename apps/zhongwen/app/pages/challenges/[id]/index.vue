@@ -52,7 +52,7 @@ const userHasPlayed = computed(() => {
 
 async function load() {
   try {
-    challenge.value = await $fetch(`/api/challenges/${id}`);
+    challenge.value = await $fetch<ChallengeDetail>(`/api/challenges/${id}` as string);
   } catch {
     /* will show empty */
   } finally {
