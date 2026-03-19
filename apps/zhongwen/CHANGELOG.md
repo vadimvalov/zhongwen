@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.4](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.3...zhongwen/app-v0.5.4) (2026-03-19)
+
+
+### Bug Fixes
+
+* add missing types ([20eef40](https://github.com/vadimvalov/zhongwen/commit/20eef4055203b9f660285ccc26fb5d069c59f910))
+* add pinyin in challenge results ([03684ff](https://github.com/vadimvalov/zhongwen/commit/03684ff244400363dccc1d5955080b1fb8165052))
+* add space for known words in vocabulary ([2213c31](https://github.com/vadimvalov/zhongwen/commit/2213c31dab96a37fb3c1b2de124813a3d072cc70))
+* excess class for input ([72a64ba](https://github.com/vadimvalov/zhongwen/commit/72a64ba567f0d8b0379b4dd239e3b50205bbc266))
+* missed type ([7748952](https://github.com/vadimvalov/zhongwen/commit/77489526b1be14b66fbe9b9c1c2e3b01306d64bc))
+* missed type ([79bfa63](https://github.com/vadimvalov/zhongwen/commit/79bfa636090109d71f8a4ed9b90ec3dced81d7dc))
+* rework middleware for non-authorized sections access ([ada4bea](https://github.com/vadimvalov/zhongwen/commit/ada4bea120ef358ecd210f7f4fa6c3b219e2151a))
+* unused imports ([5c8ca4a](https://github.com/vadimvalov/zhongwen/commit/5c8ca4a484bee6bcf8ee41de16fbec49bdf86172))
+
+
+### Miscellaneous Chores
+
+* add unready banner for speaking ([2088da1](https://github.com/vadimvalov/zhongwen/commit/2088da1ca1d6953f6cfa37507b92159766655fae))
+
 ## [0.5.3](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.2...zhongwen/app-v0.5.3) (2026-03-18)
 
 
