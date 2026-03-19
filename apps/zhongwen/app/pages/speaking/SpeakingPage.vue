@@ -251,6 +251,22 @@ function reveal() {
         <BackButton />
         <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Speaking</h1>
       </div>
+      <div
+        class="mb-4 flex items-start gap-3 rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-xs text-amber-900 shadow-sm sm:mb-6 sm:px-5 sm:py-4 sm:text-sm dark:border-amber-400/50 dark:bg-amber-500/10 dark:text-amber-100"
+      >
+        <Icon icon="lucide:alert-triangle" class="mt-0.5 h-4 w-4 shrink-0 sm:h-5 sm:w-5" />
+        <div class="space-y-1">
+          <p class="font-semibold">Speaking practice is in active development</p>
+          <p>
+            This section is experimental and not yet ready. Feel free to try it out, but be aware
+            that Behaviour may change and rough edges are expected.
+          </p>
+          <p class="text-[11px] sm:text-xs">
+            TL;DR: use this feature at your own risk and try other sections if you want a more
+            reliable experience.
+          </p>
+        </div>
+      </div>
       <p class="mb-4 text-xs text-muted-foreground sm:mb-6 sm:text-sm">Choose a practice mode.</p>
       <div class="grid grid-cols-2 gap-3">
         <Link v-for="mode in modes" :key="mode.title" :to="mode.to" class="block" :hover="true">
