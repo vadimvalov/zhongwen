@@ -294,6 +294,7 @@ onUnmounted(() => {
               ]"
             >
               <p class="font-medium text-foreground">{{ ans.hanzi }}</p>
+              <p class="text-xs text-muted-foreground">{{ ans.pinyin }}</p>
               <p v-if="ans.correct" class="text-xs text-emerald-600 dark:text-emerald-400">
                 ✓ {{ ans.correctAnswer }}
               </p>
