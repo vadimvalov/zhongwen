@@ -28,6 +28,7 @@ export type MainCard = {
   title: string;
   description: string;
   to: string | null;
+  authRequired?: boolean;
   icon: string;
   tone: CardTone;
 };

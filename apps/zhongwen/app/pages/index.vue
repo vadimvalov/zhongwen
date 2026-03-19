@@ -6,10 +6,13 @@ import OpenAIPartnerDialog from "~/components/OpenAIPartnerDialog.vue";
 import ReviewStatusCard from "~/components/ReviewStatusCard.vue";
 import { Card } from "~/components/ui/card";
 import { Link } from "~/components/ui/link";
+import { toast } from "~/components/ui/sonner";
+import { useAuth } from "~/composables/useAuth";
 import { getCardStyle } from "~/lib/cardStyles";
 import type { MainCard } from "~/lib/types";
 
 const config = useRuntimeConfig();
+const { user } = useAuth();
 
 const mainCards: MainCard[] = [
   {
@@ -26,11 +29,13 @@ const mainCards: MainCard[] = [
     title: "Speaking",
     description: "Audio with transcription",
     to: "/speaking",
+    authRequired: true,
   },
   {
     title: "Challenges",
     description: "Compete with classmates",
     to: "/challenges",
+    authRequired: true,
   },
 ].map((card, index) => ({
   ...card,
@@ -44,7 +49,20 @@ const mainCards: MainCard[] = [
 
     <div class="grid w-full max-w-sm grid-cols-2 gap-3">
       <template v-for="card in mainCards" :key="card.title">
-        <Link v-if="card.to" :to="card.to" class="block" :hover="true">
+        <button
+          v-if="card.to"
+          type="button"
+          class="block text-left"
+          @click="
+            () => {
+              if (card.authRequired && !user) {
+                toast.warning(`Authorize to use ${card.title.toLowerCase()} section`);
+              } else {
+                navigateTo(card.to);
+              }
+            }
+          "
+        >
           <Card
             :title="card.title"
             :description="card.description"
@@ -52,7 +70,7 @@ const mainCards: MainCard[] = [
             :tone="card.tone"
             class="h-full"
           />
-        </Link>
+        </button>
         <Card
           v-else
           :title="card.title"
