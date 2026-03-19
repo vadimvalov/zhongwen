@@ -82,7 +82,7 @@ function toggleKnown(word: Word) {
         Dictionary not found.
       </p>
       <div v-else class="space-y-3 sm:space-y-4">
-        <div class="flex items-center justify-between gap-3">
+        <div class="mt-6 mb-6 flex items-center justify-between gap-3 md:mt-0">
           <div class="flex items-center gap-2 sm:gap-3">
             <BackButton />
             <h1 class="text-xl font-semibold text-foreground sm:text-2xl">
