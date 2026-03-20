@@ -1,0 +1,1 @@
+import{_ as o}from"./DNJYLUOe.js";import{g as t,j as r,o as e}from"./nBqiiGmt.js";import"./Bh1urNlW.js";import"./kcsA8wc7.js";import"./BwdUZCej.js";import"./DFoaJZtT.js";import"./DnISQU2s.js";import"./CX7jQGRy.js";import"./DFWNftZw.js";const k=t({__name:"sentences",setup(m){return(p,i)=>(e(),r(o))}});export{k as default};
