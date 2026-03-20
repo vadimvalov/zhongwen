@@ -1,0 +1,1 @@
+async function c(e,n){const a=new File([e],`recording.${n}`,{type:e.type}),t=new FormData;t.append("file",a);const{text:r}=await $fetch("/api/transcribe",{method:"POST",body:t});return r}export{c as transcribeChineseSpeech};
