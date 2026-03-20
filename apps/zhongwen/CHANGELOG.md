@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.6](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.5...zhongwen/app-v0.5.6) (2026-03-20)
+
+
+### Bug Fixes
+
+* align modals properly on mobile ([7424dfe](https://github.com/vadimvalov/zhongwen/commit/7424dfe1ac555e6b3533b1723b94b22e9264b591))
+
 ## [0.5.5](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.4...zhongwen/app-v0.5.5) (2026-03-19)
 
 
