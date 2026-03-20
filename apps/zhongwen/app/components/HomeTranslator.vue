@@ -29,14 +29,18 @@ const sourceLang = computed(() => (direction.value === "to-chinese" ? otherLang.
 const targetLang = computed(() => (direction.value === "to-chinese" ? "zh-CN" : otherLang.value));
 
 const chineseChars = computed(() => {
-  if (!outputText.value || direction.value !== "to-chinese") return [];
+  if (!outputText.value || direction.value !== "to-chinese") {
+    return [];
+  }
   const pinyinArr = pinyin(outputText.value, { toneType: "symbol", type: "array" });
   return [...outputText.value].map((char, i) => ({ char, py: pinyinArr[i] ?? "" }));
 });
 
 async function translate() {
   const text = inputText.value.trim();
-  if (!text || isLoading.value) return;
+  if (!text || isLoading.value) {
+    return;
+  }
   outputText.value = "";
   error.value = null;
   isBlocked.value = false;
@@ -60,7 +64,9 @@ async function translate() {
 }
 
 async function speak() {
-  if (!outputText.value || !hasElevenLabs || isSpeaking.value) return;
+  if (!outputText.value || !hasElevenLabs || isSpeaking.value) {
+    return;
+  }
   isSpeaking.value = true;
   try {
     await speakWithElevenLabs(outputText.value);
@@ -134,8 +140,10 @@ function setDirection(d: Direction) {
         v-model="inputText"
         :maxlength="MAX_CHARS"
         rows="4"
-        :placeholder="direction === 'to-chinese' ? 'Enter text to translate...' : 'Enter Chinese text...'"
-        class="w-full resize-none rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+        :placeholder="
+          direction === 'to-chinese' ? 'Enter text to translate...' : 'Enter Chinese text...'
+        "
+        class="w-full resize-none rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:outline-none"
       />
       <span class="absolute right-3 bottom-2 text-xs text-muted-foreground">
         {{ inputText.length }}/{{ MAX_CHARS }}
@@ -143,11 +151,7 @@ function setDirection(d: Direction) {
     </div>
 
     <!-- Translate button -->
-    <Button
-      :disabled="!inputText.trim() || isLoading"
-      class="w-full"
-      @click="translate"
-    >
+    <Button :disabled="!inputText.trim() || isLoading" class="w-full" @click="translate">
       <Icon v-if="isLoading" icon="mdi:loading" class="mr-2 h-4 w-4 animate-spin" />
       {{ isLoading ? "Translating..." : "Translate" }}
     </Button>

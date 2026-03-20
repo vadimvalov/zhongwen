@@ -17,7 +17,9 @@ function checkAnomaly(ip: string, chars: number): true | "blocked" {
     entry = { requests: [], blockedUntil: 0 };
     ipMap.set(ip, entry);
   }
-  if (now < entry.blockedUntil) return "blocked";
+  if (now < entry.blockedUntil) {
+    return "blocked";
+  }
 
   entry.requests = entry.requests.filter((r) => now - r.time < 60_000);
   entry.requests.push({ time: now, chars });
@@ -45,7 +47,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Missing text" });
   }
   if (text.length > MAX_TEXT_LENGTH) {
-    throw createError({ statusCode: 400, statusMessage: `Text exceeds ${MAX_TEXT_LENGTH} characters` });
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Text exceeds ${MAX_TEXT_LENGTH} characters`,
+    });
   }
 
   const sourceLang = body?.sourceLang;
@@ -63,13 +68,18 @@ export default defineEventHandler(async (event) => {
   const ip = getRequestIP(event, { xForwardedFor: true }) ?? "unknown";
   const anomaly = checkAnomaly(ip, text.length);
   if (anomaly === "blocked") {
-    throw createError({ statusCode: 429, statusMessage: "Too many requests. Your IP has been temporarily blocked." });
+    throw createError({
+      statusCode: 429,
+      statusMessage: "Too many requests. Your IP has been temporarily blocked.",
+    });
   }
 
   const translator = createGoogleTranslateClient(apiKey);
-  const translation = await translator.translate(text, sourceLang, targetLang).catch((err: Error) => {
-    throw createError({ statusCode: 500, statusMessage: err.message });
-  });
+  const translation = await translator
+    .translate(text, sourceLang, targetLang)
+    .catch((err: Error) => {
+      throw createError({ statusCode: 500, statusMessage: err.message });
+    });
 
   return { translation };
 });
