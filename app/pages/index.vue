@@ -20,6 +20,11 @@ const mainCards: MainCard[] = [
     description: 'Audio with transcription',
     to: '/speaking',
   },
+  {
+    title: 'Mining',
+    description: 'Video player with subtitles',
+    to: '/player',
+  },
 ].map((card, index) => ({
   ...card,
   ...getCardStyle(index, 'main'),

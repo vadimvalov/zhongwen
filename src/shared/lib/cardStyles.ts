@@ -27,7 +27,7 @@ export const CARD_ICON_SETS = {
     'lucide:book-open',
     'lucide:layers',
     'lucide:headphones',
-    'lucide:pen-line',
+    'lucide:play-circle',
   ],
 } as const
 

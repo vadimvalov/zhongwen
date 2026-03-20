@@ -53,3 +53,15 @@ export type SelectOption = {
 }
 
 export type CardIconSet = 'reading' | 'vocabulary' | 'main'
+
+export type Subtitle = {
+  id: number
+  startMs: number
+  endMs: number
+  text: string
+}
+
+export type CedictEntry = {
+  pinyin: string
+  translation: string
+}
