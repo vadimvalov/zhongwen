@@ -24,7 +24,7 @@ import {
       </button>
     </DialogTrigger>
     <DialogContent class="sm:max-w-[420px]">
-      <DialogHeader class="text-right">
+      <DialogHeader class="text-left">
         <DialogTitle class="flex items-center gap-1">
           <Icon icon="simple-icons:elevenlabs" class="h-4 w-4" />
           ElevenLabs</DialogTitle

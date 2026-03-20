@@ -14,19 +14,22 @@ import {
 <template>
   <Dialog>
     <DialogTrigger as-child>
-      <button type="button" class="flex items-center justify-end gap-1 hover:text-foreground">
+      <button
+        type="button"
+        class="mt-0.5 flex items-center justify-end gap-1 hover:text-foreground"
+      >
         <span>Supported by</span>
         <Icon icon="simple-icons:openai" class="h-4 w-4" />
         <span class="font-bold">OpenAI</span>
       </button>
     </DialogTrigger>
     <DialogContent class="sm:max-w-[420px]">
-      <DialogHeader class="text-right">
+      <DialogHeader class="text-left">
         <DialogTitle class="flex items-center gap-1">
           <Icon icon="simple-icons:openai" class="h-4 w-4" />
           OpenAI</DialogTitle
         >
-        <DialogDescription>
+        <DialogDescription class="text-left">
           <span class="font-bold underline">zhongwen.lol</span> is an official OpenAI data partner.
           By using this app, your inputs and outputs — including text, translations, and
           interactions — may be shared with OpenAI to support the development and improvement of
