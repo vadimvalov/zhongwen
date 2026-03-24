@@ -16,7 +16,7 @@ function playBlob(blob: Blob, playCount: number) {
 
   // slowing down playback if the same text is played multiple times
   if (playCount > 1) {
-    currentAudio.playbackRate = 0.60;
+    currentAudio.playbackRate = 0.6;
   }
 
   currentAudio.volume = 0.35;
