@@ -4,7 +4,7 @@ export async function transcribeChineseSpeech(blob: Blob, ext: string): Promise<
   formData.append("file", file);
 
   // switched routing to speaking-python/main.py
-  const { text } = await $fetch("http://localhost:8000/transcribe", {
+  const { text } = await $fetch<{ text: string }>("http://localhost:8000/transcribe", {
     method: "POST",
     body: formData,
   });
