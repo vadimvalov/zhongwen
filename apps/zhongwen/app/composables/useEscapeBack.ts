@@ -13,6 +13,11 @@ export function useEscapeBack() {
       return;
     }
 
+    if (window.history.length > 1) {
+      router.back();
+      return;
+    }
+
     if (path.startsWith("/vocabulary/search/")) {
       await router.push("/vocabulary");
       return;
