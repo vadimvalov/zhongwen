@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.6...zhongwen/app-v0.6.0) (2026-03-25)
+
+
+### Features
+
+* add hsk level in reading as query param ([9bc253a](https://github.com/vadimvalov/zhongwen/commit/9bc253ac8425de01b961895ef1623457f395c035))
+
+
+### Bug Fixes
+
+* exclude init hsk level from reading ([87989c5](https://github.com/vadimvalov/zhongwen/commit/87989c5b1beaff4962483c3fa7f3d228c0d108a9))
+* remove hsk level from userstore ([93e563b](https://github.com/vadimvalov/zhongwen/commit/93e563bc68201dc932f5e78289683c5838850234))
+* simplify escape behavior ([3b33b62](https://github.com/vadimvalov/zhongwen/commit/3b33b62d374dfaaeae9535d522e504b314b4add5))
+
 ## [0.5.6](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.5...zhongwen/app-v0.5.6) (2026-03-20)
 
 
