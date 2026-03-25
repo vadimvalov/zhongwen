@@ -34,7 +34,27 @@ const items: Item[] = Object.entries(rawModules).map(([path, mod], index) => {
 
 const levelOptions = ["HSK1", "HSK2", "HSK3", "HSK4", "HSK5", "HSK6"] as const;
 
-const selectedLevels = ref<string[]>([]);
+const selectedLevels = computed({
+  get() {
+    const raw = route.query.level;
+    if (!raw) {
+      return [];
+    }
+    const levels = Array.isArray(raw) ? raw : [raw];
+    return levels.filter((l): l is string => levelOptions.includes(l as any));
+  },
+  set(levels: string[]) {
+    const q = { ...route.query };
+    delete q.page;
+    if (levels.length) {
+      q.level = levels;
+    } else {
+      delete q.level;
+    }
+    router.replace({ path: route.path, query: q });
+  },
+});
+
 const searchQuery = ref("");
 
 const selectedLevelsLabel = computed(() => {
@@ -137,6 +157,12 @@ watch(
   },
   { immediate: true },
 );
+
+watch(searchQuery, () => {
+  const q = { ...route.query };
+  delete q.page;
+  router.replace({ path: route.path, query: q });
+});
 </script>
 
 <template>
