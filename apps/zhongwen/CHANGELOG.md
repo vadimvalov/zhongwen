@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.6.0...zhongwen/app-v0.6.1) (2026-03-28)
+
+
+### Bug Fixes
+
+* update searchQuery for reading page ([cb71226](https://github.com/vadimvalov/zhongwen/commit/cb71226ef49853298e8b8d5bbd06302e1e3ed546))
+
 ## [0.6.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.5.6...zhongwen/app-v0.6.0) (2026-03-25)
 
 
