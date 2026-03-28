@@ -130,10 +130,12 @@ function goToPage(page: number) {
   currentPage.value = page;
 }
 
-watch([selectedLevels, searchQuery], () => {
+watch(searchQuery, () => {
   const q = { ...route.query };
-  delete q.page;
-  router.replace({ path: route.path, query: q });
+  if (q.page) {
+    delete q.page;
+    router.replace({ path: route.path, query: q });
+  }
 });
 
 watch(
@@ -157,12 +159,6 @@ watch(
   },
   { immediate: true },
 );
-
-watch(searchQuery, () => {
-  const q = { ...route.query };
-  delete q.page;
-  router.replace({ path: route.path, query: q });
-});
 </script>
 
 <template>
