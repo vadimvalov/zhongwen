@@ -59,7 +59,7 @@
       "extra-files": [
         {
           "type": "generic",
-          "path": "/infra/docker/stage/docker-compose.yml"
+          "path": "/infra/stage/docker-compose.yml"
         }
       ]
     }
