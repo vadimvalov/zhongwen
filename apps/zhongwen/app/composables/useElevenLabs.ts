@@ -3,14 +3,23 @@ const TTS_CACHE_MAX = 200;
 let currentAudio: HTMLAudioElement | null = null;
 const ttsCache = new Map<string, Blob>();
 
-/** Use in components: const hasTts = useHasElevenLabs() */
+// counter for playback of the same text to slow down if played multiple times
+const playCounts = new Map<string, number>();
+
 export function useHasElevenLabs() {
   return true;
 }
 
-function playBlob(blob: Blob) {
+function playBlob(blob: Blob, playCount: number) {
   const objectUrl = URL.createObjectURL(blob);
   currentAudio = new Audio(objectUrl);
+
+  // slowing down playback if the same text is played multiple times
+  if (playCount > 1) {
+    currentAudio.playbackRate = 0.6;
+  }
+
+  currentAudio.volume = 0.35;
 
   return new Promise<void>((resolve, reject) => {
     if (!currentAudio) {
@@ -42,11 +51,14 @@ export async function speakWithElevenLabs(text: string, slug?: string) {
     currentAudio = null;
   }
 
+  const count = (playCounts.get(key) || 0) + 1;
+  playCounts.set(key, count);
+
   const cachedBlob = ttsCache.get(key);
   if (cachedBlob) {
     ttsCache.delete(key);
     ttsCache.set(key, cachedBlob);
-    return await playBlob(cachedBlob);
+    return await playBlob(cachedBlob, count);
   }
 
   const blob = await $fetch<Blob>("/api/tts", {
@@ -59,9 +71,10 @@ export async function speakWithElevenLabs(text: string, slug?: string) {
     const oldestKey = ttsCache.keys().next().value;
     if (oldestKey !== undefined) {
       ttsCache.delete(oldestKey);
+      playCounts.delete(oldestKey);
     }
   }
   ttsCache.set(key, blob);
 
-  return await playBlob(blob);
+  return await playBlob(blob, count);
 }
