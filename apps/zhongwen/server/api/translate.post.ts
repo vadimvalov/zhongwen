@@ -7,14 +7,17 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 503, statusMessage: "Google API key not configured" });
   }
 
-  const body = await readBody<{ text?: string }>(event);
+  const body = await readBody<{ text?: string; source?: string; target?: string }>(event);
   const text = body?.text?.trim();
   if (!text) {
     throw createError({ statusCode: 400, statusMessage: "Missing text" });
   }
 
+  const source = body?.source?.trim() || "zh-CN";
+  const target = body?.target?.trim() || "en";
+
   const translator = createGoogleTranslateClient(apiKey);
-  const translation = await translator.translate(text, "zh-CN", "en").catch((err: Error) => {
+  const translation = await translator.translate(text, source, target).catch((err: Error) => {
     throw createError({ statusCode: 500, statusMessage: err.message });
   });
 

@@ -34,6 +34,11 @@ const mainCards: MainCard[] = [
     to: "/challenges",
     authRequired: true,
   },
+  {
+    title: "Translator",
+    description: "Translate EN, RU, KZ, ZH",
+    to: "/translator",
+  },
 ].map((card, index) => ({
   ...card,
   ...getCardStyle(index, "main"),
