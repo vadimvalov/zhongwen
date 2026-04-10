@@ -3,7 +3,7 @@ import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { db } from "../../../database";
 import { challenge, challengeAttempt, challengeParticipant } from "../../../database/schema";
 import { auth } from "../../../lib/auth";
-import { generateChallengeQuestions } from "../../../lib/challengeQuestions";
+import { ChallengeService } from "../../../lib/challengeQuestions";
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({
@@ -94,7 +94,8 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const questions = generateChallengeQuestions({
+  const challengeService = new ChallengeService();
+  const questions = challengeService.generateChallengeQuestions({
     challengeId,
     hskLevel: ch.hskLevel,
     questionCount: ch.questionCount,

@@ -43,5 +43,11 @@ export default defineNuxtConfig({
   },
   typescript: {
     shim: true,
+    tsConfig: {
+      compilerOptions: {
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
+      },
+    },
   },
 });

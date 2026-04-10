@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "../../database";
 import { userKnownWord } from "../../database/schema";
 import { auth } from "../../lib/auth";
-import { calculateNextReview } from "../../lib/sm2";
+import { SrsService } from "../../lib/sm2";
 
 type Body = {
   wordId: string;
@@ -43,7 +43,8 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: "Card not found" });
     }
 
-    const srs = calculateNextReview(
+    const srsService = new SrsService();
+    const srs = srsService.calculateNextReview(
       {
         ease_factor: card.easeFactor ?? 2.5,
         interval_days: card.intervalDays ?? 1,

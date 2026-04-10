@@ -33,6 +33,7 @@
     "pinia": "^3.0.4",
     "pinyin-pro": "^3.26.0",
     "postgres": "^3.4.7",
+    "reflect-metadata": "catalog:",
     "reka-ui": "catalog:",
     "tailwind-merge": "^3.5.0",
     "vue": "^3.5.30",

@@ -3,7 +3,7 @@ import { and, eq, isNull } from "drizzle-orm";
 import { db } from "../../../database";
 import { challenge, challengeAnswer, challengeAttempt } from "../../../database/schema";
 import { auth } from "../../../lib/auth";
-import { generateChallengeQuestions } from "../../../lib/challengeQuestions";
+import { ChallengeService } from "../../../lib/challengeQuestions";
 
 type AnswerInput = {
   questionIdx: number;
@@ -61,7 +61,8 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Attempt not found or already finished" });
   }
 
-  const questions = generateChallengeQuestions({
+  const challengeService = new ChallengeService();
+  const questions = challengeService.generateChallengeQuestions({
     challengeId,
     hskLevel: ch.hskLevel,
     questionCount: ch.questionCount,
