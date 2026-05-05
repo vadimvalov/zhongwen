@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.6.2...zhongwen/app-v0.6.3) (2026-05-05)
+
+
+### Miscellaneous Chores
+
+* remove an article ([04d694e](https://github.com/vadimvalov/zhongwen/commit/04d694e0af06ab4b80ca81149e80f82b30d7bb37))
+
 ## [0.6.2](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.6.1...zhongwen/app-v0.6.2) (2026-05-05)
 
 
