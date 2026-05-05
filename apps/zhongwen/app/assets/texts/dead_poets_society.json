@@ -1,0 +1,452 @@
+{
+  "title": "We Read Poetry to Stay Alive",
+  "description": "A reflection on why poetry and passion are the true reasons for living, inspired by Dead Poets Society.",
+  "level": "HSK3",
+  "text": {
+    "words": [
+      {
+        "hanzi": "我们",
+        "pinyin": "wǒmen",
+        "translation": "we / us (plural marker 们)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "读",
+        "pinyin": "dú",
+        "translation": "to read",
+        "hsk": 2
+      },
+      {
+        "hanzi": "诗",
+        "pinyin": "shī",
+        "translation": "poetry / poem",
+        "hsk": 5
+      },
+      {
+        "hanzi": "，",
+        "pinyin": "",
+        "translation": "comma",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "不",
+        "pinyin": "bù",
+        "translation": "not (negation of habitual/general action)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "是",
+        "pinyin": "shì",
+        "translation": "is / are (copula)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "因为",
+        "pinyin": "yīnwèi",
+        "translation": "because",
+        "hsk": 2
+      },
+      {
+        "hanzi": "它",
+        "pinyin": "tā",
+        "translation": "it",
+        "hsk": 2
+      },
+      {
+        "hanzi": "可爱",
+        "pinyin": "kě'ài",
+        "translation": "cute / adorable",
+        "hsk": 3
+      },
+      {
+        "hanzi": "。",
+        "pinyin": "",
+        "translation": "period",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "我们",
+        "pinyin": "wǒmen",
+        "translation": "we / us (plural marker 们)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "读",
+        "pinyin": "dú",
+        "translation": "to read",
+        "hsk": 2
+      },
+      {
+        "hanzi": "和",
+        "pinyin": "hé",
+        "translation": "and (conjunction linking nouns)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "写",
+        "pinyin": "xiě",
+        "translation": "to write",
+        "hsk": 1
+      },
+      {
+        "hanzi": "诗",
+        "pinyin": "shī",
+        "translation": "poetry / poem",
+        "hsk": 5
+      },
+      {
+        "hanzi": "，",
+        "pinyin": "",
+        "translation": "comma",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "是",
+        "pinyin": "shì",
+        "translation": "is / are (copula)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "因为",
+        "pinyin": "yīnwèi",
+        "translation": "because",
+        "hsk": 2
+      },
+      {
+        "hanzi": "我们",
+        "pinyin": "wǒmen",
+        "translation": "we / us (plural marker 们)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "是",
+        "pinyin": "shì",
+        "translation": "are (copula)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "人类",
+        "pinyin": "rénlèi",
+        "translation": "the human race / humanity",
+        "hsk": 5
+      },
+      {
+        "hanzi": "的",
+        "pinyin": "de",
+        "translation": "particle (attributive / possessive)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "一",
+        "pinyin": "yī",
+        "translation": "one",
+        "hsk": 1
+      },
+      {
+        "hanzi": "分子",
+        "pinyin": "fènzǐ",
+        "translation": "member / part (of a group)",
+        "hsk": 5
+      },
+      {
+        "hanzi": "。",
+        "pinyin": "",
+        "translation": "period",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "人类",
+        "pinyin": "rénlèi",
+        "translation": "the human race / humanity",
+        "hsk": 5
+      },
+      {
+        "hanzi": "充满",
+        "pinyin": "chōngmǎn",
+        "translation": "to be filled with / full of",
+        "hsk": 4
+      },
+      {
+        "hanzi": "了",
+        "pinyin": "le",
+        "translation": "particle (completed state / change of state)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "激情",
+        "pinyin": "jīqíng",
+        "translation": "passion / intense emotion",
+        "hsk": 6
+      },
+      {
+        "hanzi": "。",
+        "pinyin": "",
+        "translation": "period",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "医学",
+        "pinyin": "yīxué",
+        "translation": "medicine / medical science",
+        "hsk": 5
+      },
+      {
+        "hanzi": "、",
+        "pinyin": "",
+        "translation": "enumeration comma (list separator)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "法律",
+        "pinyin": "fǎlǜ",
+        "translation": "law",
+        "hsk": 4
+      },
+      {
+        "hanzi": "、",
+        "pinyin": "",
+        "translation": "enumeration comma (list separator)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "商业",
+        "pinyin": "shāngyè",
+        "translation": "business / commerce",
+        "hsk": 4
+      },
+      {
+        "hanzi": "、",
+        "pinyin": "",
+        "translation": "enumeration comma (list separator)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "工程",
+        "pinyin": "gōngchéng",
+        "translation": "engineering / project",
+        "hsk": 4
+      },
+      {
+        "hanzi": "——",
+        "pinyin": "",
+        "translation": "dash (used for elaboration or pause)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "这些",
+        "pinyin": "zhèxiē",
+        "translation": "these (demonstrative + plural)",
+        "hsk": 2
+      },
+      {
+        "hanzi": "都",
+        "pinyin": "dōu",
+        "translation": "all / both (adverb of totality)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "是",
+        "pinyin": "shì",
+        "translation": "are (copula)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "崇高",
+        "pinyin": "chónggāo",
+        "translation": "noble / lofty",
+        "hsk": 6
+      },
+      {
+        "hanzi": "的",
+        "pinyin": "de",
+        "translation": "particle (attributive)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "追求",
+        "pinyin": "zhuīqiú",
+        "translation": "pursuit / to pursue",
+        "hsk": 4
+      },
+      {
+        "hanzi": "，",
+        "pinyin": "",
+        "translation": "comma",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "也",
+        "pinyin": "yě",
+        "translation": "also / too (adverb)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "是",
+        "pinyin": "shì",
+        "translation": "are (copula)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "维持",
+        "pinyin": "wéichí",
+        "translation": "to sustain / to maintain",
+        "hsk": 5
+      },
+      {
+        "hanzi": "生命",
+        "pinyin": "shēngmìng",
+        "translation": "life",
+        "hsk": 3
+      },
+      {
+        "hanzi": "所",
+        "pinyin": "suǒ",
+        "translation": "particle (used before verb to nominalize: that which is...)",
+        "hsk": 4
+      },
+      {
+        "hanzi": "必需",
+        "pinyin": "bìxū",
+        "translation": "necessary / essential",
+        "hsk": 5
+      },
+      {
+        "hanzi": "的",
+        "pinyin": "de",
+        "translation": "particle (attributive, completes 所…的 structure)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "。",
+        "pinyin": "",
+        "translation": "period",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "但是",
+        "pinyin": "dànshì",
+        "translation": "but / however (adversative conjunction)",
+        "hsk": 2
+      },
+      {
+        "hanzi": "，",
+        "pinyin": "",
+        "translation": "comma",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "诗歌",
+        "pinyin": "shīgē",
+        "translation": "poetry (as an art form)",
+        "hsk": 5
+      },
+      {
+        "hanzi": "、",
+        "pinyin": "",
+        "translation": "enumeration comma (list separator)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "美",
+        "pinyin": "měi",
+        "translation": "beauty",
+        "hsk": 3
+      },
+      {
+        "hanzi": "、",
+        "pinyin": "",
+        "translation": "enumeration comma (list separator)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "浪漫",
+        "pinyin": "làngmàn",
+        "translation": "romance / romantic",
+        "hsk": 4
+      },
+      {
+        "hanzi": "、",
+        "pinyin": "",
+        "translation": "enumeration comma (list separator)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "爱",
+        "pinyin": "ài",
+        "translation": "love",
+        "hsk": 2
+      },
+      {
+        "hanzi": "……",
+        "pinyin": "",
+        "translation": "ellipsis (trailing off / implied continuation)",
+        "hsk": 0,
+        "type": "punct"
+      },
+      {
+        "hanzi": "这些",
+        "pinyin": "zhèxiē",
+        "translation": "these (demonstrative + plural)",
+        "hsk": 2
+      },
+      {
+        "hanzi": "才",
+        "pinyin": "cái",
+        "translation": "only then / it is precisely (emphasis: these and nothing else)",
+        "hsk": 3
+      },
+      {
+        "hanzi": "是",
+        "pinyin": "shì",
+        "translation": "are (copula)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "我们",
+        "pinyin": "wǒmen",
+        "translation": "we / us (plural marker 们)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "活着",
+        "pinyin": "huózhe",
+        "translation": "to be alive / living (着 = ongoing state particle)",
+        "hsk": 3
+      },
+      {
+        "hanzi": "的",
+        "pinyin": "de",
+        "translation": "particle (attributive, links verb phrase to noun)",
+        "hsk": 1
+      },
+      {
+        "hanzi": "理由",
+        "pinyin": "lǐyóu",
+        "translation": "reason / purpose",
+        "hsk": 4
+      },
+      {
+        "hanzi": "。",
+        "pinyin": "",
+        "translation": "period",
+        "hsk": 0,
+        "type": "punct"
+      }
+    ]
+  }
+}
