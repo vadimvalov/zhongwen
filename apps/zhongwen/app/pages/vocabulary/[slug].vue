@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-import { computed, ref } from "vue";
+import { useWindowVirtualizer } from "@tanstack/vue-virtual";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
-import { Dialog, DialogContent, DialogTitle } from "~/components/ui/dialog";
+import StrokeOrderDialog from "~/components/StrokeOrderDialog.vue";
 import { useAuth } from "~/composables/use-auth";
 import { useDictionaryModules } from "~/composables/use-dictionaries";
 import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/use-eleven-labs";
@@ -33,20 +34,49 @@ const knownWordsInDict = computed(
 );
 
 const speakingIndex = ref<number | null>(null);
-const selectedStrokeHanzi = ref<string | null>(null);
+const selectedStrokeWord = ref<Word | null>(null);
+const selectedStrokeIndex = ref(0);
+const virtualBodyRef = ref<HTMLElement | null>(null);
+const virtualBodyOffset = ref(0);
 
-function openStrokeModal(hanzi: string) {
-  selectedStrokeHanzi.value = hanzi;
+const rowVirtualizer = useWindowVirtualizer(
+  computed(() => ({
+    count: words.value.length,
+    estimateSize: () => 87,
+    overscan: 8,
+    getItemKey: (index) => words.value[index]?.hanzi ?? index,
+    scrollMargin: virtualBodyOffset.value,
+  })),
+);
+
+const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
+const virtualBodyHeight = computed(() => `${rowVirtualizer.value.getTotalSize()}px`);
+
+function measureVirtualBodyOffset() {
+  if (typeof window === "undefined" || !virtualBodyRef.value) {
+    return;
+  }
+  virtualBodyOffset.value = virtualBodyRef.value.getBoundingClientRect().top + window.scrollY;
+}
+
+onMounted(() => {
+  measureVirtualBodyOffset();
+  window.addEventListener("resize", measureVirtualBodyOffset);
+});
+
+onBeforeUnmount(() => {
+  if (typeof window !== "undefined") {
+    window.removeEventListener("resize", measureVirtualBodyOffset);
+  }
+});
+
+function openStrokeModal(word: Word, index: number) {
+  selectedStrokeWord.value = word;
+  selectedStrokeIndex.value = index;
 }
 
 function closeStrokeModal() {
-  selectedStrokeHanzi.value = null;
-}
-
-function handleStrokeDialogOpenChange(open: boolean) {
-  if (!open) {
-    closeStrokeModal();
-  }
+  selectedStrokeWord.value = null;
 }
 
 const speakCounts = ref<Record<string, number>>({});
@@ -103,111 +133,136 @@ function toggleKnown(word: Word) {
 
         <div class="overflow-hidden rounded-lg border border-border">
           <div class="overflow-x-auto">
-            <table class="w-full min-w-md border-collapse">
-              <thead>
-                <tr class="bg-muted/50">
-                  <th
-                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
-                  >
-                    Hanzi
-                  </th>
-                  <th
-                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
-                  >
-                    Pinyin
-                  </th>
-                  <th
-                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
-                  >
-                    Translation
-                  </th>
-                  <th
-                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
-                  >
-                    Strokes
-                  </th>
-                  <th
-                    class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
-                  >
-                    Learned?
-                  </th>
-                  <th class="w-9 px-2 py-2 sm:w-12 sm:px-4 sm:py-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(word, index) in words"
-                  :key="index"
-                  class="border-t border-border transition-colors hover:bg-muted/30"
+            <div class="min-w-md" role="table" :aria-label="`${dictTitle} vocabulary`">
+              <div
+                class="grid grid-cols-[1fr_1.3fr_2.4fr_1.8fr_1.4fr_3rem] bg-muted/50 sm:grid-cols-[1fr_1.3fr_2.4fr_1.8fr_1.4fr_4rem]"
+                role="row"
+              >
+                <div
+                  class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
+                  role="columnheader"
                 >
-                  <td
-                    class="px-2 py-2 text-base font-medium text-foreground sm:px-4 sm:py-3 sm:text-xl"
+                  Hanzi
+                </div>
+                <div
+                  class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
+                  role="columnheader"
+                >
+                  Pinyin
+                </div>
+                <div
+                  class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
+                  role="columnheader"
+                >
+                  Translation
+                </div>
+                <div
+                  class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
+                  role="columnheader"
+                >
+                  Strokes
+                </div>
+                <div
+                  class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
+                  role="columnheader"
+                >
+                  Learned?
+                </div>
+                <div class="px-2 py-2 sm:px-4 sm:py-3" role="columnheader"></div>
+              </div>
+
+              <div ref="virtualBodyRef" role="rowgroup">
+                <div class="relative w-full" :style="{ height: virtualBodyHeight }">
+                  <div
+                    v-for="virtualRow in virtualRows"
+                    :key="virtualRow.key"
+                    class="absolute top-0 left-0 grid w-full grid-cols-[1fr_1.3fr_2.4fr_1.8fr_1.4fr_3rem] border-t border-border transition-colors hover:bg-muted/30 sm:grid-cols-[1fr_1.3fr_2.4fr_1.8fr_1.4fr_4rem]"
+                    role="row"
+                    :style="{
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start - virtualBodyOffset}px)`,
+                    }"
                   >
-                    {{ word.hanzi }}
-                  </td>
-                  <td class="px-2 py-2 text-xs text-muted-foreground sm:px-4 sm:py-3 sm:text-base">
-                    {{ word.pinyin }}
-                  </td>
-                  <td class="px-2 py-2 text-xs text-foreground sm:px-4 sm:py-3 sm:text-base">
-                    {{ word.translation }}
-                  </td>
-                  <td class="px-2 py-2 sm:px-4 sm:py-3">
-                    <div
-                      class="flex shrink-0 origin-left scale-75 flex-nowrap gap-0.5 sm:scale-100 sm:gap-1"
-                    >
-                      <button
-                        v-for="(char, charIndex) in word.hanzi.split('')"
-                        :key="`${word.hanzi}-${charIndex}`"
-                        type="button"
-                        class="rounded focus:ring-2 focus:ring-accent/50 focus:outline-none"
-                        :aria-label="`Open stroke order for ${char}`"
-                        @click="openStrokeModal(char)"
+                    <template v-if="words[virtualRow.index]">
+                      <div
+                        class="flex items-center px-2 py-2 text-base font-medium text-foreground sm:px-4 sm:py-3 sm:text-xl"
+                        role="cell"
                       >
-                        <HanziStrokesOrder :hanzi="char" />
-                      </button>
-                    </div>
-                  </td>
-                  <td class="px-2 py-2 sm:px-4 sm:py-3">
-                    <button
-                      type="button"
-                      class="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition-colors disabled:opacity-50"
-                      :class="
-                        userStore.isKnown(word.hanzi)
-                          ? 'border-transparent bg-[var(--surface-card-mint)] text-[var(--surface-card-foreground)]'
-                          : 'border-border text-foreground hover:bg-muted'
-                      "
-                      :disabled="!user"
-                      :aria-pressed="userStore.isKnown(word.hanzi)"
-                      @click="toggleKnown(word)"
-                    >
-                      <Icon
-                        :icon="
-                          userStore.isKnown(word.hanzi) ? 'lucide:check-circle-2' : 'lucide:circle'
-                        "
-                        class="h-3.5 w-3.5"
-                      />
-                      <span> Learned </span>
-                    </button>
-                  </td>
-                  <td class="px-2 py-2 sm:px-4 sm:py-3">
-                    <button
-                      type="button"
-                      class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-muted disabled:opacity-50 sm:h-9 sm:w-9"
-                      :disabled="!hasElevenLabs || speakingIndex === index"
-                      :aria-label="`Play pronunciation for ${word.hanzi}`"
-                      @click="handleSpeak(word, index)"
-                    >
-                      <Icon
-                        v-if="speakingIndex === index"
-                        icon="mdi:loading"
-                        class="h-4 w-4 animate-spin sm:h-5 sm:w-5"
-                      />
-                      <Icon v-else icon="lucide:volume-2" class="h-4 w-4 sm:h-5 sm:w-5" />
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        {{ words[virtualRow.index].hanzi }}
+                      </div>
+                      <div
+                        class="flex items-center px-2 py-2 text-xs text-muted-foreground sm:px-4 sm:py-3 sm:text-base"
+                        role="cell"
+                      >
+                        {{ words[virtualRow.index].pinyin }}
+                      </div>
+                      <div
+                        class="flex items-center px-2 py-2 text-xs text-foreground sm:px-4 sm:py-3 sm:text-base"
+                        role="cell"
+                      >
+                        {{ words[virtualRow.index].translation }}
+                      </div>
+                      <div class="flex items-center px-2 py-2 sm:px-4 sm:py-3" role="cell">
+                        <div
+                          class="flex shrink-0 origin-left scale-75 flex-nowrap gap-0.5 sm:scale-100 sm:gap-1"
+                        >
+                          <button
+                            v-for="(char, charIndex) in words[virtualRow.index].hanzi.split('')"
+                            :key="`${words[virtualRow.index].hanzi}-${charIndex}`"
+                            type="button"
+                            class="rounded focus:ring-2 focus:ring-accent/50 focus:outline-none"
+                            :aria-label="`Open stroke order for ${char}`"
+                            @click="openStrokeModal(words[virtualRow.index], charIndex)"
+                          >
+                            <HanziStrokesOrder :hanzi="char" />
+                          </button>
+                        </div>
+                      </div>
+                      <div class="flex items-center px-2 py-2 sm:px-4 sm:py-3" role="cell">
+                        <button
+                          type="button"
+                          class="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition-colors disabled:opacity-50"
+                          :class="
+                            userStore.isKnown(words[virtualRow.index].hanzi)
+                              ? 'border-transparent bg-[var(--surface-card-mint)] text-[var(--surface-card-foreground)]'
+                              : 'border-border text-foreground hover:bg-muted'
+                          "
+                          :disabled="!user"
+                          :aria-pressed="userStore.isKnown(words[virtualRow.index].hanzi)"
+                          @click="toggleKnown(words[virtualRow.index])"
+                        >
+                          <Icon
+                            :icon="
+                              userStore.isKnown(words[virtualRow.index].hanzi)
+                                ? 'lucide:check-circle-2'
+                                : 'lucide:circle'
+                            "
+                            class="h-3.5 w-3.5"
+                          />
+                          <span> Learned </span>
+                        </button>
+                      </div>
+                      <div class="flex items-center px-2 py-2 sm:px-4 sm:py-3" role="cell">
+                        <button
+                          type="button"
+                          class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-muted disabled:opacity-50 sm:h-9 sm:w-9"
+                          :disabled="!hasElevenLabs || speakingIndex === virtualRow.index"
+                          :aria-label="`Play pronunciation for ${words[virtualRow.index].hanzi}`"
+                          @click="handleSpeak(words[virtualRow.index], virtualRow.index)"
+                        >
+                          <Icon
+                            v-if="speakingIndex === virtualRow.index"
+                            icon="mdi:loading"
+                            class="h-4 w-4 animate-spin sm:h-5 sm:w-5"
+                          />
+                          <Icon v-else icon="lucide:volume-2" class="h-4 w-4 sm:h-5 sm:w-5" />
+                        </button>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -219,18 +274,12 @@ function toggleKnown(word: Word) {
       </div>
     </div>
 
-    <Dialog :open="Boolean(selectedStrokeHanzi)" @update:open="handleStrokeDialogOpenChange">
-      <DialogContent
-        :show-close-button="false"
-        class="w-auto max-w-none border-0 bg-transparent p-0 shadow-none"
-      >
-        <DialogTitle class="sr-only">Stroke order for {{ selectedStrokeHanzi }}</DialogTitle>
-        <HanziStrokesOrder
-          v-if="selectedStrokeHanzi"
-          :hanzi="selectedStrokeHanzi"
-          class="h-48 w-48 rounded-2xl"
-        />
-      </DialogContent>
-    </Dialog>
+    <StrokeOrderDialog
+      :word="selectedStrokeWord?.hanzi ?? null"
+      :pinyin="selectedStrokeWord?.pinyin"
+      :translation="selectedStrokeWord?.translation"
+      :initial-index="selectedStrokeIndex"
+      @update:open="closeStrokeModal"
+    />
   </div>
 </template>
