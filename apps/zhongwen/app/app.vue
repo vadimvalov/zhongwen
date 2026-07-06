@@ -8,6 +8,7 @@ import { useUserStore } from "~/stores/user";
 
 const route = useRoute();
 const userStore = useUserStore();
+
 const { user, isPending } = useAuth();
 
 watch(
