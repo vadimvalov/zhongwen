@@ -4,8 +4,8 @@ import { computed, ref } from "vue";
 import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Link } from "~/components/ui/link";
-import { useDictionaryModules } from "~/composables/useDictionaries";
-import { getCardStyle } from "~/lib/cardStyles";
+import { useDictionaryModules } from "~/composables/use-dictionaries";
+import { getCardStyle } from "~/lib/card-styles";
 import { formatDictName } from "~/lib/formatters";
 import { useUserStore } from "~/stores/user";
 
@@ -60,7 +60,7 @@ function handleSearch() {
   <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
     <div class="w-full max-w-xl">
       <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
-        <BackButton />
+        <BackButton to="/" />
         <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Vocabulary</h1>
       </div>
       <div class="mb-4 space-y-2 sm:mb-6">
@@ -72,7 +72,7 @@ function handleSearch() {
           class="flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs sm:text-sm"
         >
           <span class="text-muted-foreground">
-            Known words: <span class="font-medium text-foreground">{{ totalKnown }}</span> /
+            Learned words: <span class="font-medium text-foreground">{{ totalKnown }}</span> /
             {{ totalWords }}
           </span>
           <div class="hidden h-1.5 w-32 overflow-hidden rounded-full bg-muted sm:block">
@@ -122,7 +122,7 @@ function handleSearch() {
         >
           <Card
             :title="dict.title"
-            :description="`Known: ${dict.known} / ${dict.total}`"
+            :description="`Learned: ${dict.known} / ${dict.total}`"
             :icon="dict.icon"
             :tone="dict.tone"
             :progress="dict.total ? dict.known / dict.total : null"

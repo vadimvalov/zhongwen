@@ -4,39 +4,49 @@ import OpenAIPartnerDialog from "~/components/OpenAIPartnerDialog.vue";
 import ReviewStatusCard from "~/components/ReviewStatusCard.vue";
 import { Card } from "~/components/ui/card";
 import { toast } from "~/components/ui/sonner";
-import { useAuth } from "~/composables/useAuth";
-import { getCardStyle } from "~/lib/cardStyles";
+import { useAuth } from "~/composables/use-auth";
+import { getCardStyle } from "~/lib/card-styles";
 import type { MainCard } from "~/lib/types";
 
 const config = useRuntimeConfig();
 const { user } = useAuth();
 
-const mainCards: MainCard[] = [
-  {
-    title: "Reading",
-    description: "Short stories with translation",
-    to: "/reading",
-  },
+type MainCardSource = Omit<MainCard, "icon" | "tone"> & {
+  styleIndex: number;
+};
+
+const mainCardSources: MainCardSource[] = [
   {
     title: "Vocabulary",
     description: "Learn words by HSK level",
     to: "/vocabulary",
+    styleIndex: 1,
+  },
+  {
+    title: "Reading",
+    description: "Short stories with translation",
+    to: "/reading",
+    styleIndex: 0,
   },
   {
     title: "Speaking",
     description: "Audio with transcription",
     to: "/speaking",
     authRequired: true,
+    styleIndex: 2,
   },
   {
     title: "Challenges",
     description: "Compete with classmates",
     to: "/challenges",
     authRequired: true,
+    styleIndex: 3,
   },
-].map((card, index) => ({
+];
+
+const mainCards: MainCard[] = mainCardSources.map(({ styleIndex, ...card }) => ({
   ...card,
-  ...getCardStyle(index, "main"),
+  ...getCardStyle(styleIndex, "main"),
 }));
 </script>
 

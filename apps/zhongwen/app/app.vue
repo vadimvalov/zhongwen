@@ -3,15 +3,12 @@ import { Icon } from "@iconify/vue";
 
 import AuthMenu from "~/components/AuthMenu.vue";
 import { Toaster } from "~/components/ui/sonner";
-import { useAuth } from "~/composables/useAuth";
-import { useEscapeBack } from "~/composables/useEscapeBack";
+import { useAuth } from "~/composables/use-auth";
 import { useUserStore } from "~/stores/user";
 
 const route = useRoute();
 const userStore = useUserStore();
 const { user, isPending } = useAuth();
-
-useEscapeBack();
 
 watch(
   [user, isPending],

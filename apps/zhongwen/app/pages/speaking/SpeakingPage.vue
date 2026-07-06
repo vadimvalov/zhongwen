@@ -5,10 +5,10 @@ import { computed, ref, watch } from "vue";
 import { Card } from "~/components/ui/card";
 import { Link } from "~/components/ui/link";
 import { toast } from "~/components/ui/sonner";
-import { useAuth } from "~/composables/useAuth";
-import { useDictionaryModules } from "~/composables/useDictionaries";
-import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
-import { getCardStyle } from "~/lib/cardStyles";
+import { useAuth } from "~/composables/use-auth";
+import { useDictionaryModules } from "~/composables/use-dictionaries";
+import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/use-eleven-labs";
+import { getCardStyle } from "~/lib/card-styles";
 import { formatDictName } from "~/lib/formatters";
 import type { Result, Word } from "~/lib/types";
 
@@ -34,13 +34,13 @@ const isSentences = computed(() => route.path === "/speaking/sentences");
 const modes = [
   {
     title: "Words",
-    description: "Practise pronunciation word by word",
+    description: "Practice pronunciation word by word",
     to: "/speaking/words",
     ...getCardStyle(0, "main"),
   },
   {
     title: "Sentences",
-    description: "Practise full sentence pronunciation",
+    description: "Practice full sentence pronunciation",
     to: "/speaking/sentences",
     ...getCardStyle(1, "main"),
   },
@@ -248,7 +248,7 @@ function reveal() {
     <!-- ── Mode select: /speaking ─────────────────────────────────────────── -->
     <div v-if="isModeSelect" class="w-full max-w-sm">
       <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
-        <BackButton />
+        <BackButton to="/" />
         <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Speaking</h1>
       </div>
       <div
@@ -284,11 +284,11 @@ function reveal() {
     <!-- ── Dict list: /speaking/words ───────────────────────────────────────── -->
     <div v-else-if="isDictList" class="w-full max-w-xl">
       <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
-        <BackButton />
+        <BackButton to="/speaking" />
         <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Words</h1>
       </div>
       <p class="mb-4 text-xs text-muted-foreground sm:mb-6 sm:text-sm">
-        Select a dictionary to practise pronunciation.
+        Select a dictionary to practice pronunciation.
       </p>
       <div class="grid gap-2 sm:gap-3 md:grid-cols-2">
         <Link
@@ -300,7 +300,7 @@ function reveal() {
         >
           <Card
             :title="dict.title"
-            :description="`Practise ${dict.title} words`"
+            :description="`Practice ${dict.title} words`"
             :icon="dict.icon"
             :tone="dict.tone"
             class="h-full"
@@ -312,7 +312,7 @@ function reveal() {
     <!-- ── Sentences placeholder: /speaking/sentences ───────────────────────── -->
     <div v-else-if="isSentences" class="w-full max-w-sm">
       <div class="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
-        <BackButton />
+        <BackButton to="/speaking" />
         <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Sentences</h1>
       </div>
       <div class="rounded-2xl border border-border bg-card p-8 text-center">
@@ -323,7 +323,7 @@ function reveal() {
     <!-- ── Practice: /speaking/words/:id ────────────────────────────────────── -->
     <div v-else-if="isPractice" class="flex w-full max-w-md flex-col gap-4">
       <div class="flex items-center gap-2 sm:gap-3">
-        <BackButton />
+        <BackButton to="/speaking/words" />
         <h1 class="text-xl font-semibold text-foreground sm:text-2xl">
           {{ dictTitle }}
         </h1>

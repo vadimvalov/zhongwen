@@ -2,9 +2,10 @@
 import { pinyin } from "pinyin-pro";
 import { computed, ref, watch } from "vue";
 
+import BackButton from "~/components/BackButton.vue";
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
-import { Link } from "~/components/ui/link";
-import { useDictionaryModules } from "~/composables/useDictionaries";
+import { Dialog, DialogContent, DialogTitle } from "~/components/ui/dialog";
+import { useDictionaryModules } from "~/composables/use-dictionaries";
 import type { Word } from "~/lib/types";
 
 const route = useRoute();
@@ -152,15 +153,19 @@ function openStrokeModal(hanzi: string) {
 function closeStrokeModal() {
   selectedStrokeHanzi.value = null;
 }
+
+function handleStrokeDialogOpenChange(open: boolean) {
+  if (!open) {
+    closeStrokeModal();
+  }
+}
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col items-center px-3 py-4 sm:px-4 sm:py-8">
     <div class="w-full max-w-3xl space-y-6 sm:space-y-8">
       <div class="flex items-center gap-2 sm:gap-3">
-        <Link to="/vocabulary" :hover="true" class="shrink-0">
-          <Button class="px-2 py-1 text-xs sm:text-sm">&larr;</Button>
-        </Link>
+        <BackButton to="/vocabulary" />
         <div>
           <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Vocabulary search</h1>
           <p class="text-xs text-muted-foreground sm:text-sm">
@@ -217,7 +222,7 @@ function closeStrokeModal() {
                   </p>
                   <p v-if="!isLongPhrase" class="text-xs text-muted-foreground sm:text-sm">
                     Level:
-                    <span class="font-medium text-foreground">Unknown</span>
+                    <span class="font-medium text-foreground">Not learned</span>
                   </p>
                 </div>
               </template>
@@ -243,14 +248,18 @@ function closeStrokeModal() {
       </div>
     </div>
 
-    <div
-      v-if="selectedStrokeHanzi"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
-      @click.self="closeStrokeModal"
-    >
-      <div class="relative flex items-center justify-center">
-        <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="h-48 w-48 rounded-2xl" />
-      </div>
-    </div>
+    <Dialog :open="Boolean(selectedStrokeHanzi)" @update:open="handleStrokeDialogOpenChange">
+      <DialogContent
+        :show-close-button="false"
+        class="w-auto max-w-none border-0 bg-transparent p-0 shadow-none"
+      >
+        <DialogTitle class="sr-only">Stroke order for {{ selectedStrokeHanzi }}</DialogTitle>
+        <HanziStrokesOrder
+          v-if="selectedStrokeHanzi"
+          :hanzi="selectedStrokeHanzi"
+          class="h-48 w-48 rounded-2xl"
+        />
+      </DialogContent>
+    </Dialog>
   </div>
 </template>

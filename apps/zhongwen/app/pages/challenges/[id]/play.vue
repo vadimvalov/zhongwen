@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue";
 
 import { Button } from "~/components/ui/button";
-import { authClient, useAuth } from "~/composables/useAuth";
+import { authClient, useAuth } from "~/composables/use-auth";
 import type { ChallengeResults } from "~/lib/types";
 
 definePageMeta({ layout: false });

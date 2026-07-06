@@ -5,8 +5,8 @@ import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Link } from "~/components/ui/link";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "~/components/ui/select";
-import { useTextModules } from "~/composables/useTexts";
-import { getCardStyle } from "~/lib/cardStyles";
+import { useTextModules } from "~/composables/use-texts";
+import { getCardStyle } from "~/lib/card-styles";
 import type { ReadingItem as Item, TextMeta } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
 
@@ -165,7 +165,7 @@ watch(
   <div class="flex min-h-screen flex-col items-center px-4 py-8">
     <div class="w-full max-w-4xl">
       <div class="mb-2 flex items-center gap-3">
-        <BackButton />
+        <BackButton to="/" />
         <h1 class="text-2xl font-semibold text-foreground">Reading</h1>
       </div>
       <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

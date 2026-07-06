@@ -5,7 +5,7 @@ import BackButton from "~/components/BackButton.vue";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Link } from "~/components/ui/link";
-import { authClient, useAuth } from "~/composables/useAuth";
+import { authClient, useAuth } from "~/composables/use-auth";
 import type { Challenge } from "~/lib/types";
 
 const router = useRouter();
@@ -122,7 +122,7 @@ watch(
 
       <div v-else-if="user">
         <div class="mt-6 mb-6 flex items-center gap-3 md:mt-0">
-          <BackButton />
+          <BackButton to="/" />
           <h1 class="text-2xl font-semibold text-foreground">Challenges</h1>
           <div class="flex-1" />
           <Link to="/challenges/create" :hover="true">
