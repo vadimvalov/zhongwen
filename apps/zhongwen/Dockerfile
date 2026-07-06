@@ -17,11 +17,10 @@ COPY --from=deps /app/apps/zhongwen/node_modules ./apps/zhongwen/node_modules
 COPY . .
 ENV NITRO_PRESET=node_server
 RUN pnpm --filter @zhongwen/app build
-FROM node:22-slim AS runner
+FROM base AS runner
 WORKDIR /app
-COPY --from=build /app/apps/zhongwen/.output ./.output
-COPY --from=build /app/apps/zhongwen/server/database/migrations ./migrations
+COPY --from=build /app ./
 ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
-CMD ["node", ".output/server/index.mjs"]
+CMD ["sh", "-c", "cd apps/zhongwen && pnpm exec nuxt-db migrate && exec node .output/server/index.mjs"]

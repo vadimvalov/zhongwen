@@ -4,7 +4,7 @@ import { Icon } from "@iconify/vue";
 import BackButton from "~/components/BackButton.vue";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { authClient, useAuth } from "~/composables/useAuth";
+import { authClient, useAuth } from "~/composables/use-auth";
 
 const router = useRouter();
 const { user, isPending } = useAuth();
@@ -86,7 +86,7 @@ async function submit() {
       <div v-else-if="user">
         <!-- Header -->
         <div class="mb-6 flex items-center gap-3">
-          <BackButton />
+          <BackButton to="/challenges" />
           <h1 class="text-2xl font-semibold text-foreground">Create challenge</h1>
         </div>
 

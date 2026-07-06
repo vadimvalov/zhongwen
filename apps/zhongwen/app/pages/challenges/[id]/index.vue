@@ -4,7 +4,7 @@ import confetti from "canvas-confetti";
 
 import BackButton from "~/components/BackButton.vue";
 import { Button } from "~/components/ui/button";
-import { authClient, useAuth } from "~/composables/useAuth";
+import { authClient, useAuth } from "~/composables/use-auth";
 import type { ChallengeDetail, ChallengeResults } from "~/lib/types";
 
 const route = useRoute();
@@ -192,7 +192,7 @@ watch([() => challenge.value?.leaderboard, isEnded], () => {
 
       <div v-else-if="user">
         <div class="mb-6 flex items-center gap-3">
-          <BackButton />
+          <BackButton to="/challenges" />
           <h1 class="truncate text-2xl font-semibold text-foreground">
             {{ challenge?.title ?? "Challenge" }}
           </h1>

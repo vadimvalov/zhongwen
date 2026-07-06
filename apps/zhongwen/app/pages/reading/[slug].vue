@@ -6,9 +6,9 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { TTSPlayer } from "~/components/tts-player";
 import { toast } from "~/components/ui/sonner";
-import { useAuth } from "~/composables/useAuth";
-import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
-import { useTextModules } from "~/composables/useTexts";
+import { useAuth } from "~/composables/use-auth";
+import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/use-eleven-labs";
+import { useTextModules } from "~/composables/use-texts";
 import type { TextData, TextWord as Word, WordMode } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
 
@@ -178,7 +178,7 @@ async function toggleMarkAsRead() {
 watch(highlightKnown, (val) => {
   if (val && !user.value) {
     highlightKnown.value = false;
-    toast.warning("Authorize to highlight known words");
+    toast.warning("Authorize to highlight learned words");
   }
 });
 </script>
@@ -190,7 +190,7 @@ watch(highlightKnown, (val) => {
       <div v-else class="space-y-4">
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
-            <BackButton />
+            <BackButton to="/reading" />
             <h1 class="text-2xl font-semibold text-foreground">
               {{ textData.title }}
             </h1>
@@ -202,7 +202,7 @@ watch(highlightKnown, (val) => {
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div class="flex flex-wrap items-center gap-3">
             <Checkbox v-model="showPinyin" label="Pinyin" />
-            <Checkbox v-model="highlightKnown" label="Highlight known words" />
+            <Checkbox v-model="highlightKnown" label="Highlight learned words" />
           </div>
           <Button type="button" class="px-3 py-1.5 text-sm" @click="toggleMarkAsRead()">
             {{ isRead ? "Mark as unread" : "Mark as Read" }}

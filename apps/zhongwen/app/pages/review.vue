@@ -2,8 +2,8 @@
 import { Icon } from "@iconify/vue";
 
 import { Button } from "~/components/ui/button";
-import { useAuth } from "~/composables/useAuth";
-import { useDictionaryModules } from "~/composables/useDictionaries";
+import { useAuth } from "~/composables/use-auth";
+import { useDictionaryModules } from "~/composables/use-dictionaries";
 import type { ReviewCard, ReviewSessionState, Word } from "~/lib/types";
 
 const router = useRouter();

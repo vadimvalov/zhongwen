@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { authClient, useAuth } from "~/composables/useAuth";
+import { authClient, useAuth } from "~/composables/use-auth";
 import { useUserStore } from "~/stores/user";
 
 const { user, isPending } = useAuth();
@@ -126,7 +126,7 @@ async function signOut() {
           </DropdownMenuItem>
           <DropdownMenuItem @select="router.push('/known-words')">
             <Icon icon="lucide:bookmark-check" class="text-base text-muted-foreground" />
-            <span class="flex-1 text-xs font-medium text-foreground">Known words</span>
+            <span class="flex-1 text-xs font-medium text-foreground">Learned words</span>
             <span class="text-xs text-foreground tabular-nums">{{ knownWords }}</span>
           </DropdownMenuItem>
           <DropdownMenuItem @select="router.push('/review')">

@@ -4,8 +4,8 @@ import { Icon } from "@iconify/vue";
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { useAuth } from "~/composables/useAuth";
-import { useDictionaryModules } from "~/composables/useDictionaries";
+import { useAuth } from "~/composables/use-auth";
+import { useDictionaryModules } from "~/composables/use-dictionaries";
 import { formatDictName } from "~/lib/formatters";
 import type { Word } from "~/lib/types";
 import { useUserStore } from "~/stores/user";
@@ -80,20 +80,20 @@ const knownWordRows = computed(() => {
           >
             <Icon icon="lucide:arrow-left" class="text-base" />
           </Button>
-          <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Known words</h1>
+          <h1 class="text-xl font-semibold text-foreground sm:text-2xl">Learned words</h1>
         </div>
         <Input
           v-model="searchQuery"
           type="text"
-          placeholder="Search known words..."
+          placeholder="Search learned words..."
           class="h-8 w-40 text-xs sm:h-9 sm:w-56 sm:text-sm"
         />
       </div>
 
       <p class="text-xs text-muted-foreground sm:text-sm">
         This list is powered by the app&apos;s behavior-recognition model: it tracks how you
-        interact with words in texts and speaking practice to infer which ones you already know. You
-        can also mark or unmark known words manually from vocabulary dictionaries.
+        interact with words in texts and speaking practice to infer which ones you have learned. You
+        can also mark or unmark learned words manually from vocabulary dictionaries.
       </p>
 
       <div class="overflow-hidden rounded-lg border border-border">
@@ -166,7 +166,7 @@ const knownWordRows = computed(() => {
                       variant="ghost"
                       size="icon"
                       class="h-7 w-7 text-muted-foreground hover:text-destructive"
-                      :aria-label="`Remove ${word.hanzi} from known words`"
+                      :aria-label="`Remove ${word.hanzi} from learned words`"
                       @click="userStore.removeKnownWord(word.hanzi)"
                     >
                       <Icon icon="lucide:x" class="h-3.5 w-3.5" />
@@ -180,7 +180,8 @@ const knownWordRows = computed(() => {
       </div>
 
       <p v-if="!knownWordRows.length" class="text-xs text-muted-foreground sm:text-sm">
-        No known words yet. Hover over words in texts or practise vocabulary to mark them as known.
+        No learned words yet. Hover over words in texts or practice vocabulary to mark them as
+        learned.
       </p>
     </div>
   </div>

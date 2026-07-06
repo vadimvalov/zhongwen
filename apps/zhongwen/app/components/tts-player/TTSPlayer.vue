@@ -3,7 +3,7 @@ import { Icon } from "@iconify/vue";
 import { computed, onUnmounted, ref, watch } from "vue";
 
 import { cn } from "@/lib/utils";
-import { useHasElevenLabs } from "~/composables/useElevenLabs";
+import { useHasElevenLabs } from "~/composables/use-eleven-labs";
 
 const props = defineProps<{
   title: string;

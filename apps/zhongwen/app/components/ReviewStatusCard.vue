@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue";
 
 import { Link } from "~/components/ui/link";
-import { useAuth } from "~/composables/useAuth";
+import { useAuth } from "~/composables/use-auth";
 
 const { user, isPending } = useAuth();
 
@@ -38,7 +38,7 @@ const reviewLabel = computed(() => {
     return "";
   }
   if (!hasAnyWords.value) {
-    return "Mark words as known in Vocabulary to start";
+    return "Mark words as learned in Vocabulary to start";
   }
   const due = reviewStats.value.due_today;
   if (due > 0) {

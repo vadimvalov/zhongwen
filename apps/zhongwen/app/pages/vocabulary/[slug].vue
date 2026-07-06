@@ -3,9 +3,10 @@ import { Icon } from "@iconify/vue";
 import { computed, ref } from "vue";
 
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
-import { useAuth } from "~/composables/useAuth";
-import { useDictionaryModules } from "~/composables/useDictionaries";
-import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/useElevenLabs";
+import { Dialog, DialogContent, DialogTitle } from "~/components/ui/dialog";
+import { useAuth } from "~/composables/use-auth";
+import { useDictionaryModules } from "~/composables/use-dictionaries";
+import { useHasElevenLabs, speakWithElevenLabs } from "~/composables/use-eleven-labs";
 import { formatDictName } from "~/lib/formatters";
 import type { Word } from "~/lib/types";
 
@@ -40,6 +41,12 @@ function openStrokeModal(hanzi: string) {
 
 function closeStrokeModal() {
   selectedStrokeHanzi.value = null;
+}
+
+function handleStrokeDialogOpenChange(open: boolean) {
+  if (!open) {
+    closeStrokeModal();
+  }
 }
 
 const speakCounts = ref<Record<string, number>>({});
@@ -82,15 +89,15 @@ function toggleKnown(word: Word) {
         Dictionary not found.
       </p>
       <div v-else class="space-y-3 sm:space-y-4">
-        <div class="mt-6 mb-6 flex items-center justify-between gap-3 md:mt-0">
+        <div class="mt-6 mb-6 flex items-center justify-between gap-3 md:mt-14">
           <div class="flex items-center gap-2 sm:gap-3">
-            <BackButton />
+            <BackButton to="/vocabulary" />
             <h1 class="text-xl font-semibold text-foreground sm:text-2xl">
               {{ dictTitle }}
             </h1>
           </div>
           <p class="text-xs text-muted-foreground sm:text-sm">
-            Known: {{ knownWordsInDict }} / {{ totalWordsInDict }}
+            Learned: {{ knownWordsInDict }} / {{ totalWordsInDict }}
           </p>
         </div>
 
@@ -122,7 +129,7 @@ function toggleKnown(word: Word) {
                   <th
                     class="px-2 py-2 text-left text-xs font-medium text-muted-foreground sm:px-4 sm:py-3 sm:text-sm"
                   >
-                    Known?
+                    Learned?
                   </th>
                   <th class="w-9 px-2 py-2 sm:w-12 sm:px-4 sm:py-3"></th>
                 </tr>
@@ -179,7 +186,7 @@ function toggleKnown(word: Word) {
                         "
                         class="h-3.5 w-3.5"
                       />
-                      <span> Known </span>
+                      <span> Learned </span>
                     </button>
                   </td>
                   <td class="px-2 py-2 sm:px-4 sm:py-3">
@@ -212,14 +219,18 @@ function toggleKnown(word: Word) {
       </div>
     </div>
 
-    <div
-      v-if="selectedStrokeHanzi"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
-      @click.self="closeStrokeModal"
-    >
-      <div class="relative flex items-center justify-center">
-        <HanziStrokesOrder :hanzi="selectedStrokeHanzi" class="h-48 w-48 rounded-2xl" />
-      </div>
-    </div>
+    <Dialog :open="Boolean(selectedStrokeHanzi)" @update:open="handleStrokeDialogOpenChange">
+      <DialogContent
+        :show-close-button="false"
+        class="w-auto max-w-none border-0 bg-transparent p-0 shadow-none"
+      >
+        <DialogTitle class="sr-only">Stroke order for {{ selectedStrokeHanzi }}</DialogTitle>
+        <HanziStrokesOrder
+          v-if="selectedStrokeHanzi"
+          :hanzi="selectedStrokeHanzi"
+          class="h-48 w-48 rounded-2xl"
+        />
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
