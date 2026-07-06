@@ -8,6 +8,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "test": "vp test run --passWithNoTests",
     "postinstall": "nuxt prepare",
     "start": "node .output/server/index.mjs",
     "db:push": "drizzle-kit push",
