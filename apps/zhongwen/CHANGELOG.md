@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.6.3...zhongwen/app-v0.7.0) (2026-07-06)
+
+
+### Features
+
+* trigger release ([#35](https://github.com/vadimvalov/zhongwen/issues/35)) ([75fa842](https://github.com/vadimvalov/zhongwen/commit/75fa84206e76586ab243c1706ff17b93a43b3f97))
+
 ## [0.6.3](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.6.2...zhongwen/app-v0.6.3) (2026-05-05)
 
 
