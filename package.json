@@ -8,7 +8,7 @@
     "dev": "vp run @zhongwen/app#dev"
   },
   "devDependencies": {
-    "vite-plus": "catalog:"
+    "vite-plus": "0.2.2"
   },
   "engines": {
     "node": ">=22.12.0"

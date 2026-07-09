@@ -4,7 +4,7 @@ import { computed, ref, watch } from "vue";
 
 import BackButton from "~/components/BackButton.vue";
 import HanziStrokesOrder from "~/components/HanziStrokesOrder.vue";
-import { Dialog, DialogContent, DialogTitle } from "~/components/ui/dialog";
+import StrokeOrderDialog from "~/components/StrokeOrderDialog.vue";
 import { useDictionaryModules } from "~/composables/use-dictionaries";
 import type { Word } from "~/lib/types";
 
@@ -45,7 +45,8 @@ const strokeChars = computed(() => searchId.value.split("").filter(Boolean));
 
 const isLongPhrase = computed(() => searchId.value.trim().length >= 4);
 
-const selectedStrokeHanzi = ref<string | null>(null);
+const selectedStrokeWord = ref<string | null>(null);
+const selectedStrokeIndex = ref(0);
 const googleTranslation = ref<string | null>(null);
 const googleLoading = ref(false);
 const googleError = ref(false);
@@ -95,6 +96,9 @@ const googlePinyin = computed(() => {
     nonZh: "spaced",
   });
 });
+
+const dialogPinyin = computed(() => result.value?.word.pinyin ?? googlePinyin.value);
+const dialogTranslation = computed(() => result.value?.word.translation ?? googleTranslation.value);
 
 function decodeHtmlEntities(text: string): string {
   return text
@@ -146,18 +150,13 @@ watch(
   { immediate: true },
 );
 
-function openStrokeModal(hanzi: string) {
-  selectedStrokeHanzi.value = hanzi;
+function openStrokeModal(hanzi: string, index: number) {
+  selectedStrokeWord.value = hanzi;
+  selectedStrokeIndex.value = index;
 }
 
 function closeStrokeModal() {
-  selectedStrokeHanzi.value = null;
-}
-
-function handleStrokeDialogOpenChange(open: boolean) {
-  if (!open) {
-    closeStrokeModal();
-  }
+  selectedStrokeWord.value = null;
 }
 </script>
 
@@ -238,7 +237,7 @@ function handleStrokeDialogOpenChange(open: boolean) {
                 type="button"
                 class="rounded focus:ring-2 focus:ring-accent/50 focus:outline-none"
                 :aria-label="`Open stroke order for ${char}`"
-                @click="openStrokeModal(char)"
+                @click="openStrokeModal(searchId, index)"
               >
                 <HanziStrokesOrder :hanzi="char" class="h-16 w-16 sm:h-20 sm:w-20" />
               </button>
@@ -248,18 +247,12 @@ function handleStrokeDialogOpenChange(open: boolean) {
       </div>
     </div>
 
-    <Dialog :open="Boolean(selectedStrokeHanzi)" @update:open="handleStrokeDialogOpenChange">
-      <DialogContent
-        :show-close-button="false"
-        class="w-auto max-w-none border-0 bg-transparent p-0 shadow-none"
-      >
-        <DialogTitle class="sr-only">Stroke order for {{ selectedStrokeHanzi }}</DialogTitle>
-        <HanziStrokesOrder
-          v-if="selectedStrokeHanzi"
-          :hanzi="selectedStrokeHanzi"
-          class="h-48 w-48 rounded-2xl"
-        />
-      </DialogContent>
-    </Dialog>
+    <StrokeOrderDialog
+      :word="selectedStrokeWord"
+      :pinyin="dialogPinyin"
+      :translation="dialogTranslation"
+      :initial-index="selectedStrokeIndex"
+      @update:open="closeStrokeModal"
+    />
   </div>
 </template>
