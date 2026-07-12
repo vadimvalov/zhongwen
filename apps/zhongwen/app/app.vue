@@ -30,6 +30,7 @@ watch(
 
 <template>
   <div class="relative min-h-screen overflow-x-hidden">
+    <div class="pointer-events-none fixed inset-0 bg-[url('/background.png')] bg-cover bg-bottom bg-no-repeat opacity-5" />
     <div class="absolute top-3 right-3 z-10 flex items-center gap-2">
       <AuthMenu />
       <NuxtLink
