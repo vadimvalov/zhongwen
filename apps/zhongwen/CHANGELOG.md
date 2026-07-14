@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.7.0...zhongwen/app-v0.8.0) (2026-07-09)
+
+
+### Features
+
+* **vocabulary:** improve stroke dialog and virtualize word list ([#37](https://github.com/vadimvalov/zhongwen/issues/37)) ([a5e2967](https://github.com/vadimvalov/zhongwen/commit/a5e296723889b15c6b5e090cc69be9e382730f49))
+
 ## [0.7.0](https://github.com/vadimvalov/zhongwen/compare/zhongwen/app-v0.6.3...zhongwen/app-v0.7.0) (2026-07-06)
 
 
